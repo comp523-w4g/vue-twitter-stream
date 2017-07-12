@@ -22,6 +22,7 @@ export default {
     destroy() {
       Bus.$off('reset', this.onReset)
       Bus.$off('update', this.onUpdate)
+
       setTimeout(() => {
         this.chart.destroy()
         this.chart = null

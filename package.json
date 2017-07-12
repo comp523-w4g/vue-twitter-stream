@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server",
-    "postinstall": "gulp build",
+    "postinstall": "node_modules/.bin/gulp build",
     "heroku-postbuild": "npm prune --production"
   },
   "engines": {
@@ -61,7 +61,6 @@
     "vue-template-compiler": "^2.1.4",
     "webpack": "^1.13.3",
     "webpack-stream": "^3.2.0",
-    "worker-loader": "^0.7.1",
-    "yarn": "^0.17.10"
+    "worker-loader": "^0.7.1"
   }
 }
