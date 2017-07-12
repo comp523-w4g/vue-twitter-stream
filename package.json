@@ -1,6 +1,6 @@
 {
   "name": "vue-twitter-stream-app",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A Twitter live stream visualization using Vue.js and Highcharts.",
   "main": "server/index.js",
   "scripts": {
