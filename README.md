@@ -33,3 +33,6 @@ This app uses:
 - [Highcharts](http://www.highcharts.com/) for visualizations.
 - [Materialize](http://materializecss.com/) for styling.
 - [Material icons](https://github.com/google/material-design-icons/) and [Icons8 Flat Color Icons](https://github.com/icons8/flat-color-icons) for icons.
+=======
+# vue-twitter-stream
+Uses Vue.js as client, Twitter API for streaming, Watson Tone Analyzer, socket.io to tie server and client
