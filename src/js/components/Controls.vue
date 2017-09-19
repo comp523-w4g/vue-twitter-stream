@@ -5,7 +5,7 @@ export default {
   name: 'Controls',
   data: () => ({
     chips: [],
-    chipsPlaceholder: 'Enter a tag to track and hit enter',
+    chipsPlaceholder: 'Enter a hashtag to track and hit enter',
     chipsShortPlaceholder: '+Tag',
     value: '',
     streamActive: false,
@@ -111,8 +111,7 @@ export default {
 
           <blockquote>
             Enter up to {{ chipsLimitText }} tags below and we'll stream live data from the
-            <a class="btn-flat" href="https://dev.twitter.com/streaming/overview" target="_blank">Twitter API</a> to visualize it with the power of <a class="btn-flat" href="https://vuejs.org" target="_blank">Vue</a> and <a class="btn-flat" href="http://www.highcharts.com"
-                target="_blank">Highcharts</a> for you. Enjoy <span class="red-text text-lighten-2">&hearts;</span>
+            <a class="btn-flat" href="https://dev.twitter.com/streaming/overview" target="_blank">Twitter API</a> to visualize it with the power of <a class="btn-flat" href="https://www.ibm.com/watson/services/tone-analyzer/" target="_blank">IBM Watson</a>
           </blockquote>
 
           <div class="row answers left-align">
