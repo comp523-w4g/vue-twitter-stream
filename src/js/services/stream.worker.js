@@ -1,5 +1,6 @@
 let data = {}
 
+
 function init(tags) {
   data = {
     count: 0,
@@ -29,6 +30,11 @@ function reset() {
 
 function processTweet(tweet) {
   data.count++
+  console.log(tweet);
+  let parsedSentiment = JSON.parse(tweet.sentiment)
+  console.log(parsedSentiment)
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones
+  console.log(emotionArr)
 
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code

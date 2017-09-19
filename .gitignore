@@ -1,7 +1,7 @@
 # Custom
 /public
 newrelic_agent.log
-
+yarn.lock
 # Logs
 logs
 *.log
