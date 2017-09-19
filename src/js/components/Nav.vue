@@ -80,10 +80,10 @@ export default {
 
   <app-modal ref="infoModal" :closeButton="true" :canHide="true">
     <div slot="title">
-      Information Visualization Project
+      Watson 4 Good
     </div>
     <div slot="content">
-      This is a project for the course <strong>Information Visualisation</strong> at the <a href="https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/" target="_blank">University of Applied Sciences Upper Austria Campus Hagenberg</a>      by <strong>Fabian Pirklbauer</strong> and <strong>Sascha Zarhuber</strong>. To learn more about the project, please head over to our <a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank">repository on GitHub</a>.
+      This is a project for the course <strong>COMP 523</strong> at the <a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank">University of North Carolina at Chapel-Hill</a> by Victor Cui, Michael Gu, Greer Glenn, and Amogh Sharma. To learn more about the project, please head over to our <a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank">repository on GitHub</a>.
     </div>
   </app-modal>
 </div>

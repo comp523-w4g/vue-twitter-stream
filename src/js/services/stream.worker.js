@@ -5,7 +5,14 @@ function init(tags) {
   data = {
     count: 0,
     tags: {},
-    countries: {}
+    countries: {},
+    sentiment: {
+      "Anger": 0,
+      "Fear": 0,
+      "Disgust": 0,
+      "Joy": 0,
+      "Sadness": 0
+    }
   }
 
   tags.forEach(tag => {
@@ -18,7 +25,7 @@ function init(tags) {
 function reset() {
   data.count = 0
   data.countries = {}
-
+  data.sentiment = {}
   for (let tag in data.tags) {
     if (data.tags.hasOwnProperty(tag)) {
       data.tags[tag] = {
@@ -31,14 +38,18 @@ function reset() {
 function processTweet(tweet) {
   data.count++
   console.log(tweet);
-  let parsedSentiment = JSON.parse(tweet.sentiment)
-  console.log(parsedSentiment)
-  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones
-  console.log(emotionArr)
-
+  let parsedSentiment = JSON.parse(tweet.sentiment);
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
+  console.log("Emotion array");
+  console.log(emotionArr);
+  for (let i = 0; i < emotionArr.length; i++) {
+    let currentEmotion = emotionArr[i];
+    data.sentiment[currentEmotion.tone_name] += currentEmotion.score;
+  }
+  console.log("Data sentiment");
+  console.log(data.sentiment);
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code
-
       if (!data.countries[code]) {
         data.countries[code] = {
           count: 0
