@@ -5,7 +5,6 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server",
-    "postinstall": "node_modules/.bin/gulp build",
     "heroku-postbuild": "npm prune --production"
   },
   "engines": {
