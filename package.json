@@ -28,7 +28,11 @@
     "socket.io": "^1.5.1",
     "twit": "^2.2.5",
     "watson-developer-cloud": "^2.39.0",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-connect": "^5.0.0",
+    "gulp-less": "^3.3.0",
+    "gulp-rename": "^1.2.2"
   },
   "devDependencies": {
     "add": "^2.0.6",
