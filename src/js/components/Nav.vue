@@ -68,7 +68,7 @@ export default {
             <li><a class="menuitem"><i class="material-icons teal-text text-lighten-1" @click="showInfo">info_outline</i></a></li>
             <li><a class="menuitem" :class="{ resetting: resetting, disabled: resetting || !streamActive }"><i class="material-icons" :class="{ 'blue-grey-text': !resetting && streamActive, 'grey-text': resetting || !streamActive }" @click="reset">refresh</i></a></li>
             <li><a class="menuitem" :class="{ resetting: ending, disabled: ending || !streamActive }"><i class="material-icons" :class="{ 'red-text': !ending && streamActive, 'grey-text': ending || !streamActive }" @click="end">close</i></a></li>
-            <li class="github-button"><a href="https://github.com/fabiandev/vue-twitter-stream-app" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">code</i>GitHub</a></li>
+            <li class="github-button"><a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">code</i>GitHub</a></li>
           </ul>
           <div class="progress">
             <div class="determinate" style="width:0%"></div>
@@ -83,7 +83,7 @@ export default {
       Information Visualization Project
     </div>
     <div slot="content">
-      This is a project for the course <strong>Information Visualisation</strong> at the <a href="https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/" target="_blank">University of Applied Sciences Upper Austria Campus Hagenberg</a>      by <strong>Fabian Pirklbauer</strong> and <strong>Sascha Zarhuber</strong>. To learn more about the project, please head over to our <a href="https://github.com/fabiandev/vue-twitter-stream-app" target="_blank">repository on GitHub</a>.
+      This is a project for the course <strong>Information Visualisation</strong> at the <a href="https://www.fh-ooe.at/en/hagenberg-campus/studiengaenge/master/interactive-media/" target="_blank">University of Applied Sciences Upper Austria Campus Hagenberg</a>      by <strong>Fabian Pirklbauer</strong> and <strong>Sascha Zarhuber</strong>. To learn more about the project, please head over to our <a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank">repository on GitHub</a>.
     </div>
   </app-modal>
 </div>

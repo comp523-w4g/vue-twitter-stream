@@ -128,7 +128,7 @@ export default {
             </div>
             <div class="col s12 m2 hide-on-small-only"></div>
             <div v-if="!streamActive" class="col s12 center-align">
-              <div v-if="chips.length > 2 && !streamOccupied">
+              <div v-if="chips.length > 0 && !streamOccupied">
                 <transition name="fade-button" appear>
                   <span class="btn start-button waves-effect waves-light" @click="startStream">Start Stream</span>
                 </transition>
@@ -138,7 +138,7 @@ export default {
                   Due to Twitter limitations, only one client can start a stream. Please wait until the stream is released. (Connections: {{ connectedClients }})
                 </div>
                 <div v-else>
-                  Enter at least three tags to start a stream.
+                  Enter at least one tag to start a stream.
                 </div>
               </div>
             </div>

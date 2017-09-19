@@ -1,0 +1,8 @@
+applications:
+- name: vue-twitter-stream-watson
+  path: .
+  buildpack: sdk-for-nodejs
+  command: npm start
+  memory: 512M
+  services:
+  - tone-analyzer
