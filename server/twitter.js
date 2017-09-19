@@ -33,3 +33,4 @@ module.exports = (obj) => new Promise((resolve, reject) => {
   
   return reject('Parameter was not an object!');
 });
+

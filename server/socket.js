@@ -3,6 +3,8 @@
 const http = require('http');
 const socket = require('socket.io');
 const twitter = require('./twitter');
+const { tone_analyzer } = require('./watson-nlu');
+const _ = require('lodash');
 
 let connections = 0;
 let streamActive = false;
@@ -54,7 +56,26 @@ module.exports = app => {
               streamActive
             });
 
-            stream.on('tweet', tweet => socket.emit('tweet', tweet));
+      	    stream.on('tweet', tweet => {
+              console.log('new tweet: ', tweet);
+    		      tone_analyzer.tone({ text: tweet.text }, function(err, tone) {
+                if (err) {
+                  console.log(err);
+                } 
+                const toneResult = JSON.stringify(tone, null, 2);
+                
+              
+                // const nluresults = {
+                //   "sentiment": _.map(results, "sentiment"),
+                //   "emotion": _.map(results, "emotion")
+                // };
+
+                console.log('watson tone result: ', toneResult); 
+                tweet.sentiment = toneResult;
+
+        	      socket.emit('tweet', tweet);
+        	    });
+            });
             stream.on('disconnect', msg => {
               streamActive = false;
               socket.emit('stream_error')
