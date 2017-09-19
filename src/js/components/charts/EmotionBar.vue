@@ -33,10 +33,10 @@
       onUpdate(data) {
         let count = 0;
         for (let key in data.sentiment) {
-          if (data.tags.hasOwnProperty(tag)) {
+
             let point = this.chart.series[0].points[count++]
             point.update(data.sentiment[key] / data.count);
-          }
+
         }
       },
       initChart(tags) {
@@ -75,8 +75,8 @@
             type: 'category',
             categories: [
               'Anger',
-              'Fear',
               'Disgust',
+              'Fear',
               'Joy',
               'Sadness'
             ]

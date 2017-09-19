@@ -7,11 +7,11 @@ function init(tags) {
     tags: {},
     countries: {},
     sentiment: {
-      "Anger": 0,
-      "Fear": 0,
-      "Disgust": 0,
-      "Joy": 0,
-      "Sadness": 0
+      "Anger": 0.0,
+      "Fear": 0.0,
+      "Disgust": 0.0,
+      "Joy": 0.0,
+      "Sadness": 0.0
     }
   }
 
@@ -23,9 +23,19 @@ function init(tags) {
 }
 
 function reset() {
-  data.count = 0
-  data.countries = {}
-  data.sentiment = {}
+  data = {
+    count: 0,
+    tags: {},
+    countries: {},
+    sentiment: {
+      "Anger": 0.0,
+      "Fear": 0.0,
+      "Disgust": 0.0,
+      "Joy": 0.0,
+      "Sadness": 0.0
+    }
+  }
+
   for (let tag in data.tags) {
     if (data.tags.hasOwnProperty(tag)) {
       data.tags[tag] = {
