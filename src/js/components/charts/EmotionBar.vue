@@ -5,7 +5,8 @@
   export default {
     name: 'EmotionBar',
     data: () => ({
-      chart: null
+      chart: null,
+      averageSentimentByTags: []
     }),
     mounted() {
       this.init()
@@ -32,18 +33,28 @@
       },
       onUpdate(data) {
         let count = 0;
-        let index = 0;
-        for (let key in data.sentiment){
-          console.log(key);
-        }
-        for (let key in data.sentiment) {
-//            console.log("at zero:" + this.chart.series[0]);
+        console.log("logging data in component: ", data);
+        for (let tag in data.tags) {
+          if (data.tags.hasOwnProperty(tag)) {
+            let point = this.chart.series[0].points[count++];
+            let tagCount = data.tags[tag].count;
+            let accumulatedSentiment = data.sentimentByTags[tag];
 
-            let point = this.chart.series[index].points[count++];
-            console.log(point);
-            point.update(data.sentiment[key] / data.count);
-            index++;
+//            console.log('accumulated sentiment for tag: ', tag, accumulatedSentiment);
 
+            let averagedData = {};
+            for (let key in accumulatedSentiment) {
+              averagedData[key] = accumulatedSentiment[key] / tagCount;
+            }
+
+//            console.log('average sentiment for tag: ', tag, averagedData);
+            this.averageSentimentByTags.push({
+              name: tag,
+              data: averagedData
+            });
+
+            console.log('this.averageSentimentByTags ', this.averageSentimentByTags);
+          }
         }
       },
       initChart(tags) {
@@ -73,27 +84,17 @@
             enabled: false
           },
           title: {
-            text: 'Emotion Analysis'
+            text: ''
           },
           subtitle: {
             text: ''
           },
           xAxis: {
-            type: 'category',
-            categories: [
-              'Anger',
-              'Disgust',
-              'Fear',
-              'Joy',
-              'Sadness'
-            ]
-
+            categories: ['Anger', 'Disgust', 'Fear', 'Joy', 'Sadness']
           },
           yAxis: {
-            min: 0.0,
-            max: 1.0,
             title: {
-              text: 'Tone Value'
+              text: 'Tweets'
             }
 
           },
@@ -115,24 +116,7 @@
             pointFormat: '<span><b>{point.y:,.0f}</b> tweets<br/>'
           },
 
-          series: [{
-            name: 'Anger',
-            data: [0]
-          }, {
-            name: 'Disgust',
-            data: [0]
-          }, {
-            name: 'Fear',
-            data: [0]
-          },
-            {
-              name: 'Joy',
-              data: [0]
-            },
-            {
-              name: 'Sadness',
-              data: [0]
-            }]
+          series: [this.averageSentimentByTags]
         })
 
         return chart

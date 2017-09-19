@@ -6,13 +6,7 @@ function init(tags) {
     count: 0,
     tags: {},
     countries: {},
-    sentiment: {
-      "Anger": 0.0,
-      "Fear": 0.0,
-      "Disgust": 0.0,
-      "Joy": 0.0,
-      "Sadness": 0.0
-    }
+    sentimentByTags: {}
   }
 
   tags.forEach(tag => {
@@ -52,10 +46,37 @@ function processTweet(tweet) {
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
   console.log("Emotion array");
   console.log(emotionArr);
-  for (let i = 0; i < emotionArr.length; i++) {
-    let currentEmotion = emotionArr[i];
-    data.sentiment[currentEmotion.tone_name] += currentEmotion.score;
-  }
+
+    tweet.entities.hashtags.forEach(tag =>{
+      	if (data.sentimentByTags.hasOwnProperty(tag.text.toLowerCase())) {
+	      	console.log('has tag')
+	        let existingSentimentObjectForKey = data.sentimentByTags[tag.text.toLowerCase()];
+
+	        for (let i = 0; i < emotionArr.length; i++) {
+
+	          let currEmotion = emotionArr[i];
+	          console.log('currEmotion: ', currEmotion);
+	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
+	        }
+   		} else {
+   			console.log('does not have tag');
+   			let sentimentsForTag = {};
+
+   			for (let i = 0; i < emotionArr.length; i++) {
+
+	          let currEmotion = emotionArr[i];
+	          console.log('currEmotion: ', currEmotion);
+
+	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
+	        }
+	        console.log('sentimentsForTag: ', sentimentsForTag);
+	        data.sentimentByTags[tag.text.toLowerCase()] = sentimentsForTag;
+   		}
+
+   		console.log('data.sentimentByTags: ', data.sentimentByTags);
+  	});
+
+
   console.log("Data sentiment");
   console.log(data.sentiment);
     if (tweet.place && tweet.place.country_code) {
