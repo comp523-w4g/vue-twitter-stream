@@ -32,10 +32,17 @@
       },
       onUpdate(data) {
         let count = 0;
+        let index = 0;
+        for (let key in data.sentiment){
+          console.log(key);
+        }
         for (let key in data.sentiment) {
+//            console.log("at zero:" + this.chart.series[0]);
 
-            let point = this.chart.series[0].points[count++]
+            let point = this.chart.series[index].points[count++];
+            console.log(point);
             point.update(data.sentiment[key] / data.count);
+            index++;
 
         }
       },
@@ -109,10 +116,23 @@
           },
 
           series: [{
-            name: 'Tweets',
-            colorByPoint: true,
-            data: data
-          }]
+            name: 'Anger',
+            data: [0]
+          }, {
+            name: 'Disgust',
+            data: [0]
+          }, {
+            name: 'Fear',
+            data: [0]
+          },
+            {
+              name: 'Joy',
+              data: [0]
+            },
+            {
+              name: 'Sadness',
+              data: [0]
+            }]
         })
 
         return chart
