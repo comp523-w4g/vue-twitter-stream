@@ -27,7 +27,8 @@
     "node-env-file": "^0.1.8",
     "socket.io": "^1.5.1",
     "twit": "^2.2.5",
-    "watson-developer-cloud": "^2.39.0"
+    "watson-developer-cloud": "^2.39.0",
+    "gulp": "^3.9.1"
   },
   "devDependencies": {
     "add": "^2.0.6",
