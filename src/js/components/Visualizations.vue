@@ -136,4 +136,9 @@ export default {
   opacity: 0;
   animation: fadeIn 0.6s ease 1s;
 }
+
+.card6-enter-active {
+  opacity: 0;
+  animation: fadeIn 0.6s ease 1s;
+}
 </style>
