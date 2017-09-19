@@ -43,6 +43,7 @@
   "devDependencies": {
     "add": "^2.0.6",
     "animate.css": "^3.5.2",
+    "babel": "^5.8.23",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-runtime": "^6.15.0",
