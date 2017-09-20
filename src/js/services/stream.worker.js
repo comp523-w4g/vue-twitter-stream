@@ -40,14 +40,13 @@ function reset() {
 }
 
 function processTweet(tweet) {
-  data.count++
-  console.log(tweet);
+  data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
-  console.log("Emotion array");
-  console.log(emotionArr);
+  console.log("Main tag: ", tweet.mainTags);
 
-    tweet.entities.hashtags.forEach(tag =>{
+    tweet.mainTags.forEach(tag =>{
+
       	if (data.sentimentByTags.hasOwnProperty(tag.text.toLowerCase())) {
 	      	console.log('has tag')
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.text.toLowerCase()];
@@ -63,22 +62,16 @@ function processTweet(tweet) {
    			let sentimentsForTag = {};
 
    			for (let i = 0; i < emotionArr.length; i++) {
-
 	          let currEmotion = emotionArr[i];
-	          console.log('currEmotion: ', currEmotion);
-
 	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
 	        }
-	        console.log('sentimentsForTag: ', sentimentsForTag);
+	   
 	        data.sentimentByTags[tag.text.toLowerCase()] = sentimentsForTag;
    		}
 
    		console.log('data.sentimentByTags: ', data.sentimentByTags);
   	});
 
-
-  console.log("Data sentiment");
-  console.log(data.sentiment);
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code
       if (!data.countries[code]) {
