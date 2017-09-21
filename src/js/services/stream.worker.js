@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 let data = {}
 
 
@@ -42,23 +44,24 @@ function reset() {
 function processTweet(tweet) {
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
-  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
-  console.log("Main tag: ", tweet.mainTags);
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
+  let hashtagsInTweet=tweet.entities.hashtags;
+  
+  tweet.mainTags = tweet.mainTags.map(tag => tag.substr(1)); //gets rid of hashtag
+  hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
+  let filteredTags = _.intersection(tweet.mainTags, hashtagsInTweet);
+  console.log("filteredTags: ", filteredTags);
 
-    tweet.mainTags.forEach(tag =>{
+    filteredTags.forEach(tag =>{
 
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
-	      	console.log('has tag')
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
 	        for (let i = 0; i < emotionArr.length; i++) {
-
 	          let currEmotion = emotionArr[i];
-	          console.log('currEmotion: ', currEmotion);
 	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
 	        }
    		} else {
-   			console.log('does not have tag');
    			let sentimentsForTag = {};
 
    			for (let i = 0; i < emotionArr.length; i++) {

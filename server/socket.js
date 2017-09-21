@@ -73,7 +73,7 @@ module.exports = app => {
                 console.log('watson tone result: ', toneResult); 
                 tweet.sentiment = toneResult;
                 tweet.mainTags = msg.track;
-                console.log("Main tags: ", tweet.mainTags);
+                console.log("Main tag: ", tweet.mainTags);
         	      socket.emit('tweet', tweet);
         	    });
             });

@@ -28,26 +28,25 @@
       onReset() {
         let points = this.chart.series[0].points
         for (let i = 0; i < points.length; i++) {
-          points[i].update(0)
+          points[i].update(0);
         }
       },
       onUpdate(data) {
         let count = 0;
         console.log("logging data in component: ", data);
+
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
+            
             let point = this.chart.series[0].points[count++];
             let tagCount = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
-
-//            console.log('accumulated sentiment for tag: ', tag, accumulatedSentiment);
-
             let averagedData = {};
+
             for (let key in accumulatedSentiment) {
               averagedData[key] = accumulatedSentiment[key] / tagCount;
             }
 
-//            console.log('average sentiment for tag: ', tag, averagedData);
             this.averageSentimentByTags.push({
               name: tag,
               data: averagedData
