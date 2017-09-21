@@ -47,9 +47,9 @@ function processTweet(tweet) {
 
     tweet.mainTags.forEach(tag =>{
 
-      	if (data.sentimentByTags.hasOwnProperty(tag.text.toLowerCase())) {
+      	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	      	console.log('has tag')
-	        let existingSentimentObjectForKey = data.sentimentByTags[tag.text.toLowerCase()];
+	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
 	        for (let i = 0; i < emotionArr.length; i++) {
 
@@ -66,7 +66,7 @@ function processTweet(tweet) {
 	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
 	        }
 	   
-	        data.sentimentByTags[tag.text.toLowerCase()] = sentimentsForTag;
+	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
    		}
 
    		console.log('data.sentimentByTags: ', data.sentimentByTags);
