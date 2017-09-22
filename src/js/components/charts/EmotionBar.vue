@@ -37,13 +37,13 @@
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
            
-          
             
             let tagCount = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
             let averagedData = {};
-           
-          
+            this.chart.xAxis.categories = Object.keys(data.tags);
+
+            console.log("categories:", Object.keys(this.chart.xAxis.categories));
               for (let key in accumulatedSentiment) {
                 for(let i = 0; i < 5;i++){
                     console.log("chart series: ", this.chart.series[0]);
@@ -73,6 +73,11 @@
             color: count < colors.length ? colors[count++] : '#000'
           }
         })
+        let cats = [];
+        for(let i = 0; i < data.length;i++){
+          cats[i] = data[i].name;
+        }
+        console.log(cats);
 
         const chart = Highcharts.chart(this.$el, {
           chart: {
@@ -88,7 +93,7 @@
             text: ''
           },
           xAxis: {
-            categories: ['maga']
+            categories: cats
           },
           yAxis: {
             min: 0.0,
