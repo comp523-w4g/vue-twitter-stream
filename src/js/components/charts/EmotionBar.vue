@@ -32,26 +32,37 @@
         }
       },
       onUpdate(data) {
-        let count = 0;
-        console.log("logging data in component: ", data);
-
+        console.log("Full Tweet data", data);
+        console.log("Tags in data", data.tags);
+        this.chart.xAxis.categories = Object.keys(data.tags);
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
-           
-            
-            let tagCount = data.tags[tag].count;
+            // number of times tweet with tag has been tweeted
+            let numberOfTweetsAssociatedWithTag = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
-            let averagedData = {};
-            this.chart.xAxis.categories = Object.keys(data.tags);
-
-            console.log("categories:", Object.keys(this.chart.xAxis.categories));
-              for (let key in accumulatedSentiment) {
-                for(let i = 0; i < 5;i++){
-                    console.log("chart series: ", this.chart.series[0]);
-                    let point = this.chart.series[i].points[count++]
-                    point.update(accumulatedSentiment[i]/tag.count);
-                    console.log("curr accumulatedSentiment:",accumulatedSentiment[key]);
-                }
+            console.log("Accumulated sentiment", accumulatedSentiment);
+            for (let key in accumulatedSentiment) {
+                  console.log("Value of Accumulated sentiment with key", key, accumulatedSentiment[key]);
+                  console.log("chart series points: ", this.chart.series[0].points);
+                  let aggregateEmotionData = [];
+                  // Make sure array contains one element
+                  aggregateEmotionData.push(0);
+                  // TOOD (Victor:) Clean this up, pretty sure this for-loop is more work than we need
+                  for (let i = 0; i < this.chart.series.length; i++) {
+                    let emotion = this.chart.series[i];
+                    if (key == emotion.name) {
+                      console.log("Found series with emotion name", emotion.name);
+                      // Rounds to 3 decimal places
+                      aggregateEmotionData[0] = +((accumulatedSentiment[key] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+                      // Even though aggregateEmotionData only contains one element, setData() method expects an array as a paremeter
+                      this.chart.series[i].setData(aggregateEmotionData);
+                      console.log("Data for series with key", key, this.chart.series[i].data);
+                      break;
+                    }
+                  }
+                  
+                  // point.update(accumulatedSentiment[key] / tag.count);
+                  // console.log("curr accumulatedSentiment:",accumulatedSentiment[key]);
             }
           }
         }
@@ -64,7 +75,6 @@
           'rgb(224, 102, 129)',
           'rgb(75, 142, 142)'
         ];
-
         let count = 0;
         let data = tags.map((tag) => {
           return {
@@ -75,11 +85,14 @@
           }
         })
 
+        let tweetTags = tags.splice(-1, 1);
+        console.log("Tags in tweet", tweetTags);
+
         let cats = [];
         for(let i = 0; i < data.length;i++){
           cats[i] = data[i].name;
         }
-        console.log("categproes array", cats);
+        console.log("categories array", cats);
 
         let startingPoints = [];
 
@@ -92,26 +105,16 @@
             type: 'bar'
           },
           title: {
-            text: 'Tweet sentiment'
+            text: 'Tweet sentiment Analysis'
           },
           subtitle: {
-            text: 'TEST'
+            text: ''
           },
           credits: {
             enabled: false
           },
           xAxis: {
-<<<<<<< HEAD
-            categories: [
-              '1',
-              '2',
-              'Fear',
-              'Joy',
-              'Sadness'
-              ]
-=======
-            categories: cats
->>>>>>> master
+            categories: tweetTags // TODO (Victor): Figure out if this is correct
           },
           yAxis: {
             min: 0.0,
@@ -160,12 +163,7 @@
               name: 'Sadness',
               data: startingPoints
           }]
-<<<<<<< HEAD
-      });
-=======
         })
->>>>>>> master
-
         return chart
       }
     }

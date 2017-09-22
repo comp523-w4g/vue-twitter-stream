@@ -4,6 +4,7 @@ import Bus from '../services/bus'
 import Controls from './Controls.vue'
 import Card from './Card.vue';
 
+// Import all HighCharts Vue Components
 import SolidGauge from './charts/SolidGauge.vue'
 import StarPlot from './charts/StarPlot.vue'
 import LiveSpline from './charts/LiveSpline.vue'
