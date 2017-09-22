@@ -38,13 +38,13 @@
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
            
-          
             
             let tagCount = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
             let averagedData = {};
-           
-          
+            this.chart.xAxis.categories = Object.keys(data.tags);
+
+            console.log("categories:", Object.keys(this.chart.xAxis.categories));
               for (let key in accumulatedSentiment) {
                 for(let i = 0; i < 5;i++){
                     console.log("chart series: ", this.chart.series[0]);
@@ -75,6 +75,18 @@
           }
         })
 
+        let cats = [];
+        for(let i = 0; i < data.length;i++){
+          cats[i] = data[i].name;
+        }
+        console.log("categproes array", cats);
+
+        let startingPoints = [];
+
+        for(let i = 0; i < data.length;i++){
+          startingPoints[i] = 0;
+        }
+
         const chart = Highcharts.chart(this.$el, {
           chart: {
             type: 'bar'
@@ -89,6 +101,7 @@
             enabled: false
           },
           xAxis: {
+<<<<<<< HEAD
             categories: [
               '1',
               '2',
@@ -96,6 +109,9 @@
               'Joy',
               'Sadness'
               ]
+=======
+            categories: cats
+>>>>>>> master
           },
           yAxis: {
             min: 0.0,
@@ -130,21 +146,25 @@
 
           series: [{
               name: 'Anger',
-              data: [0.0]
+              data: startingPoints
           }, {
               name: 'Fear',
-              data: [0.0]
+              data: startingPoints
           },{
               name: 'Disgust',
-              data: [0.0]
+              data: startingPoints
           },{
               name: 'Joy',
-              data: [0.0]
+              data: startingPoints
           }, {
               name: 'Sadness',
-              data: [0.0]
+              data: startingPoints
           }]
+<<<<<<< HEAD
       });
+=======
+        })
+>>>>>>> master
 
         return chart
       }
