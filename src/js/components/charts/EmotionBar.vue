@@ -77,7 +77,7 @@
         for(let i = 0; i < data.length;i++){
           cats[i] = data[i].name;
         }
-        console.log(cats);
+        console.log("categproes array", cats);
 
         const chart = Highcharts.chart(this.$el, {
           chart: {
@@ -131,21 +131,21 @@
 
           series: [{
               name: 'Anger',
-              data: [0.0]
+              data: [0.5, 0.4, 0.3, 0.2, 0.1]
           }, {
               name: 'Fear',
-              data: [0.0]
+              data: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
           },{
               name: 'Disgust',
-              data: [0.0]
+              data: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
           },{
               name: 'Joy',
-              data: [0.0]
+              data: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
           }, {
               name: 'Sadness',
-              data: [0.0]
+              data: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
           }]
-              })
+        })
 
         return chart
       }
