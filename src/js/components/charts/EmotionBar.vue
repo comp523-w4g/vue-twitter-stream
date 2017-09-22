@@ -69,11 +69,11 @@
       },
       initChart(tags) {
         let colors = [
-          'rgb(136, 179, 231)',
-          'rgb(166, 234, 138)',
-          'rgb(235, 167, 104)',
-          'rgb(224, 102, 129)',
-          'rgb(75, 142, 142)'
+          'rgb(255, 0, 0)',
+          'rgb(0, 0, 0)',
+          'rgb(102, 255, 102)',
+          'rgb(255, 255, 102)',
+          'rgb(0, 128, 255)'
         ];
         let count = 0;
         let data = tags.map((tag) => {
@@ -88,11 +88,11 @@
         let tweetTags = tags.splice(-1, 1);
         console.log("Tags in tweet", tweetTags);
 
-        let cats = [];
-        for(let i = 0; i < data.length;i++){
-          cats[i] = data[i].name;
-        }
-        console.log("categories array", cats);
+        // let cats = [];
+        // for(let i = 0; i < data.length;i++){
+        //   cats[i] = data[i].name;
+        // }
+        // console.log("categories array", cats);
 
         let startingPoints = [];
 
@@ -149,18 +149,23 @@
 
           series: [{
               name: 'Anger',
+              color: colors[0],
               data: startingPoints
           }, {
               name: 'Fear',
+              color: colors[1],
               data: startingPoints
           },{
               name: 'Disgust',
+              color: colors[2],
               data: startingPoints
           },{
               name: 'Joy',
+              color: colors[3],
               data: startingPoints
           }, {
               name: 'Sadness',
+              color: colors[4],
               data: startingPoints
           }]
         })
