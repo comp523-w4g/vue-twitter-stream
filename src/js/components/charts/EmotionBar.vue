@@ -35,30 +35,30 @@
         console.log("Full Tweet data", data);
         console.log("Tags in data", data.tags);
 
-            let anger = [];
-            let fear = [];
-            let disgust = [];
-            let joy = [];
-            let sadness = [];
-            let i = 0;
+        let anger = [];
+        let fear = [];
+        let disgust = [];
+        let joy = [];
+        let sadness = [];
+        let i = 0;
 
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
             // number of times tweet with tag has been tweeted
+            console.log("Tag: ", tag);
             let numberOfTweetsAssociatedWithTag = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
             console.log("Accumulated sentiment", accumulatedSentiment);
-            if(numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment == null){
-              i++;
+            if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment == null) {
               break;
             }
-            else{
+            else {
             //ang,fear,disg,joy,sad
-              anger[i] = (accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag).toFixed(3);
-              fear[i] = (accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag).toFixed(3);
-              disgust[i] = (accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag).toFixed(3);
-              joy[i] = (accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag).toFixed(3);
-              sadness[i] = (accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag).toFixed(3);
+              anger[i] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              fear[i] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              disgust[i] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              joy[i] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              sadness[i] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               i++;
             }
             
