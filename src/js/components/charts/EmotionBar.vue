@@ -90,8 +90,8 @@
           },
           xAxis: {
             categories: [
-              'Anger',
-              'Disgust',
+              '1',
+              '2',
               'Fear',
               'Joy',
               'Sadness'
@@ -105,20 +105,21 @@
             }
           },
           legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -40,
-                y: 80,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                shadow: true
-            },
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+          },
           plotOptions: {
-            column: {
-              pointPadding: 0.2,
-              borderWidth: 0
+            bar: {
+               dataLabels: {
+                enabled: true
+              }
             }
           },
 
@@ -143,7 +144,7 @@
               name: 'Sadness',
               data: [0.0]
           }]
-              })
+      });
 
         return chart
       }
