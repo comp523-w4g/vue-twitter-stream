@@ -50,10 +50,8 @@ function processTweet(tweet) {
   tweet.mainTags = tweet.mainTags.map(tag => tag.substr(1)); //gets rid of hashtag
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   let filteredTags = _.intersection(tweet.mainTags, hashtagsInTweet);
-  console.log("filteredTags: ", filteredTags);
 
     filteredTags.forEach(tag =>{
-
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
@@ -61,13 +59,14 @@ function processTweet(tweet) {
 	          let currEmotion = emotionArr[i];
 	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
 	        }
+          
    		} else {
    			let sentimentsForTag = {};
 
-   			for (let i = 0; i < emotionArr.length; i++) {
-	          let currEmotion = emotionArr[i];
-	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
-	        }
+     			for (let i = 0; i < emotionArr.length; i++) {
+  	          let currEmotion = emotionArr[i];
+  	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
+  	        }
 	   
 	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
    		}

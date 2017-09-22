@@ -57,23 +57,19 @@ module.exports = app => {
             });
 
       	    stream.on('tweet', tweet => {
-              console.log('new tweet: ', tweet);
     		      tone_analyzer.tone({ text: tweet.text }, function(err, tone) {
                 if (err) {
                   console.log(err);
                 } 
                 const toneResult = JSON.stringify(tone, null, 2);
-                
               
                 // const nluresults = {
                 //   "sentiment": _.map(results, "sentiment"),
                 //   "emotion": _.map(results, "emotion")
                 // };
-
-                console.log('watson tone result: ', toneResult); 
                 tweet.sentiment = toneResult;
                 tweet.mainTags = msg.track;
-                console.log("Main tag: ", tweet.mainTags);
+            
         	      socket.emit('tweet', tweet);
         	    });
             });
