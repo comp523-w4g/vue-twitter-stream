@@ -34,38 +34,67 @@
       onUpdate(data) {
         console.log("Full Tweet data", data);
         console.log("Tags in data", data.tags);
-        this.chart.xAxis.categories = Object.keys(data.tags);
+
+        let anger = [];
+        let fear = [];
+        let disgust = [];
+        let joy = [];
+        let sadness = [];
+        let i = 0;
+
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
             // number of times tweet with tag has been tweeted
+            console.log("Tag: ", tag);
             let numberOfTweetsAssociatedWithTag = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
             console.log("Accumulated sentiment", accumulatedSentiment);
-            for (let key in accumulatedSentiment) {
-                  console.log("Value of Accumulated sentiment with key", key, accumulatedSentiment[key]);
-                  console.log("chart series points: ", this.chart.series[0].points);
-                  let aggregateEmotionData = [];
-                  // Make sure array contains one element
-                  aggregateEmotionData.push(0);
-                  // TOOD (Victor:) Clean this up, pretty sure this for-loop is more work than we need
-                  for (let i = 0; i < this.chart.series.length; i++) {
-                    let emotion = this.chart.series[i];
-                    if (key == emotion.name) {
-                      console.log("Found series with emotion name", emotion.name);
-                      // Rounds to 3 decimal places
-                      aggregateEmotionData[0] = +((accumulatedSentiment[key] / numberOfTweetsAssociatedWithTag)).toFixed(3);
-                      // Even though aggregateEmotionData only contains one element, setData() method expects an array as a paremeter
-                      this.chart.series[i].setData(aggregateEmotionData);
-                      console.log("Data for series with key", key, this.chart.series[i].data);
-                      break;
-                    }
-                  }
-                  
-                  // point.update(accumulatedSentiment[key] / tag.count);
-                  // console.log("curr accumulatedSentiment:",accumulatedSentiment[key]);
+            if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment == null) {
+              break;
             }
+            else {
+            //ang,fear,disg,joy,sad
+              anger[i] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              fear[i] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              disgust[i] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              joy[i] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              sadness[i] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              i++;
+            }
+            
           }
-        }
+        }   
+        this.chart.series[0].setData(anger);
+        this.chart.series[1].setData(fear);
+        this.chart.series[2].setData(disgust);
+        this.chart.series[3].setData(joy);
+        this.chart.series[4].setData(sadness);
+            
+            // for (let key in accumulatedSentiment) {
+
+            //       console.log("Value of Accumulated sentiment with key", key, accumulatedSentiment[key]);
+            //       console.log("chart series points: ", this.chart.series[0].points);
+                  
+            //       let aggregateEmotionData = [];
+            //       // Make sure array contains one element
+            //       aggregateEmotionData.push(0);
+
+            //       // TOOD (Victor:) Clean this up, pretty sure this for-loop is more work than we need
+            //       for (let i = 0; i < this.chart.series.length; i++) {
+            //         let emotion = this.chart.series[i];
+
+            //         if (key == emotion.name) {
+            //           // Rounds to 3 decimal places
+            //           aggregateEmotionData[0] = +((accumulatedSentiment[key] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+            //           // Even though aggregateEmotionData only contains one element, setData() method expects an array as a paremeter
+            //           this.chart.series[i].setData(aggregateEmotionData);
+            //           break;
+            //         }
+            //       }
+                 
+            // }
+          
+        
       },
       initChart(tags) {
         let colors = [
@@ -88,16 +117,15 @@
         let tweetTags = tags.splice(-1, 1);
         console.log("Tags in tweet", tweetTags);
 
-        // let cats = [];
-        // for(let i = 0; i < data.length;i++){
-        //   cats[i] = data[i].name;
-        // }
-        // console.log("categories array", cats);
+        let cats = [];
+        for(let i = 0; i < data.length;i++){
+          cats[i] = data[i].name;
+        }
 
         let startingPoints = [];
 
         for(let i = 0; i < data.length;i++){
-          startingPoints[i] = 0;
+          startingPoints[i] = 0.0;
         }
 
         const chart = Highcharts.chart(this.$el, {
@@ -114,7 +142,7 @@
             enabled: false
           },
           xAxis: {
-            categories: tweetTags // TODO (Victor): Figure out if this is correct
+            categories: cats // TODO (Victor): Figure out if this is correct
           },
           yAxis: {
             min: 0.0,
