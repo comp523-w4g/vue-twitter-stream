@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 let data = {}
 
 
@@ -40,45 +42,39 @@ function reset() {
 }
 
 function processTweet(tweet) {
-  data.count++
-  console.log(tweet);
+  data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
-  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
-  console.log("Emotion array");
-  console.log(emotionArr);
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
+  let hashtagsInTweet=tweet.entities.hashtags;
+  
+  tweet.mainTags = tweet.mainTags.map(tag => tag.substr(1)); //gets rid of hashtag
+  hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
+  let filteredTags = _.intersection(tweet.mainTags, hashtagsInTweet);
+  console.log("filteredTags: ", filteredTags);
 
-    tweet.entities.hashtags.forEach(tag =>{
-      	if (data.sentimentByTags.hasOwnProperty(tag.text.toLowerCase())) {
-	      	console.log('has tag')
-	        let existingSentimentObjectForKey = data.sentimentByTags[tag.text.toLowerCase()];
+    filteredTags.forEach(tag =>{
+
+      	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
+	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
 	        for (let i = 0; i < emotionArr.length; i++) {
-
 	          let currEmotion = emotionArr[i];
-	          console.log('currEmotion: ', currEmotion);
 	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
 	        }
    		} else {
-   			console.log('does not have tag');
    			let sentimentsForTag = {};
 
    			for (let i = 0; i < emotionArr.length; i++) {
-
 	          let currEmotion = emotionArr[i];
-	          console.log('currEmotion: ', currEmotion);
-
 	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
 	        }
-	        console.log('sentimentsForTag: ', sentimentsForTag);
-	        data.sentimentByTags[tag.text.toLowerCase()] = sentimentsForTag;
+	   
+	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
    		}
 
    		console.log('data.sentimentByTags: ', data.sentimentByTags);
   	});
 
-
-  console.log("Data sentiment");
-  console.log(data.sentiment);
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code
       if (!data.countries[code]) {
