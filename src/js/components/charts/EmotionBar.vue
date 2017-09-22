@@ -73,11 +73,18 @@
             color: count < colors.length ? colors[count++] : '#000'
           }
         })
+
         let cats = [];
         for(let i = 0; i < data.length;i++){
           cats[i] = data[i].name;
         }
         console.log(cats);
+
+        let startingPoints = [];
+
+        for(let i = 0; i < data.length;i++){
+          startingPoints[i] = 0;
+        }
 
         const chart = Highcharts.chart(this.$el, {
           chart: {
@@ -131,19 +138,19 @@
 
           series: [{
               name: 'Anger',
-              data: [0.0]
+              data: startingPoints
           }, {
               name: 'Fear',
-              data: [0.0]
+              data: startingPoints
           },{
               name: 'Disgust',
-              data: [0.0]
+              data: startingPoints
           },{
               name: 'Joy',
-              data: [0.0]
+              data: startingPoints
           }, {
               name: 'Sadness',
-              data: [0.0]
+              data: startingPoints
           }]
               })
 
