@@ -5,8 +5,7 @@
   export default {
     name: 'EmotionBar',
     data: () => ({
-      chart: null,
-      averageSentimentByTags: []
+      chart: null
     }),
     mounted() {
       this.init()
@@ -38,22 +37,22 @@
 
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
+           
+          
             
-            let point = this.chart.series[0].points[count++];
             let tagCount = data.tags[tag].count;
             let accumulatedSentiment = data.sentimentByTags[tag];
             let averagedData = {};
-
-            for (let key in accumulatedSentiment) {
-              averagedData[key] = accumulatedSentiment[key] / tagCount;
+           
+          
+              for (let key in accumulatedSentiment) {
+                for(let i = 0; i < 5;i++){
+                    console.log("chart series: ", this.chart.series[0]);
+                    let point = this.chart.series[i].points[count++]
+                    point.update(accumulatedSentiment[i]/tag.count);
+                    console.log("curr accumulatedSentiment:",accumulatedSentiment[key]);
+                }
             }
-
-            this.averageSentimentByTags.push({
-              name: tag,
-              data: averagedData
-            });
-
-            console.log('this.averageSentimentByTags ', this.averageSentimentByTags);
           }
         }
       },
@@ -78,7 +77,7 @@
 
         const chart = Highcharts.chart(this.$el, {
           chart: {
-            type: 'column'
+            type: 'bar'
           },
           title: {
             text: 'Tweet sentiment'
@@ -99,15 +98,23 @@
               ]
           },
           yAxis: {
-            min: 0,
+            min: 0.0,
+            max: 1.0,
             title: {
-              text: 'Tweets'
+            
             }
-
           },
           legend: {
-            enabled: false
-          },
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                shadow: true
+            },
           plotOptions: {
             column: {
               pointPadding: 0.2,
@@ -117,11 +124,26 @@
 
           tooltip: {
             // headerFormat: '',
-            pointFormat: '<span><b>{point.y:,.0f}</b> tweets<br/>'
+            pointFormat: '<span><b>{point.y:,.0f}</b><br/>'
           },
 
-          series: [this.averageSentimentByTags]
-        })
+          series: [{
+              name: 'Anger',
+              data: [0.0]
+          }, {
+              name: 'Fear',
+              data: [0.0]
+          },{
+              name: 'Disgust',
+              data: [0.0]
+          },{
+              name: 'Joy',
+              data: [0.0]
+          }, {
+              name: 'Sadness',
+              data: [0.0]
+          }]
+              })
 
         return chart
       }
