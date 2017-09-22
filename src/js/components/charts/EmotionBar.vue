@@ -23,6 +23,7 @@
     },
     methods: {
       init(tags) {
+        console.log("Stream service tags", StreamService.tags);
         this.chart = this.initChart(StreamService.tags)
       },
       onReset() {
@@ -79,19 +80,26 @@
           chart: {
             type: 'column'
           },
+          title: {
+            text: 'Tweet sentiment'
+          },
+          subtitle: {
+            text: 'TEST'
+          },
           credits: {
             enabled: false
           },
-          title: {
-            text: ''
-          },
-          subtitle: {
-            text: ''
-          },
           xAxis: {
-            categories: ['Anger', 'Disgust', 'Fear', 'Joy', 'Sadness']
+            categories: [
+              'Anger',
+              'Disgust',
+              'Fear',
+              'Joy',
+              'Sadness'
+              ]
           },
           yAxis: {
+            min: 0,
             title: {
               text: 'Tweets'
             }
@@ -101,12 +109,9 @@
             enabled: false
           },
           plotOptions: {
-            series: {
-              borderWidth: 0,
-              dataLabels: {
-                enabled: true,
-                format: '{point.y}'
-              }
+            column: {
+              pointPadding: 0.2,
+              borderWidth: 0
             }
           },
 

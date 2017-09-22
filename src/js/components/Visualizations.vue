@@ -74,7 +74,7 @@ export default {
         <!--</app-card>-->
       <!--</transition>-->
 
-      <transition name="card4" appear>
+      <transition name="card2" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-bar></chart-bar>
@@ -82,7 +82,7 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card5" appear>
+      <transition name="card3" appear>
         <app-card size="s12">
           <div slot="content">
             <chart-emotion-bar></chart-emotion-bar>
