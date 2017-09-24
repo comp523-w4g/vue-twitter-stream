@@ -62,13 +62,9 @@ module.exports = app => {
                   console.log(err);
                 } 
                 const toneResult = JSON.stringify(tone, null, 2);
-              
-                // const nluresults = {
-                //   "sentiment": _.map(results, "sentiment"),
-                //   "emotion": _.map(results, "emotion")
-                // };
+
                 tweet.sentiment = toneResult;
-                tweet.mainTags = msg.track;
+                tweet.inputTags = msg.track;
             
         	      socket.emit('tweet', tweet);
         	    });

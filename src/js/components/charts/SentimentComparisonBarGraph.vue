@@ -5,7 +5,9 @@
   export default {
     name: 'EmotionBar',
     data: () => ({
-      chart: null
+      chart: null,
+      tagIndices: null
+
     }),
     mounted() {
       this.init()
@@ -42,24 +44,30 @@
         let sadness = [];
         
         let i = 0;
-        for (let tag in data.mainTags) {
+        console.log("tag indices map", this.tagIndices);
+        console.log("data.mainTags: ", data.inputTags);
+        console.log("data.tags: ", data.tags);
 
-            console.log("Tag: ", tag);
-            let numberOfTweetsAssociatedWithTag = data.tags[tag].count; // number of times tweet with tag has been tweeted
-            let accumulatedSentiment = data.sentimentByTags[tag];
+        for (let tagIndex in data.inputTags) {
+            console.log("Tag: ", data.inputTags[tagIndex]);
+            let currTag = data.inputTags[tagIndex];
+
+            let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
+            let accumulatedSentiment = data.sentimentByTags[currTag];
             console.log("Accumulated sentiment", accumulatedSentiment);
 
-            if (numberOfTweetsAssociatedWithTag == 0) {
-              i++;
+            if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
               break;
             }
             else {
-              anger[i] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              fear[i] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              disgust[i] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              joy[i] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              sadness[i] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              i++;
+              let index = this.tagIndices.get(currTag);
+              console.log("Index for tag: ", currTag, " with index: ", index);
+              anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              // i++;
             }
             
           
@@ -91,10 +99,13 @@
 
         let tweetTags = tags.splice(-1, 1);
         console.log("Tags in tweet", tweetTags);
+        
 
         let categories = [];
+        this.tagIndices = new Map();
         for(let i = 0; i < data.length;i++){
           categories[i] = data[i].name;
+          this.tagIndices.set(data[i].name.substr(1), i);
         }
 
         let startingPoints = [];
@@ -144,6 +155,7 @@
               }
             }
           },
+
 
           tooltip: {
             // headerFormat: '',

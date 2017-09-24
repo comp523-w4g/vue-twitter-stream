@@ -46,11 +46,11 @@ function processTweet(tweet) {
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;
   
-  tweet.mainTags = tweet.mainTags.map(tag => tag.substr(1)); //gets rid of hashtag
-  data.mainTags = tweet.mainTags; 
+  tweet.inputTags = tweet.inputTags.map(tag => tag.substr(1)); //gets rid of hashtag
+  data.inputTags = tweet.inputTags; 
 
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
-  let filteredTags = _.intersection(tweet.mainTags, hashtagsInTweet);
+  let filteredTags = _.intersection(tweet.inputTags, hashtagsInTweet);
 
     filteredTags.forEach(tag =>{
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
