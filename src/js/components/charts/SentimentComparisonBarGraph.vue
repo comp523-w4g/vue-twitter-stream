@@ -40,6 +40,7 @@
         let disgust = [];
         let joy = [];
         let sadness = [];
+        // Used to associate emotions to tags
         let i = 0;
 
         for (let tag in data.tags) {
@@ -52,7 +53,7 @@
               break;
             }
             else {
-            //ang,fear,disg,joy,sad
+             // ang,fear,disg,joy,sad
               anger[i] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               fear[i] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               disgust[i] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
@@ -91,9 +92,9 @@
         let tweetTags = tags.splice(-1, 1);
         console.log("Tags in tweet", tweetTags);
 
-        let cats = [];
+        let categories = [];
         for(let i = 0; i < data.length;i++){
-          cats[i] = data[i].name;
+          categories[i] = data[i].name;
         }
 
         let startingPoints = [];
@@ -116,7 +117,7 @@
             enabled: false
           },
           xAxis: {
-            categories: cats // TODO (Victor): Figure out if this is correct
+            categories: categories
           },
           yAxis: {
             min: 0.0,
