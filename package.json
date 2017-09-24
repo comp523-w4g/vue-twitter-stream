@@ -4,7 +4,7 @@
   "description": "A Twitter live stream visualization using Vue.js and Highcharts.",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server",
+    "start": "gulp && yarn start",
     "heroku-postbuild": "npm prune --production"
   },
   "engines": {

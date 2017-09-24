@@ -44,9 +44,8 @@
 
         for (let tag in data.tags) {
           if (data.tags.hasOwnProperty(tag)) {
-            // number of times tweet with tag has been tweeted
             console.log("Tag: ", tag);
-            let numberOfTweetsAssociatedWithTag = data.tags[tag].count;
+            let numberOfTweetsAssociatedWithTag = data.tags[tag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[tag];
             console.log("Accumulated sentiment", accumulatedSentiment);
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment == null) {
@@ -70,31 +69,6 @@
         this.chart.series[3].setData(joy);
         this.chart.series[4].setData(sadness);
             
-            // for (let key in accumulatedSentiment) {
-
-            //       console.log("Value of Accumulated sentiment with key", key, accumulatedSentiment[key]);
-            //       console.log("chart series points: ", this.chart.series[0].points);
-                  
-            //       let aggregateEmotionData = [];
-            //       // Make sure array contains one element
-            //       aggregateEmotionData.push(0);
-
-            //       // TOOD (Victor:) Clean this up, pretty sure this for-loop is more work than we need
-            //       for (let i = 0; i < this.chart.series.length; i++) {
-            //         let emotion = this.chart.series[i];
-
-            //         if (key == emotion.name) {
-            //           // Rounds to 3 decimal places
-            //           aggregateEmotionData[0] = +((accumulatedSentiment[key] / numberOfTweetsAssociatedWithTag)).toFixed(3);
-            //           // Even though aggregateEmotionData only contains one element, setData() method expects an array as a paremeter
-            //           this.chart.series[i].setData(aggregateEmotionData);
-            //           break;
-            //         }
-            //       }
-                 
-            // }
-          
-        
       },
       initChart(tags) {
         let colors = [
