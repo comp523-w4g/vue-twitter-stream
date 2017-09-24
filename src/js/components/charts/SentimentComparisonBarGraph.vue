@@ -40,8 +40,8 @@
         let disgust = [];
         let joy = [];
         let sadness = [];
+        
         let i = 0;
-
         for (let tag in data.mainTags) {
 
             console.log("Tag: ", tag);
@@ -92,9 +92,9 @@
         let tweetTags = tags.splice(-1, 1);
         console.log("Tags in tweet", tweetTags);
 
-        let cats = [];
+        let categories = [];
         for(let i = 0; i < data.length;i++){
-          cats[i] = data[i].name;
+          categories[i] = data[i].name;
         }
 
         let startingPoints = [];
@@ -117,7 +117,7 @@
             enabled: false
           },
           xAxis: {
-            categories: cats // TODO (Victor): Figure out if this is correct
+            categories: categories 
           },
           yAxis: {
             min: 0.0,
