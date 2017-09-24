@@ -47,6 +47,8 @@ function processTweet(tweet) {
   let hashtagsInTweet=tweet.entities.hashtags;
   
   tweet.mainTags = tweet.mainTags.map(tag => tag.substr(1)); //gets rid of hashtag
+  data.mainTags = tweet.mainTags; 
+
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   let filteredTags = _.intersection(tweet.mainTags, hashtagsInTweet);
 

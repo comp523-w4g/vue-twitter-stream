@@ -42,17 +42,18 @@
         let sadness = [];
         let i = 0;
 
-        for (let tag in data.tags) {
-          if (data.tags.hasOwnProperty(tag)) {
+        for (let tag in data.mainTags) {
+
             console.log("Tag: ", tag);
             let numberOfTweetsAssociatedWithTag = data.tags[tag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[tag];
             console.log("Accumulated sentiment", accumulatedSentiment);
-            if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment == null) {
+
+            if (numberOfTweetsAssociatedWithTag == 0) {
+              i++;
               break;
             }
             else {
-            //ang,fear,disg,joy,sad
               anger[i] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               fear[i] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               disgust[i] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
@@ -61,7 +62,7 @@
               i++;
             }
             
-          }
+          
         }   
         this.chart.series[0].setData(anger);
         this.chart.series[1].setData(fear);
