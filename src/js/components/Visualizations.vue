@@ -9,7 +9,7 @@ import SolidGauge from './charts/SolidGauge.vue'
 import StarPlot from './charts/StarPlot.vue'
 import LiveSpline from './charts/LiveSpline.vue'
 import Bar from './charts/Bar.vue'
-import EmotionBar from './charts/EmotionBar.vue'
+import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vue'
 import WorldMap from './charts/WorldMap.vue'
 
 export default {
@@ -22,7 +22,7 @@ export default {
     ChartLiveSpline: LiveSpline,
     ChartBar: Bar,
     ChartWorldMap: WorldMap,
-    ChartEmotionBar: EmotionBar
+    ChartSentimentComparison: SentimentComparisonBarGraph
   },
   data: () => ({
     visualsActive: false
@@ -86,7 +86,7 @@ export default {
       <transition name="card3" appear>
         <app-card size="s12">
           <div slot="content">
-            <chart-emotion-bar></chart-emotion-bar>
+            <chart-sentiment-comparison></chart-sentiment-comparison>
           </div>
         </app-card>
       </transition>

@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 let data = {}
 
-
 function init(tags) {
   data = {
     count: 0,
