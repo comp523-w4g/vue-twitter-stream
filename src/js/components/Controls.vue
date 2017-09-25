@@ -5,7 +5,7 @@ export default {
   name: 'Controls',
   data: () => ({
     chips: [],
-    chipsPlaceholder: 'Enter a hashtag to track and hit enter',
+    chipsPlaceholder: 'Enter one or more hashtags to track and hit enter',
     chipsShortPlaceholder: '+Tag',
     value: '',
     streamActive: false,
