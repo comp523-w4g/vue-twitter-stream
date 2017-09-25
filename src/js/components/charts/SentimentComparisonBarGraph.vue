@@ -36,7 +36,6 @@
       onUpdate(data) {
         console.log("Full Tweet data", data);
         console.log("Tags in data", data.tags);
-
         let anger = [];
         let fear = [];
         let disgust = [];
