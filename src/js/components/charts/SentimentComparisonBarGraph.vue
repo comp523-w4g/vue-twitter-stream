@@ -42,7 +42,6 @@
         let joy = [];
         let sadness = [];
         
-        let i = 0;
         console.log("tag indices map", this.tagIndices);
         console.log("data.mainTags: ", data.inputTags);
         console.log("data.tags: ", data.tags);
