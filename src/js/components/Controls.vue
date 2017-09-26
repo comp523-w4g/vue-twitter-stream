@@ -5,15 +5,15 @@ export default {
   name: 'Controls',
   data: () => ({
     chips: [],
-    chipsPlaceholder: 'Enter one or more hashtags to track and hit enter',
+    chipsPlaceholder: '+Tag',
     chipsShortPlaceholder: '+Tag',
     value: '',
     streamActive: false,
     connectedClients: 0,
     streamOccupied: false,
     numTweets: 0,
-    chipsLimit: 10,
-    chipsLimitText: 'ten'
+    chipsLimit: 3,
+    chipsLimitText: 'three'
   }),
   created() {
     Bus.$on('tweet', this.onTweet)
@@ -107,7 +107,7 @@ export default {
     <div class="col s12">
       <div class="card white">
         <div class="card-content center-align black-text">
-          <span class="card-title cyan-text">Choose Twitter Tags</span>
+          <span class="card-title cyan-text">Watson For Good</span>
 
           <blockquote>
             Enter up to {{ chipsLimitText }} tags below and we'll stream live data from the
