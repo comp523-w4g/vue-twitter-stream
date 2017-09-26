@@ -3,20 +3,22 @@
   import { Bus, StreamService } from '../../services'
 
   export default {
-    name: 'EmotionBar',
+    name: 'SentimentComparisonBarGraph',
     data: () => ({
       chart: null,
-      tagIndices: null
+      tagToIndex: null
 
     }),
     mounted() {
       this.init()
       Bus.$on('reset', this.onReset)
+      Bus.$on('end', this.onReset)
       Bus.$on('update', this.onUpdate)
     },
     destroyed() {
       Bus.$off('reset', this.onReset)
       Bus.$off('update', this.onUpdate)
+      Bus.$off('end', this.onReset)
       setTimeout(() => {
         this.chart.destroy()
         this.chart = null
@@ -28,10 +30,14 @@
         this.chart = this.initChart(StreamService.tags)
       },
       onReset() {
+        console.log("Inside reset method");
         let points = this.chart.series[0].points
         for (let i = 0; i < points.length; i++) {
           points[i].update(0);
         }
+      },
+      testMe() {
+        console.log("Inside bar graph");
       },
       onUpdate(data) {
         console.log("Full Tweet data", data);
@@ -42,9 +48,8 @@
         let joy = [];
         let sadness = [];
         
-        console.log("tag indices map", this.tagIndices);
-        console.log("data.mainTags: ", data.inputTags);
-        console.log("data.tags: ", data.tags);
+        console.log("tag indices map", this.tagToIndex);
+        console.log("data.inputTags: ", data.inputTags);
 
         for (let tagIndex in data.inputTags) {
             console.log("Tag: ", data.inputTags[tagIndex]);
@@ -52,28 +57,24 @@
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
             console.log("Accumulated sentiment", accumulatedSentiment);
+            let index = this.tagToIndex.get(currTag);
 
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
-              let index = this.tagIndices.get(currTag);
               console.log("Index for tag: ", currTag, " with index: ", index);
               anger[index] = 0.0;
               fear[index] = 0.0;
               disgust[index] = 0.0;
               joy[index] = 0.0;
               sadness[index] = 0.0;
-              
             }
             else {
-              let index = this.tagIndices.get(currTag);
               console.log("Index for tag: ", currTag, " with index: ", index);
-              anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              // i++;
+              anger[index] = +((accumulatedSentiment["Anger"] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+              fear[index] = +((accumulatedSentiment["Fear"] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+              disgust[index] = +((accumulatedSentiment["Disgust"] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+              joy[index] = +((accumulatedSentiment["Joy"] / numberOfTweetsAssociatedWithTag)).toFixed(3);
+              sadness[index] = +((accumulatedSentiment["Sadness"] / numberOfTweetsAssociatedWithTag)).toFixed(3);
             }
-            
           
         }   
         this.chart.series[0].setData(anger);
@@ -106,10 +107,10 @@
         
 
         let categories = [];
-        this.tagIndices = new Map();
+        this.tagToIndex = new Map();
         for(let i = 0; i < data.length;i++){
           categories[i] = data[i].name;
-          this.tagIndices.set(data[i].name.substr(1), i);
+          this.tagToIndex.set(data[i].name.substr(1), i);
         }
 
         let startingPoints = [];

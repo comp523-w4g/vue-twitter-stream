@@ -20,7 +20,7 @@ class StreamService {
     this.worker.addEventListener('message', this.onBroadcast, false)
     this.onUpdate = debounce(this.onUpdate, 1000)
   }
-
+ 
   start(tags) {
     this.tags = tags
 
