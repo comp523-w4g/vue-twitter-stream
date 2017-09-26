@@ -45,6 +45,8 @@ function processTweet(tweet) {
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;
+
+  console.log("User input tags: ", tweet.inputTags);
   
   tweet.inputTags = tweet.inputTags.map(tag => tag.substr(1)); //gets rid of hashtag
   data.inputTags = tweet.inputTags; 
