@@ -69,6 +69,7 @@ export default {
             <li><a class="menuitem" :class="{ resetting: resetting, disabled: resetting || !streamActive }"><i class="material-icons" :class="{ 'blue-grey-text': !resetting && streamActive, 'grey-text': resetting || !streamActive }" @click="reset">refresh</i></a></li>
             <li><a class="menuitem" :class="{ resetting: ending, disabled: ending || !streamActive }"><i class="material-icons" :class="{ 'red-text': !ending && streamActive, 'grey-text': ending || !streamActive }" @click="end">close</i></a></li>
             <li class="github-button"><a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">code</i>GitHub</a></li>
+             <li class="github-button"><a href="https://comp523-w4g.github.io/watson-4-good-old/" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">link</i>W4G</a></li>
           </ul>
           <div class="progress">
             <div class="determinate" style="width:0%"></div>
