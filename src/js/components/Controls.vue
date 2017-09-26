@@ -175,7 +175,7 @@ export default {
 }
 
 .loader:after {
-  background-color: #fff;
+  background-color: #474b4f;
   width: 15px;
   height: 16.5px;
   top: 14px;

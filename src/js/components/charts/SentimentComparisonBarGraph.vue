@@ -41,17 +41,25 @@
         let disgust = [];
         let joy = [];
         let sadness = [];
-        
-        console.log("tag indices map", this.tagIndices);
-        console.log("data.mainTags: ", data.inputTags);
-        console.log("data.tags: ", data.tags);
+        let placeHolder = [];
+
+        for(let i = 0; i < data.tags; i++){
+          placeHolder[i] = 0.0;
+        }
+
+        if(data.inputTags.length == 0){
+          anger=placeHolder;
+          fear=placeHolder;
+          disgust=placeHolder;
+          sadness=placeHolder;
+          joy=placeHolder;
+        }
 
         for (let tagIndex in data.inputTags) {
             console.log("Tag: ", data.inputTags[tagIndex]);
             let currTag = data.inputTags[tagIndex];
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
-            console.log("Accumulated sentiment", accumulatedSentiment);
 
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
               let index = this.tagIndices.get(currTag);
@@ -71,7 +79,7 @@
               disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              // i++;
+              
             }
             
           
@@ -194,7 +202,7 @@
   }
 
   Highcharts.createElement('link', {
-   href: 'https://fonts.googleapis.com/css?family=Unica+One',
+   href: 'https://fonts.googleapis.com/css?family=Dosis:400,600',
    rel: 'stylesheet',
    type: 'text/css'
 }, null, document.getElementsByTagName('head')[0]);
@@ -211,7 +219,7 @@ Highcharts.theme = {
          ]
       },
       style: {
-         fontFamily: '\'Unica One\', sans-serif'
+         fontFamily: '\'Dosis\', sans-serif'
       },
       plotBorderColor: '#606063'
    },
