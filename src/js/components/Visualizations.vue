@@ -13,7 +13,7 @@ import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vu
 import WorldMap from './charts/WorldMap.vue'
 
 export default {
-  name: 'Home',
+  name: 'Visualizations',
   components: {
     AppControls: Controls,
     AppCard: Card,
@@ -25,7 +25,8 @@ export default {
     ChartSentimentComparison: SentimentComparisonBarGraph
   },
   data: () => ({
-    visualsActive: false
+    visualsActive: false,
+    showSentimentComparisonChart: false
   }),
   created() {
     Bus.$on('start', this.onStart)
@@ -37,10 +38,12 @@ export default {
   },
   methods: {
     onStart() {
-      this.visualsActive = true
+      this.visualsActive = true,
+      this.showSentimentComparisonChart = true
     },
     onEnd() {
-      this.visualsActive = false
+      //  this.visualsActive = false
+      // this.showSentimentComparisonChart = false
     }
   }
 }
@@ -83,7 +86,7 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card3" appear>
+      <transition name="card3" appear v-if="showSentimentComparisonChart">
         <app-card size="s12">
           <div slot="content">
             <chart-sentiment-comparison></chart-sentiment-comparison>

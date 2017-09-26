@@ -21,6 +21,7 @@ export default {
     Bus.$on('reset', this.onReset)
     Bus.$on('stream_status', this.onStreamStatus)
     Bus.$on('connections', this.onConnections)
+
   },
   beforeDestroy() {
     Bus.$off('tweet', this.onTweet)
@@ -30,6 +31,7 @@ export default {
     Bus.$off('connections', this.onConnections)
   },
   mounted() {
+
     setTimeout(() => {
       this.focus()
     }, 500)
