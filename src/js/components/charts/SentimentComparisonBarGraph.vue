@@ -27,7 +27,7 @@
     methods: {
       init(tags) {
         console.log("Stream service tags", StreamService.tags);
-        this.chart = this.initChart(StreamService.tags)
+        this.chart = this.initChart(StreamService.tags);
       },
       onReset() {
         console.log("Inside reset method");
@@ -112,12 +112,7 @@
             drilldown: `#${tag}`,
             color: count < colors.length ? colors[count++] : '#000'
           }
-        })
-
-        let tweetTags = tags.splice(-1, 1);
-        console.log("Tags in tweet", tweetTags);
-        
-
+        })        
         let categories = [];
         this.tagToIndex = new Map();
         for(let i = 0; i < data.length;i++){

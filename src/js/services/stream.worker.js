@@ -74,7 +74,6 @@ function processTweet(tweet) {
 	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
    		}
 
-   		console.log('data.sentimentByTags: ', data.sentimentByTags);
   	});
 
     if (tweet.place && tweet.place.country_code) {
