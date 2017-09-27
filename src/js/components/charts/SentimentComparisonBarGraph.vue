@@ -54,7 +54,7 @@
           placeHolder[i] = 0.0;
         }
 
-        if(data.inputTags.length == 0){
+        if (!data.inputTags || data.inputTags.length == 0){
           anger=placeHolder;
           fear=placeHolder;
           disgust=placeHolder;

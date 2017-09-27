@@ -12,6 +12,9 @@ import Bar from './charts/Bar.vue'
 import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vue'
 import WorldMap from './charts/WorldMap.vue'
 
+// Incoming Tweets dashboard
+import TweetDashboard from './TweetDashboard.vue'
+
 export default {
   name: 'Home',
   components: {
@@ -22,7 +25,8 @@ export default {
     ChartLiveSpline: LiveSpline,
     ChartBar: Bar,
     ChartWorldMap: WorldMap,
-    ChartSentimentComparison: SentimentComparisonBarGraph
+    ChartSentimentComparison: SentimentComparisonBarGraph,
+    TweetDashboard: TweetDashboard
   },
   data: () => ({
     visualsActive: false
@@ -87,6 +91,14 @@ export default {
         <app-card size="s12">
           <div slot="content">
             <chart-sentiment-comparison></chart-sentiment-comparison>
+          </div>
+        </app-card>
+      </transition>
+
+      <transition name="card4" appear>
+        <app-card size="s12">
+          <div slot="content">
+            <tweet-dashboard></tweet-dashboard>
           </div>
         </app-card>
       </transition>
