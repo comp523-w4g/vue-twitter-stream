@@ -6,7 +6,7 @@
 
 <script>
   import { Bus, StreamService } from '../services'
-  import vueTimeline from 'vue-timeline/src/components/timeLine.vue'
+  import vueTimeline from './Timeline.vue'
   export default {  
     name: 'tweetDashboard',
     components: {
