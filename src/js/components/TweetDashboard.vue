@@ -1,6 +1,6 @@
 <template>
   <div id="tweetDashboard">
-    <vueTimeline :points="points"></vueTimeline>
+    <vueTimeline :tweets="tweets"></vueTimeline>
   </div>
 </template>
 
@@ -14,26 +14,28 @@
     },
     data: () => ({
        tweets: [{
-          pointColor: 'red', // *关键点颜色 可选red yellow green
-          img: 'http://www.jikexueyuan.com/event/static/images/bootstrap/bootstrap-logo.png', // 图片地址 可留空
           title: 'hello world', // *时间点标题
-          text: 'first post', // *时间点内容
-          linkUrl: 'https://www.google.com', // *链接url 留空则不显示按钮
-          linkText: 'Read detail', // 按钮显示内容 默认为Read more
-          date: '2017-1-1' // 时间点
-        }, {
-          pointColor: 'yellow', // *关键点颜色 可选red yellow green
-          img: '1', // 图片地址 可留空
-          title: 'hello world', // *时间点标题
-          text: 'first post' // *时间点内容
-        }, {
-          pointColor: 'green', // *关键点颜色 可选red yellow green
-          title: 'hello world', // *时间点标题
-          text: 'first post', // *时间点内容
-          linkUrl: '#', // *链接url 留空则不显示按钮
-          date: '2017-1-1' // 时间点
+          text: '',
+          linkUrl: 'https://www.google.com', 
+          linkText: 'Read detail'
+          // date: '2017-1-1' 
         }]
      }),
+    mounted() {
+      this.init();
+      Bus.$on('update', this.onUpdate);
+    },
+
+    methods: {
+      init(data) {
+        console.log("Dashboard data: ", data);
+      },
+      onUpdate(data) {
+        console.log("Tweet text: ", data.text);
+        
+        this.tweets[0].text = data.text;
+      }
+    }
 };
 </script>
 

@@ -36,12 +36,7 @@
           points[i].update(0);
         }
       },
-      testMe() {
-        console.log("Inside bar graph");
-      },
       onUpdate(data) {
-        console.log("Full Tweet data", data);
-        console.log("Tags in data", data.tags);
         let anger = [];
         let fear = [];
         let disgust = [];
