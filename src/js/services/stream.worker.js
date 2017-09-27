@@ -1,8 +1,11 @@
 import _ from 'lodash';
 
 let data = {}
+let userInputTags = {}
 
 function init(tags) {
+  console.log("Init in Stream.worker.js with tags data", tags);
+  // sent into onUpdate() method
   data = {
     count: 0,
     tags: {},
@@ -17,6 +20,7 @@ function init(tags) {
     //    asdf
     // }
   }
+  userInputTags = tags;
 
   tags.forEach(tag => {
     data.tags[tag.toLowerCase()] = {
@@ -54,13 +58,10 @@ function processTweet(tweet) {
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;
-  console.log("User input tags: ", tweet.inputTags);
   
-  tweet.inputTags = tweet.inputTags.map(tag => tag.substr(1)); //gets rid of hashtag
-  data.inputTags = tweet.inputTags; 
-
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
-  let filteredTags = _.intersection(tweet.inputTags, hashtagsInTweet);
+  // match the user inputted tags with the hashtags found in tweet
+  let filteredTags = _.intersection(userInputTags, hashtagsInTweet);
   // grab full text of tweet
   data.text = tweet.text;
   // grab username who tweeted

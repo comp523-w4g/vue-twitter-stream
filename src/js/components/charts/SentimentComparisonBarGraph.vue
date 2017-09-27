@@ -6,13 +6,14 @@
     name: 'SentimentComparisonBarGraph',
     data: () => ({
       chart: null,
-      tagToIndex: null
-
+      tagToIndex: null,
+      userInputTags: []
     }),
     mounted() {
       this.init()
       Bus.$on('reset', this.onReset)
-      Bus.$on('end', this.onReset)
+      Bus.$on('end', this.onReset);
+      Bus.$on('start', this.onStart);
       Bus.$on('update', this.onUpdate)
     },
     destroyed() {
@@ -26,8 +27,9 @@
     },
     methods: {
       init(tags) {
-        console.log("Stream service tags", StreamService.tags);
+        console.log("Stream service tags: ", StreamService.tags);
         this.chart = this.initChart(StreamService.tags);
+        this.userInputTags = StreamService.tags;
       },
       onReset() {
         console.log("Inside reset method");
@@ -35,6 +37,10 @@
         for (let i = 0; i < points.length; i++) {
           points[i].update(0);
         }
+      },
+      onStart(tags) {
+        console.log('inside Bar graph on start method');
+        console.log("Tags from Stream");
       },
       onUpdate(data) {
         let anger = [];
@@ -49,7 +55,9 @@
           placeHolder[i] = 0.0;
         }
 
-        if (!data.inputTags || data.inputTags.length == 0){
+        console.log("data on onUpdate() in sentiment graph", data);
+
+        if (!this.userInputTags || this.userInputTags.length == 0){
           anger=placeHolder;
           fear=placeHolder;
           disgust=placeHolder;
@@ -57,9 +65,9 @@
           joy=placeHolder;
         }
 
-        for (let tagIndex in data.inputTags) {
-            console.log("Tag: ", data.inputTags[tagIndex]);
-            let currTag = data.inputTags[tagIndex];
+        for (let tagIndex in this.userInputTags) {
+            console.log("Tag: ", this.userInputTags[tagIndex]);
+            let currTag = this.userInputTags[tagIndex];
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
 
