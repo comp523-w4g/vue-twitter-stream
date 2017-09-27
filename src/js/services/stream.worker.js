@@ -8,8 +8,8 @@ function init(tags) {
     tags: {},
     countries: {},
     sentimentByTags: {},
-    text: {}
-    // user: {}
+    text: {},
+    user: {}
     // user: {
     //    username: 'sdfsdf'
     //    asdfasdfasdfa
@@ -64,7 +64,7 @@ function processTweet(tweet) {
   // grab full text of tweet
   data.text = tweet.text;
   // grab username who tweeted
-  //  data.user.username = tweet.user.name;
+  data.user.username = tweet.user.name;
     filteredTags.forEach(tag =>{
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];

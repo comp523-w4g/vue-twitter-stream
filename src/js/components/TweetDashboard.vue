@@ -32,7 +32,7 @@
       },
       onUpdate(data) {
         console.log("Tweet text: ", data.text);
-        
+        this.tweets[0].title = data.user.username;
         this.tweets[0].text = data.text;
       }
     }
