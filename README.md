@@ -1,8 +1,8 @@
 # Twitter Realtime Visualization
 This is a demo powering the live [http://vue-twitter-stream-watson.mybluemix.net/](Twitter streaming dashboard). This is a collaboration between UNC Chapel Hill Computer Science and IBM Watson.
 
-# Backend Service Overview
-![diagram](https://ibb.co/gc2QrG)
+# Backend Architecture
+![diagram](https://ibb.co/gc2QrG "architecture")
 
 
 # Technologies used
