@@ -1,6 +1,11 @@
 # Twitter Realtime Visualization
+This is a demo powering the live [http://vue-twitter-stream-watson.mybluemix.net/](Twitter streaming dashboard). This is a collaboration between UNC Chapel Hill Computer Science and IBM Watson.
 
-# vue-twitter-stream
+# Backend Service Overview
+![diagram](https://ibb.co/gc2QrG)
+
+
+# Technologies used
 Uses Vue.js as client, Twitter API for streaming, Watson Tone Analyzer, socket.io to tie server and client.
 
 # Quickstart
@@ -15,12 +20,13 @@ $ yarn
 Now fill in your credentials in `server/.env` and run `yarn start`.
 
 # Live Example
-
+http://vue-twitter-stream-watson.mybluemix.net/
 []()
 
 # Credits
+Primary development team: Victor Cui, Greer Glenn, Amogh Sharma, Michael Gu
 
-This app uses:
+Our app depends on:
 - [Vue](https://vuejs.org) as a front-end framework.
 - [Express](https://github.com/expressjs/express) with [twit](https://github.com/ttezel/twit) for the server.
 - [socket.io](http://socket.io) for realtime websockets.
