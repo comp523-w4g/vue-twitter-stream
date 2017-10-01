@@ -4,7 +4,7 @@ let data = {}
 let userInputTags = {}
 
 function init(tags) {
-  console.log("Init in Stream.worker.js with tags data", tags);
+  console.log("Init in Stream.worker.js with user input tags", tags);
   // sent into onUpdate() method
   data = {
     count: 0,
