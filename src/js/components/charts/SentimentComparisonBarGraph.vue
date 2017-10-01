@@ -11,10 +11,10 @@
     }),
     mounted() {
       this.init()
-      Bus.$on('reset', this.onReset)
+      Bus.$on('reset', this.onReset);
       Bus.$on('end', this.onReset);
       Bus.$on('start', this.onStart);
-      Bus.$on('update', this.onUpdate)
+      Bus.$on('update', this.onUpdate);
     },
     destroyed() {
       Bus.$off('reset', this.onReset)

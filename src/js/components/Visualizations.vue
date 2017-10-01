@@ -16,7 +16,7 @@ import WorldMap from './charts/WorldMap.vue'
 import TweetDashboard from './TweetDashboard.vue'
 
 export default {
-  name: 'Home',
+  name: 'Visualizations',
   components: {
     AppControls: Controls,
     AppCard: Card,
