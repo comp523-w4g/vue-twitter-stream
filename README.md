@@ -5,8 +5,8 @@ This is an active collaboration between UNC Chapel Hill Computer Science and IBM
 # Backend Architecture
 ![diagram](https://image.ibb.co/i4eidw/w4g_backend_architecture.png "architecture")
 
-# Client-side Architecture
-![diagram](https://ibb.co/esWj5b "architecture")
+# Client-side Architecture Diagram
+![client-side architecture](https://ibb.co/esWj5b)
 
 # Technologies used
 Uses Vue.js as client, Twitter API for streaming, Watson Tone Analyzer, socket.io to tie server and client.
