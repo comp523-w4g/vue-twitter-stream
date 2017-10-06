@@ -58,6 +58,7 @@ export default {
     startStream() {
       this.streamActive = true;
       StreamService.start(this.chips);
+      Bus.$emit('refresh', this.streamActive);
     },
     addChip() {
       let split = this.value.trim().split(' ')

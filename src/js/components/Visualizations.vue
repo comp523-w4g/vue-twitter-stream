@@ -46,9 +46,10 @@ export default {
       this.showSentimentComparisonChart = true
     },
     onEnd() {
-      //  this.visualsActive = false
+      // this.visualsActive = false
       // this.showSentimentComparisonChart = false
-    }
+    },
+  
   }
 }
 </script>
