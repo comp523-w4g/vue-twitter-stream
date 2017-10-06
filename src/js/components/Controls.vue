@@ -38,26 +38,26 @@ export default {
   },
   methods: {
     onStreamStatus(status) {
-      this.connectedClients = status.connections
-      this.streamOccupied = status.streamActive
+      this.connectedClients = status.connections;
+      this.streamOccupied = status.streamActive;
     },
     onConnections(status) {
-      this.connectedClients = status.connections
-      this.streamOccupied = status.streamActive
+      this.connectedClients = status.connections;
+      this.streamOccupied = status.streamActive;
     },
     onEnd() {
-      this.numTweets = 0
-      this.streamActive = false
+      this.numTweets = 0;
+      this.streamActive = false;
     },
     onReset() {
-      this.numTweets = 0
+      this.numTweets = 0;
     },
     onTweet() {
       this.numTweets++
     },
     startStream() {
-      this.streamActive = true
-      StreamService.start(this.chips)
+      this.streamActive = true;
+      StreamService.start(this.chips);
     },
     addChip() {
       let split = this.value.trim().split(' ')
@@ -71,6 +71,7 @@ export default {
         if (lower.indexOf(tag.toLowerCase()) !== -1) continue
         this.chips.push(tag)
       }
+
     },
     removeChip(index) {
       this.chips.splice(index, 1)

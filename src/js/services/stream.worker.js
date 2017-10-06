@@ -1,14 +1,26 @@
 import _ from 'lodash';
 
 let data = {}
+let userInputTags = {}
 
 function init(tags) {
+  console.log("Init in Stream.worker.js with tags data", tags);
+  // sent into onUpdate() method
   data = {
     count: 0,
     tags: {},
     countries: {},
-    sentimentByTags: {}
+    sentimentByTags: {},
+    text: {},
+    user: {}
+    // user: {
+    //    username: 'sdfsdf'
+    //    asdfasdfasdfa
+    //    asfdasdfasdfasdf
+    //    asdf
+    // }
   }
+  userInputTags = tags;
 
   tags.forEach(tag => {
     data.tags[tag.toLowerCase()] = {
@@ -41,19 +53,19 @@ function reset() {
 }
 
 function processTweet(tweet) {
+  console.log("Full tweet data", tweet);
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;
-
-  console.log("User input tags: ", tweet.inputTags);
   
-  tweet.inputTags = tweet.inputTags.map(tag => tag.substr(1)); //gets rid of hashtag
-  data.inputTags = tweet.inputTags; 
-
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
-  let filteredTags = _.intersection(tweet.inputTags, hashtagsInTweet);
-
+  // match the user inputted tags with the hashtags found in tweet
+  let filteredTags = _.intersection(userInputTags, hashtagsInTweet);
+  // grab full text of tweet
+  data.text = tweet.text;
+  // grab username who tweeted
+  data.user.username = tweet.user.name;
     filteredTags.forEach(tag =>{
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
@@ -74,7 +86,6 @@ function processTweet(tweet) {
 	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
    		}
 
-   		console.log('data.sentimentByTags: ', data.sentimentByTags);
   	});
 
     if (tweet.place && tweet.place.country_code) {
