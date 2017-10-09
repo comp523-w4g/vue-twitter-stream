@@ -14,12 +14,12 @@
     },
     data: () => ({
        tweets: [{
-          title: 'hello world', // *时间点标题
-          text: '',
+          title: 'hello world', 
+          text: 'Wait for more tweets!',
           linkUrl: 'https://www.google.com', 
           linkText: 'Read detail'
-          // date: '2017-1-1' 
-        }]
+        }],
+        numTweetsSeenSoFar: 0
      }),
     mounted() {
       this.init();
@@ -27,15 +27,39 @@
     },
 
     methods: {
-      init(data) {
-        console.log("Dashboard data: ", data);
+      init() {
+        // let emptyTweet = {
+        //   title: '',
+        //   text: '',
+        //   linkUrk: ''
+        // };
+        // this.tweets.push(emptyTweet);
+        // this.tweets.push(emptyTweet);
       },
       onUpdate(data) {
-        console.log("Tweet text: ", data.text);
-        this.tweets[0].title = data.user.username;
-        this.tweets[0].text = data.text;
+        console.log("Full Tweet data: ", data);
+        let numCumulativeTweets = data.count;
+        console.log("Tweet count: ", numCumulativeTweets);
+        if (numCumulativeTweets > this.numTweetsSeenSoFar) {
+            let newTweet = {
+              title: '',
+              text: ''
+            };
+            newTweet.title =  data.user.username;
+            newTweet.text = data.text;
+            this.tweets.push(newTweet);
+            console.log('this.tweets: ', this.tweets);
+            this.numTweetsSeenSoFar = numCumulativeTweets;
+        }
+    
+          // Not sure why this doesn't cycle through all the tweets
+          // for (let i = 0; i < 2; i++) {
+          //   this.tweets[i] = this.tweets[i + 1];
+          // }
+       
+        }
+     
       }
-    }
 };
 </script>
 

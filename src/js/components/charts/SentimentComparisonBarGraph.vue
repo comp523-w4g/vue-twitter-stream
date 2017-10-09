@@ -66,15 +66,12 @@
         }
 
         for (let tagIndex in this.userInputTags) {
-            console.log("Tag: ", this.userInputTags[tagIndex]);
             let currTag = this.userInputTags[tagIndex];
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
 
-  
             let index = this.tagToIndex.get(currTag);
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
-              console.log("Index for tag: ", currTag, " with index: ", index);
               anger[index] = 0.0;
               fear[index] = 0.0;
               disgust[index] = 0.0;
