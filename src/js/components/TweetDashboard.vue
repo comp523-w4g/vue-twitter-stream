@@ -92,7 +92,8 @@
           } else {
               let newTweet = {
                 title: '',
-                text: ''
+                text: '', 
+                tweetColor: color
               };
               newTweet.title =  data.user.username;
               newTweet.text = data.text;
