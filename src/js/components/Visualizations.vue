@@ -29,7 +29,8 @@ export default {
     TweetDashboard: TweetDashboard
   },
   data: () => ({
-    visualsActive: false
+    visualsActive: false,
+    showSentimentComparisonChart: false
   }),
   created() {
     Bus.$on('start', this.onStart)
@@ -41,11 +42,14 @@ export default {
   },
   methods: {
     onStart() {
-      this.visualsActive = true
+      this.visualsActive = true,
+      this.showSentimentComparisonChart = true
     },
     onEnd() {
-      this.visualsActive = false
-    }
+      // this.visualsActive = false
+      // this.showSentimentComparisonChart = false
+    },
+  
   }
 }
 </script>
@@ -87,7 +91,7 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card3" appear>
+      <transition name="card3" appear v-if="showSentimentComparisonChart">
         <app-card size="s12">
           <div slot="content">
             <chart-sentiment-comparison></chart-sentiment-comparison>

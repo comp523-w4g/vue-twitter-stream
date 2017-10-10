@@ -65,6 +65,7 @@ module.exports = app => {
 
                 tweet.sentiment = toneResult;
                 tweet.inputTags = msg.track;
+                // Store relevant fields in DB
             
         	      socket.emit('tweet', tweet);
         	    });

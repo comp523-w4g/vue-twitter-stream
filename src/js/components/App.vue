@@ -8,7 +8,8 @@ export default {
   name: 'App',
   data: () => ({
     errorMessage: 'Sorry, there was an error.',
-    errorDetail: ''
+    errorDetail: '',
+    refreshVisualizations: true
   }),
   components: {
     AppNav: Nav,
@@ -77,6 +78,7 @@ export default {
     })
   },
   mounted() {
+    Bus.$on('refresh', this.refreshVisualizations);
     let animator = new AnimationBuilder()
     let element = document.getElementById('app-loading')
 
@@ -100,6 +102,9 @@ export default {
     },
     showError() {
       this.$refs.errorModal.show()
+    },
+    refreshVisualizations() {
+      this.refreshVisualizations = true;
     }
   }
 }
@@ -111,7 +116,9 @@ export default {
     <app-nav></app-nav>
   </transition>
   <transition name="fade-route" appear>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-if="refreshVisualizations"></router-view>
+    </keep-alive>
   </transition>
 
 
