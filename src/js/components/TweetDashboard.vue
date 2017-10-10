@@ -13,13 +13,8 @@
       vueTimeline
     },
     data: () => ({
-       tweets: [{
-          title: 'hello world', 
-          text: 'Wait for more tweets!',
-          linkUrl: 'https://www.google.com', 
-          linkText: 'Read detail'
-        }],
-        numTweetsSeenSoFar: 0
+       tweets: undefined, 
+       numTweetsSeenSoFar: 0
      }),
     mounted() {
       this.init();
@@ -41,15 +36,31 @@
         let numCumulativeTweets = data.count;
         console.log("Tweet count: ", numCumulativeTweets);
         if (numCumulativeTweets > this.numTweetsSeenSoFar) {
+          if (this.tweets === undefined) {
+            // Initialize tweets
+            this.tweets = [];
+            console.log("Setting new value for num tweets seen so far");
             let newTweet = {
-              title: '',
-              text: ''
+                title: '',
+                text: ''
             };
             newTweet.title =  data.user.username;
             newTweet.text = data.text;
             this.tweets.push(newTweet);
             console.log('this.tweets: ', this.tweets);
             this.numTweetsSeenSoFar = numCumulativeTweets;
+          } else {
+              let newTweet = {
+                title: '',
+                text: ''
+              };
+              newTweet.title =  data.user.username;
+              newTweet.text = data.text;
+              this.tweets.push(newTweet);
+              console.log('this.tweets: ', this.tweets);
+              this.numTweetsSeenSoFar = numCumulativeTweets;
+          }
+            
         }
     
           // Not sure why this doesn't cycle through all the tweets
