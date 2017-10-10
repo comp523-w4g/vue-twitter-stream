@@ -1,3 +1,5 @@
+
+
 <template>
   <div id="tweetDashboard">
     <vueTimeline :tweets="tweets"></vueTimeline>
@@ -5,6 +7,7 @@
 </template>
 
 <script>
+  import _ from 'lodash';
   import { Bus, StreamService } from '../services'
   import vueTimeline from './Timeline.vue'
   export default {  
@@ -40,10 +43,47 @@
         console.log("Full Tweet data: ", data);
         let numCumulativeTweets = data.count;
         console.log("Tweet count: ", numCumulativeTweets);
+        //set color
+        let currSentiment = data.currSentiment;
+        console.log(currSentiment);
+        let currMax = 0.0
+        let maxKey = '';
+        let color = '';
+
+        for (var i in currSentiment) {
+          if(currSentiment[i].score >= currMax){
+            currMax = currSentiment[i].score;
+            maxKey = currSentiment[i].tone_name;
+          }
+        }
+        
+
+        switch(maxKey) {
+            case "Anger":
+                color = 'red';
+                break;
+            case "Sadness":
+                color = 'blue';
+                break;
+            case "Joy":
+                color = 'yellow';
+                break;
+            case "Disgust":
+                color = 'green';
+                break;
+            case "Fear":
+                color = 'orange';
+                break;            
+            default:
+                color = 'grey';
+                break;
+        }
+
         if (numCumulativeTweets > this.numTweetsSeenSoFar) {
             let newTweet = {
               title: '',
-              text: ''
+              text: '',
+              tweetColor: color
             };
             newTweet.title =  data.user.username;
             newTweet.text = data.text;
