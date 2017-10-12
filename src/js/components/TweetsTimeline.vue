@@ -1,8 +1,8 @@
-
-
 <template>
   <div id="tweetDashboard">
-    <vueTimeline :tweets="tweets"></vueTimeline>
+    <v-infinite-scroll :offset='20' style="max-height: 80vh; overflow-y: scroll;">
+      <vueTimeline :tweets="tweets"></vueTimeline>
+    </v-infinite-scroll>
   </div>
 </template>
 

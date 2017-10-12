@@ -3,12 +3,15 @@ import './bootstrap'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Resource from 'vue-resource'
-
 import App from './components/App.vue'
 import Visualizations from './components/Visualizations.vue'
+// scrolling
+import InfiniteScroll from 'v-infinite-scroll'
+import 'v-infinite-scroll/dist/v-infinite-scroll.css'
 
 Vue.use(Router)
 Vue.use(Resource)
+Vue.use(InfiniteScroll)
 
 const routes = [{
   path: '/',
