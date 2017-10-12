@@ -12,8 +12,8 @@ import Bar from './charts/Bar.vue'
 import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vue'
 import WorldMap from './charts/WorldMap.vue'
 
-// Incoming Tweets dashboard
-import TweetDashboard from './TweetDashboard.vue'
+// Incoming Tweets timeline
+import TweetsTimeline from './TweetsTimeline.vue'
 
 export default {
   name: 'Visualizations',
@@ -26,7 +26,7 @@ export default {
     ChartBar: Bar,
     ChartWorldMap: WorldMap,
     ChartSentimentComparison: SentimentComparisonBarGraph,
-    TweetDashboard: TweetDashboard
+    TweetsTimeline: TweetsTimeline
   },
   data: () => ({
     visualsActive: false,
@@ -59,7 +59,14 @@ export default {
   <app-controls></app-controls>
   <transition name="container">
     <div class="row" v-if="visualsActive">
-      <transition name="card1" appear>
+      <transition name="card1" appear v-if="showSentimentComparisonChart">
+        <app-card size="s12">
+          <div slot="content">
+            <chart-sentiment-comparison></chart-sentiment-comparison>
+          </div>
+        </app-card>
+      </transition>
+      <transition name="card2" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-solid-gauge></chart-solid-gauge>
@@ -83,7 +90,7 @@ export default {
         <!--</app-card>-->
       <!--</transition>-->
 
-      <transition name="card2" appear>
+      <transition name="card3" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-bar></chart-bar>
@@ -91,18 +98,12 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card3" appear v-if="showSentimentComparisonChart">
-        <app-card size="s12">
-          <div slot="content">
-            <chart-sentiment-comparison></chart-sentiment-comparison>
-          </div>
-        </app-card>
-      </transition>
+     
 
       <transition name="card4" appear>
         <app-card size="s12">
           <div slot="content">
-            <tweet-dashboard></tweet-dashboard>
+            <tweets-timeline></tweets-timeline>
           </div>
         </app-card>
       </transition>

@@ -11,7 +11,7 @@
   import { Bus, StreamService } from '../services'
   import vueTimeline from './Timeline.vue'
   export default {  
-    name: 'tweetDashboard',
+    name: 'tweetsTimeline',
     components: {
       vueTimeline
     },
