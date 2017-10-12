@@ -20,20 +20,9 @@
        numTweetsSeenSoFar: 0
      }),
     mounted() {
-      this.init();
       Bus.$on('update', this.onUpdate);
     },
-
     methods: {
-      init() {
-        // let emptyTweet = {
-        //   title: '',
-        //   text: '',
-        //   linkUrk: ''
-        // };
-        // this.tweets.push(emptyTweet);
-        // this.tweets.push(emptyTweet);
-      },
       onUpdate(data) {
         console.log("Full Tweet data: ", data);
         let numCumulativeTweets = data.count;
@@ -42,17 +31,14 @@
         let currSentiment = data.currSentiment;
         console.log(currSentiment);
         let currMax = 0.0
-        let maxKey = '';
-        let color = '';
-
+        let maxKey;
+        let color;
         for (var i in currSentiment) {
-          if(currSentiment[i].score >= currMax){
+          if (currSentiment[i].score >= currMax){
             currMax = currSentiment[i].score;
             maxKey = currSentiment[i].tone_name;
           }
         }
-        
-
         switch(maxKey) {
             case "Anger":
                 color = 'red';
@@ -73,45 +59,30 @@
                 color = 'grey';
                 break;
         }
-
         if (numCumulativeTweets > this.numTweetsSeenSoFar) {
-          if (this.tweets === undefined) {
-            // Initialize tweets
-            this.tweets = [];
-            console.log("Setting new value for num tweets seen so far");
-            let newTweet = {
+          let newTweet = {
               title: '',
               text: '',
               tweetColor: color
-            };
-            newTweet.title =  data.user.username;
+          };
+          if (this.tweets === undefined) {
+            // Initialize tweets array
+            this.tweets = [];
+            console.log("Setting new value for num tweets seen so far");
+            newTweet.title = data.user.username;
             newTweet.text = data.text;
             this.tweets.push(newTweet);
             console.log('this.tweets: ', this.tweets);
-            this.numTweetsSeenSoFar = numCumulativeTweets;
           } else {
-              let newTweet = {
-                title: '',
-                text: '', 
-                tweetColor: color
-              };
-              newTweet.title =  data.user.username;
+              newTweet.title = data.user.username;
               newTweet.text = data.text;
-              this.tweets.push(newTweet);
+              this.tweets.unshift(newTweet);
               console.log('this.tweets: ', this.tweets);
-              this.numTweetsSeenSoFar = numCumulativeTweets;
           }
-            
+          this.numTweetsSeenSoFar = numCumulativeTweets;
         }
-    
-          // Not sure why this doesn't cycle through all the tweets
-          // for (let i = 0; i < 2; i++) {
-          //   this.tweets[i] = this.tweets[i + 1];
-          // }
-       
-        }
-     
       }
+    }
 };
 </script>
 
