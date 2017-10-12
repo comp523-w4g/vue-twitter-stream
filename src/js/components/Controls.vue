@@ -108,7 +108,7 @@ export default {
     <div class="col s12">
       <div class="card white">
         <div class="card-content center-align black-text">
-          <span class="card-title cyan-text">Watson For Good</span>
+          <span class="card-title cyan-text">Watson 4 Good</span>
 
           <blockquote>
             Enter up to {{ chipsLimitText }} tags below and we'll stream live data from the

@@ -2,6 +2,7 @@
 
 const http = require('http');
 const socket = require('socket.io');
+const cloudant = require('./cloudant');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
@@ -57,6 +58,9 @@ module.exports = app => {
             });
 
       	    stream.on('tweet', tweet => {
+		          const hashtags = tweet.extended_tweet;
+		          console.log('raw tweet object: ', tweet);
+
     		      tone_analyzer.tone({ text: tweet.text }, function(err, tone) {
                 if (err) {
                   console.log(err);
@@ -65,7 +69,9 @@ module.exports = app => {
 
                 tweet.sentiment = toneResult;
                 tweet.inputTags = msg.track;
-            
+
+                // save tweet to db
+                cloudant.insertIntoTable('streamed-tweets', tweet);
         	      socket.emit('tweet', tweet);
         	    });
             });

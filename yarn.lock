@@ -3609,6 +3609,10 @@ multipipe@^0.1.2:
   dependencies:
     duplexer2 "0.0.2"
 
+n@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/n/-/n-2.1.8.tgz#9b770f6ae0a93c49c64fb614625a63cc5a22d1fd"
+
 nan@^2.3.0:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"

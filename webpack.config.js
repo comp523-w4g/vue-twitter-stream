@@ -4,11 +4,11 @@ module.exports = {
   entry: [
     './src/js/main.js'
   ],
-  output: {
-    path: '/public/js',
-    publicPath: '/public/',
-    filename: 'app.js'
-  },
+  // output: {
+  //   path: '/public/js',
+  //   publicPath: '/public/',
+  //   filename: 'app.js'
+  // },
   watch: true,
   module: {
     loaders: [{
@@ -21,7 +21,23 @@ module.exports = {
     }, {
       test: /\.worker\.js$/,
       loader: 'worker?inline=true!babel'
-    }]
+    }], 
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+          }
+          // other vue-loader options go here
+        }
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
   },
   plugins: [],
   babel: {
@@ -30,5 +46,9 @@ module.exports = {
   },
   resolve: {
     modulesDirectories: ['node_modules']
+  }, 
+  devServer: {
+    inline:true,
+    port: 5000
   }
 }

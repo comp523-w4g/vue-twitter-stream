@@ -16,7 +16,7 @@ gulp.task('webpack:build', () => {
   return gulp.src('src/js/main.js')
     .pipe(webpackStream(Object.assign({},
       webpackConfig, {
-        watch: false
+        watch: true
       })))
     .pipe(gulp.dest('public/js/'))
 });
