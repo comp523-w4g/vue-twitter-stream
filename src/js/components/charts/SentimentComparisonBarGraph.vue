@@ -27,20 +27,16 @@
     },
     methods: {
       init(tags) {
-        console.log("Stream service tags: ", StreamService.tags);
         this.chart = this.initChart(StreamService.tags);
         this.userInputTags = StreamService.tags;
       },
       onReset() {
-        console.log("Inside reset method");
         let points = this.chart.series[0].points
         for (let i = 0; i < points.length; i++) {
           points[i].update(0);
         }
       },
       onStart(tags) {
-        console.log('inside Bar graph on start method');
-        console.log("Tags from Stream");
       },
       onUpdate(data) {
         let anger = [];
@@ -54,8 +50,6 @@
         for(let i = 0; i < data.tags; i++){
           placeHolder[i] = 0.0;
         }
-
-        console.log("data on onUpdate() in sentiment graph", data);
 
         if (!this.userInputTags || this.userInputTags.length == 0){
           anger=placeHolder;
@@ -79,8 +73,6 @@
               sadness[index] = 0.0;
             }
             else {
-              console.log("Index for tag: ", currTag, " with index: ", index);
-
               anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
