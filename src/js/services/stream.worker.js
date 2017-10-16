@@ -4,7 +4,6 @@ let data = {}
 let userInputTags = {}
 
 function init(tags) {
-  console.log("Init in Stream.worker.js with user input tags", tags);
   // sent into onUpdate() method
   data = {
     count: 0,
@@ -14,12 +13,6 @@ function init(tags) {
     text: {},
     user: {},
     currSentiment: []
-    // user: {
-    //    username: 'sdfsdf'
-    //    asdfasdfasdfa
-    //    asfdasdfasdfasdf
-    //    asdf
-    // }
   }
   userInputTags = tags;
 
@@ -54,10 +47,12 @@ function reset() {
 }
 
 function processTweet(tweet) {
-  console.log("Full tweet data", tweet);
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
+  let arr1 = parsedSentiment.document_tone.tone_categories[1];  
+  let arr2 = parsedSentiment.document_tone.tone_categories[2];
+ 
   let hashtagsInTweet=tweet.entities.hashtags;
   
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
