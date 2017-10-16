@@ -171,7 +171,7 @@
 
           tooltip: {
             // headerFormat: '',
-            pointFormat: '<span><b>{point.y:,.0f}</b><br/>'
+            pointFormat: '<span><b>{point.series.data[0]}</b><br/>'
           },
 
           series: [{
