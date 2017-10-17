@@ -13,13 +13,8 @@ function init(tags) {
     sentimentByTags: {},
     text: {},
     user: {},
-    currSentiment: []
-    // user: {
-    //    username: 'sdfsdf'
-    //    asdfasdfasdfa
-    //    asfdasdfasdfasdf
-    //    asdf
-    // }
+    currSentiment: [],
+    checkedEmotions: []
   }
   userInputTags = tags;
 
@@ -53,12 +48,17 @@ function reset() {
   }
 }
 
+function filterSentiment(checkedEmotions) {
+  data.checkedEmotions = checkedEmotions;
+  console.log("stream worker got checkedEmotions: ", data.checkedEmotions);
+}
+
 function processTweet(tweet) {
   console.log("Full tweet data", tweet);
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
-  let hashtagsInTweet=tweet.entities.hashtags;
+  let hashtagsInTweet = tweet.entities.hashtags;
   
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   // match the user inputted tags with the hashtags found in tweet
@@ -68,38 +68,35 @@ function processTweet(tweet) {
   // grab username who tweeted
   data.user.username = tweet.user.name;
   data.currSentiment = emotionArr;
-    filteredTags.forEach(tag =>{
-      	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
-	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
+  filteredTags.forEach(tag =>{
+  	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
+        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
-	        for (let i = 0; i < emotionArr.length; i++) {
-	          let currEmotion = emotionArr[i];
-	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
-	        }
-          
-   		} else {
-   			let sentimentsForTag = {};
-
-     			for (let i = 0; i < emotionArr.length; i++) {
-  	          let currEmotion = emotionArr[i];
-  	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
-  	        }
-	   
-	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
-   		}
-
-  	});
-
-    if (tweet.place && tweet.place.country_code) {
-      let code = tweet.place.country_code
-      if (!data.countries[code]) {
-        data.countries[code] = {
-          count: 0
+        for (let i = 0; i < emotionArr.length; i++) {
+          let currEmotion = emotionArr[i];
+          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
         }
-      }
+ 		} else {
+ 			let sentimentsForTag = {};
 
-      data.countries[code].count++
+   			for (let i = 0; i < emotionArr.length; i++) {
+	          let currEmotion = emotionArr[i];
+	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
+	        }
+   
+        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
+ 		}
+	});
+
+  if (tweet.place && tweet.place.country_code) {
+    let code = tweet.place.country_code
+    if (!data.countries[code]) {
+      data.countries[code] = {
+        count: 0
+      }
     }
+    data.countries[code].count++
+  }
 
   let tags = tweet.entities.hashtags.map(obj => {
     return obj.text.toLowerCase()
@@ -134,6 +131,8 @@ self.addEventListener('message', (e) => {
         cmd: 'data',
         data
       })
+    case 'filterSentiment':
+      filterSentiment(d.checkedEmotions)
       break
   };
 }, false)
