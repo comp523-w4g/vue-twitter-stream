@@ -44,7 +44,6 @@
         let disgust = [];
         let joy = [];
         let sadness = [];
-
         let placeHolder = [];
 
         for(let i = 0; i < data.tags; i++){
@@ -61,10 +60,15 @@
 
         for (let tagIndex in this.userInputTags) {
             let currTag = this.userInputTags[tagIndex];
-            let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
-            let accumulatedSentiment = data.sentimentByTags[currTag];
-
-            let index = this.tagToIndex.get(currTag);
+            let index = this.tagToIndex.get(currTag); // tag -> index
+            let numberOfTweetsAssociatedWithTag = 0;
+            let accumulatedSentiment;
+            if (data.tags[currTag] === undefined) {
+              console.log("Undefined for: data.tags[currTag]");
+            } else {
+              numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
+              accumulatedSentiment = data.sentimentByTags[currTag];
+            }
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
               anger[index] = 0.0;
               fear[index] = 0.0;
@@ -79,14 +83,12 @@
               joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
             }
-          
         }   
         this.chart.series[0].setData(anger);
         this.chart.series[1].setData(fear);
         this.chart.series[2].setData(disgust);
         this.chart.series[3].setData(joy);
         this.chart.series[4].setData(sadness);
-            
       },
       initChart(tags) {
         let colors = [
