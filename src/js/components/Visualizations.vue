@@ -98,20 +98,10 @@ export default {
         </app-card>
       </transition>
 
-     
-
       <transition name="card4" appear>
         <app-card size="s12">
           <div slot="content">
             <tweets-timeline></tweets-timeline>
-          </div>
-        </app-card>
-      </transition>
-
-      <transition name="card6" appear>
-        <app-card size="s12">
-          <div slot="content">
-            <chart-world-map></chart-world-map>
           </div>
         </app-card>
       </transition>

@@ -111,11 +111,10 @@ export default {
     <div class="col s12">
       <div class="card white">
         <div class="card-content center-align black-text">
-          <span class="card-title cyan-text">Watson For Good</span>
+          <span class="card-title cyan-text">Twitter + Watson = Sentiment Visualization</span>
 
           <blockquote>
-            Enter up to {{ chipsLimitText }} tags below and we'll stream live data from the
-            <a class="btn-flat" href="https://dev.twitter.com/streaming/overview" target="_blank">Twitter API</a> to visualize it with the power of <a class="btn-flat" href="https://www.ibm.com/watson/services/tone-analyzer/" target="_blank">IBM Watson</a>
+            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. 
           </blockquote>
 
           <div class="row answers left-align">
