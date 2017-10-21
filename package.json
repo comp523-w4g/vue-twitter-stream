@@ -5,7 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server",
-    "heroku-postbuild": "npm prune --production"
+    "heroku-postbuild": "npm prune --production",
+    "upload-bluemix": ""
   },
   "engines": {
     "node": ">=4.6 <7"
