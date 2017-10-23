@@ -54,7 +54,7 @@ export default {
           name: `#${tag}`,
           y: 0,
           drilldown: `#${tag}`,
-          color: count < colors.length ? colors[count++] : '#000'
+          color: '#FFF'
         }
       })
 
