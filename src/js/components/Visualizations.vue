@@ -11,6 +11,7 @@ import LiveSpline from './charts/LiveSpline.vue'
 import Bar from './charts/Bar.vue'
 import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vue'
 import WorldMap from './charts/WorldMap.vue'
+import BubbleComparison from './charts/BubbleComparison.vue'
 
 // Incoming Tweets timeline
 import TweetsTimeline from './TweetsTimeline.vue'
@@ -26,7 +27,8 @@ export default {
     ChartBar: Bar,
     ChartWorldMap: WorldMap,
     ChartSentimentComparison: SentimentComparisonBarGraph,
-    TweetsTimeline: TweetsTimeline
+    TweetsTimeline: TweetsTimeline,
+    BubbleComparison: BubbleComparison
   },
   data: () => ({
     visualsActive: false,
@@ -63,6 +65,13 @@ export default {
         <app-card size="s12">
           <div slot="content">
             <chart-sentiment-comparison></chart-sentiment-comparison>
+          </div>
+        </app-card>
+      </transition>
+      <transition name="card1" appear v-if="showSentimentComparisonChart">
+        <app-card size="s12">
+          <div slot="content">
+            <bubble-comparison></bubble-comparison>
           </div>
         </app-card>
       </transition>

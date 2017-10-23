@@ -7,11 +7,13 @@ import App from './components/App.vue'
 import Visualizations from './components/Visualizations.vue'
 // scrolling
 import InfiniteScroll from 'v-infinite-scroll'
+import VueD3 from 'vue-d3'
 import 'v-infinite-scroll/dist/v-infinite-scroll.css'
 
 Vue.use(Router)
 Vue.use(Resource)
 Vue.use(InfiniteScroll)
+Vue.use(VueD3)
 
 const routes = [{
   path: '/',

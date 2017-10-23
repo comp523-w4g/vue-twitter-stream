@@ -23,6 +23,10 @@ module.exports = {
       loader: 'worker?inline=true!babel'
     }]
   },
+  node: {
+    fs: 'empty',
+    child_process: 'empty'
+  },
   plugins: [],
   babel: {
     presets: ['es2015'],
