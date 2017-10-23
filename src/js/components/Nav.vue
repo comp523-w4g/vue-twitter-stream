@@ -28,7 +28,6 @@ export default {
     },
     onEnd() {
       this.streamActive = false
-
       setTimeout(() => {
         this.ending = false
       }, 500)
@@ -41,6 +40,7 @@ export default {
       setTimeout(() => {
         StreamService.end()
       }, 200)
+      Bus.$emit('stopTimer');
     },
     reset() {
       this.resetting = true

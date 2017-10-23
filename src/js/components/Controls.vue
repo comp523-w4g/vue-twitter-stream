@@ -1,8 +1,12 @@
 <script>
 import { Bus, StreamService } from '../services'
+import Stopwatch from './Stopwatch.vue'
 
 export default {
   name: 'Controls',
+  components: {
+    Stopwatch: Stopwatch
+  },
   data: () => ({
     chips: [],
     chipsPlaceholder: '+Tag',
@@ -59,6 +63,7 @@ export default {
       this.streamActive = true;
       StreamService.start(this.chips);
       Bus.$emit('refresh', this.streamActive);
+      Bus.$emit('startTimer');
     },
     addChip() {
       let split = this.value.trim().split(' ')
@@ -112,11 +117,9 @@ export default {
       <div class="card white">
         <div class="card-content center-align black-text">
           <span class="card-title cyan-text">Twitter + Watson = Sentiment Visualization</span>
-
           <blockquote>
             Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. 
           </blockquote>
-
           <div class="row answers left-align">
             <div class="col s12 m2 hide-on-small-only"></div>
             <div class="col s12 m8" @click="focus">
@@ -148,6 +151,11 @@ export default {
               <div class="center-align grey-text text-lighten-1">
                 <a class="btn-flat disabled">Stream is active, counting {{ numTweets }} tweets <i><div class="loader running"></i></a>
               </div>
+             
+            </div>
+            <div id="stopwatch" class="col s12 center-align">
+              <stopwatch> </stopwatch>
+      
             </div>
           </div>
         </div>
@@ -158,6 +166,9 @@ export default {
 </template>
 
 <style scoped>
+#stopwatch {
+  padding-top: 20px;
+}
 .loader {
   margin-left: 20px;
   margin-bottom: -5px;
@@ -220,4 +231,6 @@ export default {
 .fade-button-enter-active {
   animation: fadeInDown 0.3s;
 }
+
+
 </style>
