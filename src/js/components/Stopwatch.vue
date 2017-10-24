@@ -1,8 +1,20 @@
 <template>
-    <span id="time" v-html="time"></span>
+    <div id="time">
+        {{hours}}: {{minutes}}: {{seconds}}
+        <p>
+            Hours Minutes Seconds 
+        </p>
+        <p>
+            since the stream has been running
+        </p>
+    </div>
 </template>
 
 <style>
+    #time p {
+        display: block;
+        font-size: 70%;
+    }
 </style>
 
 <script>
