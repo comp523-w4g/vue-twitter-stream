@@ -1,5 +1,7 @@
 applications:
 - name: vue-twitter-stream-watson
+  host: vue-twitter-stream-watson
+  domain: mybluemix.net
   path: .
   buildpack: sdk-for-nodejs
   command: npm start
