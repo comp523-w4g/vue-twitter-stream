@@ -118,7 +118,7 @@ export default {
         <div class="card-content center-align black-text">
           <span class="card-title cyan-text">Twitter + Watson = Sentiment Visualization</span>
           <blockquote>
-            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. 
+            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. TEST BY VICTOR
           </blockquote>
           <div class="row answers left-align">
             <div class="col s12 m2 hide-on-small-only"></div>
@@ -143,7 +143,7 @@ export default {
                   Due to Twitter limitations, only one client can start a stream. Please wait until the stream is released. (Connections: {{ connectedClients }})
                 </div>
                 <div v-else>
-                  Enter at least one tag to start a stream. TEST BY VICTOR
+                  Enter at least one tag to start a stream.
                 </div>
               </div>
             </div>
