@@ -143,7 +143,7 @@ export default {
                   Due to Twitter limitations, only one client can start a stream. Please wait until the stream is released. (Connections: {{ connectedClients }})
                 </div>
                 <div v-else>
-                  Enter at least one tag to start a stream.
+                  Enter at least one tag to start a stream. TEST BY VICTOR
                 </div>
               </div>
             </div>
