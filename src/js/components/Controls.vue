@@ -118,7 +118,7 @@ export default {
         <div class="card-content center-align black-text">
           <span class="card-title cyan-text">Twitter + Watson = Sentiment Visualization</span>
           <blockquote>
-            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. TEST.
+            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. TEST VICTOR. 
           </blockquote>
           <div class="row answers left-align">
             <div class="col s12 m2 hide-on-small-only"></div>
