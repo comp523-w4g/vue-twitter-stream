@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - node
 deploy:
-  provider: cloudfoundry
+  provider: bluemixcloudfoundry
   api: https://api.ng.bluemix.net
   username: amoghsharma1996@gmail.com
   password:
