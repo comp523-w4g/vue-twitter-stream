@@ -27,14 +27,7 @@ function reset() {
   data = {
     count: 0,
     tags: {},
-    countries: {},
-    sentiment: {
-      "Anger": 0.0,
-      "Fear": 0.0,
-      "Disgust": 0.0,
-      "Joy": 0.0,
-      "Sadness": 0.0
-    }
+    countries: {}
   }
 
   for (let tag in data.tags) {
@@ -49,11 +42,14 @@ function reset() {
 function processTweet(tweet) {
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
-  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
-  let arr1 = parsedSentiment.document_tone.tone_categories[1];  
-  let arr2 = parsedSentiment.document_tone.tone_categories[2];
- 
-  let hashtagsInTweet=tweet.entities.hashtags;
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
+  let socialArr = parsedSentiment.document_tone.tone_categories[2].tones;  
+  let hashtagsInTweet=tweet.entities.hashtags;  
+  let toneArr = socialArr.concat(emotionArr);
+  console.log("toneArr", toneArr);
+  console.log("socialArr", socialArr);
+  console.log("emotionArr", emotionArr);
+  
   
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   // match the user inputted tags with the hashtags found in tweet
@@ -62,21 +58,22 @@ function processTweet(tweet) {
   data.text = tweet.text;
   // grab username who tweeted
   data.user.username = tweet.user.name;
-  data.currSentiment = emotionArr;
+  data.currSentiment = toneArr;
+  console.log("data.currSentiment", data.currSentiment);
     filteredTags.forEach(tag =>{
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
-	        for (let i = 0; i < emotionArr.length; i++) {
-	          let currEmotion = emotionArr[i];
+	        for (let i = 0; i < toneArr.length; i++) {
+	          let currEmotion = toneArr[i];
 	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
 	        }
           
    		} else {
    			let sentimentsForTag = {};
 
-     			for (let i = 0; i < emotionArr.length; i++) {
-  	          let currEmotion = emotionArr[i];
+     			for (let i = 0; i < toneArr.length; i++) {
+  	          let currEmotion = toneArr[i];
   	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
   	        }
 	   
@@ -84,6 +81,7 @@ function processTweet(tweet) {
    		}
 
   	});
+     console.log("data.sentimentByTags", data.sentimentByTags);
 
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code
