@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- node
+deploy:
+  provider: bluemixcloudfoundry
+  api: https://api.ng.bluemix.net
+  username: amoghsharma1996@gmail.com
+  password:
+    secure: H/hJlNuDCunH3Wznpw80ADJCxAVRrarmHZHtKyrtdyOjosHold3VR/kTf/dxvhbmm/NyW3YxKl3XlJOdrq68UHjtlw6PJNdPokFG/qzJqm+zLQ1WneBuTcn/39i9rUwFOSBJHjyGapXp5ohU+7sX3fr4mqHNBKjEe1qv33m1Xh5Qcnpo15PqFQDZSBKNeKYFBE/tTGqNZ9vp14DWTzxnhOPQbdJcaGivfByOgIhRQoofbFDhFjdLnN4ibMY1cGCm5jS9oyH191p+I54Y963Kob7XFs6qLZMazGPavBLneVpO2OijwceIeFMWmYmdU1OGr095c+/zjU4Df2w02oo4kmnf07WeYLBlgzgs31G7sPPhgY1uS03igk+nBRaOCF/vz9LlZ4wlgcWX8tJYQSn4+Mq0BBfYvbF3K8CA2mthvggTbp8X24PIH5OEY0Q6FvNkXztOgSR1K/SOBj63/jzYKSARjNaH1uUijPgtnAQK9jez5jBfWbV21jHFdkhGA6oDaLCmvYUxO2UQHavSrUY2h6FWyWeLnnQHqz9c/WDQWPMDqLxgblX+eVX6Sx9dRqzDrJlBveVB2wggxnuwbOlW+/DEQb+jL4aPVVO9MTx1WuwAKTBurP9hFf5zKoIZqFVFl0OnhOloYiXdW+rgcBbkesC3Recx3gMtZQqROSiWCWM=
+  organization: amoghsharma1996
+  space: dev
+  on:
+    repo: comp523-w4g/vue-twitter-stream
+    branch: master
