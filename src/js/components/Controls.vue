@@ -103,7 +103,6 @@ export default {
       if (this.chips.length) {
         return this.chipsShortPlaceholder
       }
-
       return this.chipsPlaceholder
     }
   }

@@ -27,20 +27,20 @@
     },
     methods: {
       init(tags) {
-        console.log("Stream service tags: ", StreamService.tags);
+        //console.log("Stream service tags: ", StreamService.tags);
         this.chart = this.initChart(StreamService.tags);
         this.userInputTags = StreamService.tags;
       },
       onReset() {
-        console.log("Inside reset method");
+        //console.log("Inside reset method");
         let points = this.chart.series[0].points
         for (let i = 0; i < points.length; i++) {
           points[i].update(0);
         }
       },
       onStart(tags) {
-        console.log('inside Bar graph on start method');
-        console.log("Tags from Stream");
+        //console.log('inside Bar graph on start method');
+        //console.log("Tags from Stream");
       },
       onUpdate(data) {
         let anger = [];
@@ -49,20 +49,33 @@
         let joy = [];
         let sadness = [];
 
+        let openess = [];
+        let conscience = [];
+        let extraversion = [];
+        let agreeableness = [];
+        let emotionalRange = [];
+
         let placeHolder = [];
 
         for(let i = 0; i < data.tags; i++){
           placeHolder[i] = 0.0;
         }
 
-        console.log("data on onUpdate() in sentiment graph", data);
+        //console.log("data on onUpdate() in sentiment graph", data);
 
         if (!this.userInputTags || this.userInputTags.length == 0){
+          //emotion
           anger=placeHolder;
           fear=placeHolder;
           disgust=placeHolder;
           sadness=placeHolder;
           joy=placeHolder;
+          //social
+          openess=placeHolder;
+          conscience=placeHolder;
+          extraversion=placeHolder;
+          agreeableness=placeHolder;
+          emotionalRange=placeHolder;
         }
 
         for (let tagIndex in this.userInputTags) {
@@ -77,33 +90,56 @@
               disgust[index] = 0.0;
               joy[index] = 0.0;
               sadness[index] = 0.0;
+              
+              openess[index]=0.0;
+              conscience[index]=0.0;
+              extraversion[index]=0.0;
+              agreeableness[index]=0.0;
+              emotionalRange[index]=0.0;
             }
             else {
-              console.log("Index for tag: ", currTag, " with index: ", index);
+              //console.log("Index for tag: ", currTag, " with index: ", index);
 
               anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+
+              openess[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              console.log("Openness",openess[index]);
+              console.log("Agreeableness",agreeableness[index]);
+              conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
             }
-          
         }
+
+        // emit sentiment back to server to produce rss feed
         const dataToCast = {
           anger,
           fear,
           disgust,
           joy,
-          sadness
+          sadness,
+          openess,
+          conscience,
+          extraversion,
+          emotionalRange
         };
         StreamService.sendSentimentToServer(dataToCast);
 
-        this.chart.series[0].setData(anger);
-        this.chart.series[1].setData(fear);
-        this.chart.series[2].setData(disgust);
-        this.chart.series[3].setData(joy);
-        this.chart.series[4].setData(sadness);
-            
+        this.chart.series[0].setData(openess);
+        this.chart.series[1].setData(conscience);
+        this.chart.series[2].setData(extraversion);
+        this.chart.series[3].setData(agreeableness);
+        this.chart.series[4].setData(emotionalRange);
+        this.chart.series[5].setData(anger);
+        this.chart.series[6].setData(fear);
+        this.chart.series[7].setData(disgust);
+        this.chart.series[8].setData(joy);
+        this.chart.series[9].setData(sadness);
       },
       initChart(tags) {
         let colors = [
@@ -182,6 +218,26 @@
           },
 
           series: [{
+              name: 'Openess',
+              color: colors[0],
+              data: startingPoints
+          }, {
+              name: 'Conscientiousness',
+              color: colors[1],
+              data: startingPoints
+          }, {
+              name: 'Extraversion',
+              color: colors[2],
+              data: startingPoints
+          }, {
+              name: 'Agreeabless',
+              color: colors[3],
+              data: startingPoints
+          }, {
+              name: 'Emotional Range',
+              color: colors[4],
+              data: startingPoints
+          }, {
               name: 'Anger',
               color: colors[0],
               data: startingPoints

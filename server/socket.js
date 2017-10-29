@@ -47,12 +47,6 @@ module.exports = app => {
     socket.on('sentiment', sentimentArray => {
       console.log('received sentiment array from client: ', sentimentArray);
       client.set('sentimentArray', JSON.stringify(sentimentArray));
-      // client.get('sentimentArray', (err, reply) => {
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      //   console.log('successfully stored sentiment in redis: ', reply.toString());   
-      // })
     });
 
     socket.on('filter', msg => {
