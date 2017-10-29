@@ -88,7 +88,16 @@
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
             }
           
-        }   
+        }
+        const dataToCast = {
+          anger,
+          fear,
+          disgust,
+          joy,
+          sadness
+        };
+        StreamService.sendSentimentToServer(dataToCast);
+
         this.chart.series[0].setData(anger);
         this.chart.series[1].setData(fear);
         this.chart.series[2].setData(disgust);

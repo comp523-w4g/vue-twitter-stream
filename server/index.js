@@ -1,6 +1,7 @@
 "use strict";
 
 require('./bootstrap');
+const feed = require('./rss');
 
 if (!process.env.TWITTER_API_KEY) {
   console.log('Please set required environment variables.');
@@ -25,6 +26,13 @@ const middleware = require('./middleware');
 const path = require('path');
 const socket = require('./socket');
 
+// cacheing for rss feed
+const redis = require('redis'),
+    client = redis.createClient();
+const bluebird = require('bluebird');
+bluebird.promisifyAll(redis.RedisClient.prototype);
+const _ = require('lodash');
+
 const app = express();
 const http = socket(app);
 
@@ -47,7 +55,7 @@ app.use(middleware.isFile);
 app.use(express.static(path.join(__dirname, config.publicDir)));
 
 // Serve index if file does not exist
-app.get('*', (req, res, next) => {
+app.get('/', (req, res, next) => {
   if (!req.isFile) {
     return res.sendFile('index.html', {
       root: path.join(__dirname, config.publicDir)
@@ -56,6 +64,27 @@ app.get('*', (req, res, next) => {
 
   return next();
 });
+
+app.get('/rss', (req, res) => {
+
+  client.getAsync('sentimentArray').then(function(cachedSentiment) {
+
+    const sentimentArray = cachedSentiment.toString()
+    console.log('sentimentArray: ', sentimentArray);
+
+    const rssData = {
+      title: 'Watson Sentiment Scores',
+      content: sentimentArray
+    };
+
+    feed.addItem(rssData);
+
+    //render xml in rss or atom format depending upon the url param
+    var feedRes = feed.rss2('rss-2.0');
+    res.set('Content-Type', 'text/xml');
+    res.send(feedRes);
+  });
+})
 
 // Response middleware
 app.use(methodOverride());

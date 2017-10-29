@@ -5,6 +5,9 @@ const socket = require('socket.io');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
+const feed = require('./rss');
+const redis = require('redis'),
+    client = redis.createClient();
 
 let connections = 0;
 let streamActive = false;
@@ -41,6 +44,17 @@ module.exports = app => {
       }
     });
 
+    socket.on('sentiment', sentimentArray => {
+      console.log('received sentiment array from client: ', sentimentArray);
+      client.set('sentimentArray', JSON.stringify(sentimentArray));
+      // client.get('sentimentArray', (err, reply) => {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      //   console.log('successfully stored sentiment in redis: ', reply.toString());   
+      // })
+    });
+
     socket.on('filter', msg => {
         if (streamActive) {
           return;
@@ -66,7 +80,7 @@ module.exports = app => {
                 tweet.sentiment = toneResult;
                 tweet.inputTags = msg.track;
                 // Store relevant fields in DB
-            
+                // createRSSData(tweet);
         	      socket.emit('tweet', tweet);
         	    });
             });
