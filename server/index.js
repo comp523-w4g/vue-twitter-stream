@@ -25,13 +25,8 @@ const methodOverride = require('method-override');
 const middleware = require('./middleware');
 const path = require('path');
 const socket = require('./socket');
-
 // cacheing for rss feed
-const redis = require('redis'),
-    client = redis.createClient();
-const bluebird = require('bluebird');
-bluebird.promisifyAll(redis.RedisClient.prototype);
-const _ = require('lodash');
+const redis = require('./redis');
 
 const app = express();
 const http = socket(app);
@@ -66,23 +61,18 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/rss', (req, res) => {
-
-  client.getAsync('sentimentArray').then(function(cachedSentiment) {
-
-    const sentimentArray = cachedSentiment.toString()
-    console.log('sentimentArray: ', sentimentArray);
-
-    const rssData = {
-      title: 'Watson Sentiment Scores',
-      content: sentimentArray
-    };
-
-    feed.addItem(rssData);
-
-    //render xml in rss or atom format depending upon the url param
-    var feedRes = feed.rss2('rss-2.0');
-    res.set('Content-Type', 'text/xml');
-    res.send(feedRes);
+  redis.get('sentimentArray', function(err, cachedSentiment) {
+    if(!err) {
+      const sentimentArray = cachedSentiment.toString()
+      const rssData = {
+        title: 'Watson Sentiment Scores',
+        content: sentimentArray
+      };
+      feed.addItem(rssData);
+      const feedRes = feed.rss2('rss-2.0');
+      res.set('Content-Type', 'text/xml');
+      res.send(feedRes);
+    }
   });
 })
 
