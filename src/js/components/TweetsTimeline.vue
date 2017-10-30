@@ -24,12 +24,9 @@
     },
     methods: {
       onUpdate(data) {
-        console.log("Full Tweet data: ", data);
         let numCumulativeTweets = data.count;
-        console.log("Tweet count: ", numCumulativeTweets);
         //set color
         let currSentiment = data.currSentiment;
-        console.log(currSentiment);
         let currMax = 0.0
         let maxKey;
         let color;
@@ -39,6 +36,7 @@
             maxKey = currSentiment[i].tone_name;
           }
         }
+        console.log("maxKey", maxKey);
         switch(maxKey) {
             case "Anger":
                 color = 'red';
@@ -54,7 +52,22 @@
                 break;
             case "Fear":
                 color = 'orange';
-                break;            
+                break;  
+            case "Openness":
+                color = 'teal';
+                break;  
+            case "Conscientiousness":
+                color = 'lime';
+                break;  
+            case "Emotional Range":
+                color = 'lime';
+                break;  
+            case "Agreeableness":
+                color = 'lime';
+                break;  
+            case "Extraversion":
+                color = 'lime';
+                break;                               
             default:
                 color = 'grey';
                 break;
@@ -68,16 +81,16 @@
           if (this.tweets === undefined) {
             // Initialize tweets array
             this.tweets = [];
-            console.log("Setting new value for num tweets seen so far");
+            // console.log("Setting new value for num tweets seen so far");
             newTweet.title = data.user.username;
             newTweet.text = data.text;
             this.tweets.push(newTweet);
-            console.log('this.tweets: ', this.tweets);
+            // console.log('this.tweets: ', this.tweets);
           } else {
               newTweet.title = data.user.username;
               newTweet.text = data.text;
               this.tweets.unshift(newTweet);
-              console.log('this.tweets: ', this.tweets);
+              // console.log('this.tweets: ', this.tweets);
           }
           this.numTweetsSeenSoFar = numCumulativeTweets;
         }

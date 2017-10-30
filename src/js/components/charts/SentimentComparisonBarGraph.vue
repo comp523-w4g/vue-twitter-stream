@@ -107,8 +107,6 @@
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
 
               openess[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              console.log("Openness",openess[index]);
-              console.log("Agreeableness",agreeableness[index]);
               conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
@@ -143,11 +141,18 @@
       },
       initChart(tags) {
         let colors = [
+          //empotional colors
           'rgb(255, 0, 0)',
-          'rgb(0, 0, 0)',
+          'rgb(255,140,0)',
           'rgb(255, 255, 102)',
           'rgb(102, 255, 102)',
-          'rgb(0, 128, 255)'
+          'rgb(0, 128, 255)',
+          //social tone colors
+          'rgb(255, 153, 153)',
+          'rgb(255, 204, 153)',
+          'rgb(153, 255, 153)',
+          'rgb(153, 204, 255)',
+          'rgb(255, 255, 153)'
         ];
         let count = 0;
         let data = tags.map((tag) => {
@@ -195,6 +200,12 @@
             }
           },
           legend: {
+             title: {
+                text: 'Emotion<br/><span style="font-size: 9px; color: #666; font-weight: normal">(Click to hide)</span>',
+                style: {
+                  fontStyle: 'italic'
+                }
+            },
             layout: 'vertical',
             align: 'right',
             verticalAlign: 'top',
@@ -219,23 +230,23 @@
 
           series: [{
               name: 'Openess',
-              color: colors[0],
+              color: colors[5],
               data: startingPoints
           }, {
               name: 'Conscientiousness',
-              color: colors[1],
+              color: colors[6],
               data: startingPoints
           }, {
               name: 'Extraversion',
-              color: colors[2],
+              color: colors[7],
               data: startingPoints
           }, {
               name: 'Agreeabless',
-              color: colors[3],
+              color: colors[8],
               data: startingPoints
           }, {
               name: 'Emotional Range',
-              color: colors[4],
+              color: colors[9],
               data: startingPoints
           }, {
               name: 'Anger',
