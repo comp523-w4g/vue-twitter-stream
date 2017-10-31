@@ -71,7 +71,6 @@ class StreamService {
     setTimeout(() => {
       Socket.connect()
     }, 1000)
-
     Bus.$emit('end')
   }
 
