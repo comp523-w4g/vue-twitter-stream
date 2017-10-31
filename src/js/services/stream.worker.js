@@ -46,11 +46,7 @@ function processTweet(tweet) {
   let socialArr = parsedSentiment.document_tone.tone_categories[2].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;  
   let toneArr = socialArr.concat(emotionArr);
-  console.log("toneArr", toneArr);
-  console.log("socialArr", socialArr);
-  console.log("emotionArr", emotionArr);
-  
-  
+
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   // match the user inputted tags with the hashtags found in tweet
   let filteredTags = _.intersection(userInputTags, hashtagsInTweet);
@@ -59,7 +55,7 @@ function processTweet(tweet) {
   // grab username who tweeted
   data.user.username = tweet.user.name;
   data.currSentiment = toneArr;
-  console.log("data.currSentiment", data.currSentiment);
+
     filteredTags.forEach(tag =>{
       	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
 	        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
@@ -81,7 +77,7 @@ function processTweet(tweet) {
    		}
 
   	});
-     console.log("data.sentimentByTags", data.sentimentByTags);
+     
 
     if (tweet.place && tweet.place.country_code) {
       let code = tweet.place.country_code
