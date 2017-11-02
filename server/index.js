@@ -1,7 +1,6 @@
 "use strict";
 
 require('./bootstrap');
-const feed = require('./rss');
 
 if (!process.env.TWITTER_API_KEY) {
   console.log('Please set required environment variables.');
@@ -25,8 +24,10 @@ const methodOverride = require('method-override');
 const middleware = require('./middleware');
 const path = require('path');
 const socket = require('./socket');
-// cacheing for rss feed
+// RSS feed
+const Feed = require('feed')
 const redis = require('./redis');
+const _ = require('lodash');
 
 const app = express();
 const http = socket(app);
@@ -61,18 +62,32 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/rss', (req, res) => {
+  let feed = new Feed({
+    title: 'W4G RSS Feed',
+    description: 'Feed for Twitter+Watson Based on Tweet',
+    link: 'http://vue-twitter-stream-watson.mybluemix.net',
+  })
+
   redis.get('sentimentArray', function(err, cachedSentiment) {
     if(!err) {
-      const sentimentArray = cachedSentiment.toString()
-      const rssData = {
-        title: 'Watson Sentiment Scores',
-        content: sentimentArray
-      };
-      feed.addItem(rssData);
-      const feedRes = feed.rss2('rss-2.0');
-      res.set('Content-Type', 'text/xml');
-      res.send(feedRes);
+      const sentimentArray = JSON.parse(cachedSentiment);
+      console.log('sentimentArray: ', sentimentArray);
+
+      // rssData = sentimentArray.map()
+
+      _.forOwn(sentimentArray, (value, key) => {
+        console.log('value: ', value);
+        console.log('key: ', key);
+
+        feed.addItem({
+          title: key,
+          content: value
+        });
+      });
     }
+    const feedRes = feed.rss2('rss-2.0');
+    res.set('Content-Type', 'text/xml');
+    res.send(feedRes);
   });
 })
 

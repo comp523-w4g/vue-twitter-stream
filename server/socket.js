@@ -5,7 +5,6 @@ const socket = require('socket.io');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
-const feed = require('./rss');
 const redis = require('./redis');
 
 let connections = 0;
@@ -72,8 +71,6 @@ module.exports = app => {
 
                 tweet.sentiment = toneResult;
                 tweet.inputTags = msg.track;
-                // Store relevant fields in DB
-                // createRSSData(tweet);
         	      socket.emit('tweet', tweet);
         	    });
             });
