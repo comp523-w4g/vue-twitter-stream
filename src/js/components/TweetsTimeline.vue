@@ -24,37 +24,53 @@
     },
     methods: {
       onUpdate(data) {
-        console.log("Full Tweet data: ", data);
+        console.log("Full data from tweet: ", data);
         let numCumulativeTweets = data.count;
-        console.log("Tweet count: ", numCumulativeTweets);
         //set color
         let currSentiment = data.currSentiment;
-        console.log(currSentiment);
         let currMax = 0.0
         let maxKey;
         let color;
         for (var i in currSentiment) {
           if (currSentiment[i].score >= currMax){
             currMax = currSentiment[i].score;
-            maxKey = currSentiment[i].tone_name;
+            // regex removes all spaces in a string
+            let sentiment = currSentiment[i].tone_name.replace(/ /g,'').toLowerCase();
+            maxKey = sentiment;
           }
         }
+        console.log("maxKey", maxKey);
         switch(maxKey) {
-            case "Anger":
+            case "anger":
                 color = 'red';
                 break;
-            case "Sadness":
+            case "sadness":
                 color = 'blue';
                 break;
-            case "Joy":
-                color = 'yellow';
-                break;
-            case "Disgust":
+            case "joy":
                 color = 'green';
                 break;
-            case "Fear":
+            case "disgust":
+                color = 'yellow';
+                break;
+            case "fear":
                 color = 'orange';
-                break;            
+                break;  
+            case "openness":
+                color = 'light-pink';
+                break;  
+            case "conscientiousness":
+                color = 'light-orange';
+                break;  
+            case "emotionalrange":
+                color = 'light-yellow';
+                break;  
+            case "agreeableness":
+                color = 'light-blue';
+                break;  
+            case "extraversion":
+                color = 'light-green';
+                break;                               
             default:
                 color = 'grey';
                 break;
@@ -68,16 +84,14 @@
           if (this.tweets === undefined) {
             // Initialize tweets array
             this.tweets = [];
-            console.log("Setting new value for num tweets seen so far");
+            // console.log("Setting new value for num tweets seen so far");
             newTweet.title = data.user.username;
             newTweet.text = data.text;
             this.tweets.push(newTweet);
-            console.log('this.tweets: ', this.tweets);
           } else {
               newTweet.title = data.user.username;
               newTweet.text = data.text;
               this.tweets.unshift(newTweet);
-              console.log('this.tweets: ', this.tweets);
           }
           this.numTweetsSeenSoFar = numCumulativeTweets;
         }
