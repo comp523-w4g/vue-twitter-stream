@@ -176,8 +176,12 @@
           startingPoints[i] = 0.0;
         }
 
+        let heightBasedOnHashtags = 500*data.length;
+
         const chart = Highcharts.chart(this.$el, {
           chart: {
+            height: heightBasedOnHashtags,
+            width: 880,
             type: 'bar'
           },
           title: {
@@ -190,20 +194,28 @@
             enabled: false
           },
           xAxis: {
-            categories: categories 
+            categories: categories,
+            labels : {
+              style: {
+                color: 'white',
+                fontSize: 16
+              }
+            },
+          
           },
           yAxis: {
             min: 0.0,
-            max: 1.0,
+            max: 1.15,
             title: {
             
             }
           },
           legend: {
              title: {
-                text: 'Emotion<br/><span style="font-size: 9px; color: #666; font-weight: normal">(Click to hide)</span>',
+                text: 'Emotion<br/><span style="font-size: 9px; color: #FFF; font-weight: normal">(Click to hide)</span>',
                 style: {
-                  fontStyle: 'italic'
+                  fontStyle: 'italic',
+                  color: 'white'
                 }
             },
             layout: 'vertical',
@@ -217,6 +229,7 @@
             shadow: true
           },
           plotOptions: {
+            series :  {groupPadding : 0.05}, 
             bar: {
                dataLabels: {
                 enabled: true
