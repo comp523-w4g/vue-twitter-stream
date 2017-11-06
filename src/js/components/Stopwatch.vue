@@ -1,12 +1,6 @@
 <template>
     <div id="time">
         {{hours}}: {{minutes}}: {{seconds}}
-        <p>
-            Hours Minutes Seconds 
-        </p>
-        <p>
-            since the stream has been running
-        </p>
     </div>
 </template>
 
