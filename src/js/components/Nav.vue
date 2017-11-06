@@ -40,7 +40,6 @@ export default {
       setTimeout(() => {
         StreamService.end()
       }, 200)
-      Bus.$emit('stopTimer');
     },
     reset() {
       this.resetting = true

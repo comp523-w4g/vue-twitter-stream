@@ -28,8 +28,8 @@
             interval: null
         }),
         mounted() {
-            Bus.$on('startTimer', this.startTimer);
-            Bus.$on('stopTimer', this.stopTimer);
+            Bus.$on('start', this.startTimer);
+            Bus.$on('end', this.stopTimer);
         },
         beforeDestroy() {
             Bus.$off('startTimer');
@@ -79,6 +79,7 @@
                 }
             },
             startTimer() {
+                console.log("In start timer method!");
                 this.reset();
                 this.interval = setInterval(this.updateCurrentTime, 10);
             },
