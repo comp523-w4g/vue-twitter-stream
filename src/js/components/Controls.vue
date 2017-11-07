@@ -1,19 +1,30 @@
 <script>
 import { Bus, StreamService } from '../services'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Stopwatch from './Stopwatch.vue'
 =======
 import { Checkbox as checkbox} from 'vue-checkbox-radio';
 >>>>>>> checkbox
+=======
+import { Checkbox as checkbox} from 'vue-checkbox-radio';
+import Stopwatch from './Stopwatch.vue'
+
+>>>>>>> a46a1c9740efcb208d7cef38a77bbf35844b8a22
 
 export default {
   name: 'Controls',
   components: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     Stopwatch: Stopwatch
 =======
     checkbox
 >>>>>>> checkbox
+=======
+    checkbox,
+    Stopwatch: Stopwatch
+>>>>>>> a46a1c9740efcb208d7cef38a77bbf35844b8a22
   },
   data: () => ({
     chips: [],
