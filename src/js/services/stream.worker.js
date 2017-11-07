@@ -12,7 +12,8 @@ function init(tags) {
     sentimentByTags: {},
     text: {},
     user: {},
-    currSentiment: []
+    currSentiment: [],
+    totalAggregatedSentiment : {}
   }
   userInputTags = tags;
 
@@ -63,6 +64,7 @@ function processTweet(tweet) {
 	        for (let i = 0; i < toneArr.length; i++) {
 	          let currEmotion = toneArr[i];
 	          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
+            data.totalAggregatedSentiment[currEmotion.tone_name] += currEmotion.score;
 	        }
           
    		} else {
@@ -71,6 +73,7 @@ function processTweet(tweet) {
      			for (let i = 0; i < toneArr.length; i++) {
   	          let currEmotion = toneArr[i];
   	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
+              data.totalAggregatedSentiment[currEmotion.tone_name] = currEmotion.score;
   	        }
 	   
 	        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;

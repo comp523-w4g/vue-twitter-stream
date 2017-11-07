@@ -10,6 +10,7 @@ import StarPlot from './charts/StarPlot.vue'
 import LiveSpline from './charts/LiveSpline.vue'
 import Bar from './charts/Bar.vue'
 import SentimentComparisonBarGraph from './charts/SentimentComparisonBarGraph.vue'
+import AggregatedSentimentBarGraph from './charts/AggregatedSentimentBarGraph.vue'
 import WorldMap from './charts/WorldMap.vue'
 
 // Incoming Tweets timeline
@@ -26,6 +27,7 @@ export default {
     ChartBar: Bar,
     ChartWorldMap: WorldMap,
     ChartSentimentComparison: SentimentComparisonBarGraph,
+    ChartAggregatedSentiment : AggregatedSentimentBarGraph,
     TweetsTimeline: TweetsTimeline
   },
   data: () => ({
@@ -59,6 +61,7 @@ export default {
   <app-controls></app-controls>
   <transition name="container">
     <div class="row" v-if="visualsActive">
+
       <transition name="card1" appear v-if="showSentimentComparisonChart">
         <app-card size="s12">
           <div slot="content">
@@ -66,7 +69,16 @@ export default {
           </div>
         </app-card>
       </transition>
-      <transition name="card2" appear>
+
+      <transition name="card2" appear v-if="showSentimentComparisonChart">
+        <app-card size="s12">
+          <div slot="content">
+            <chart-aggregated-sentiment></chart-aggregated-sentiment>
+          </div>
+        </app-card>
+      </transition>
+
+      <transition name="card3" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-solid-gauge></chart-solid-gauge>
@@ -90,7 +102,7 @@ export default {
         <!--</app-card>-->
       <!--</transition>-->
 
-      <transition name="card3" appear>
+      <transition name="card4" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-bar></chart-bar>
@@ -98,7 +110,7 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card4" appear>
+      <transition name="card5" appear>
         <app-card size="s12">
           <div slot="content">
             <tweets-timeline></tweets-timeline>
