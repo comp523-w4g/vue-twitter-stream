@@ -139,22 +139,12 @@ export default {
 
               </div>
 
-                <input type="checkbox" id="anger" value="Anger" v-model="checkedEmotions" @click="handleChecked(value)">
-                <label for="anger">😨 Fear</label>
+                <input type="checkbox" id="seperate-emotions" value="seperate" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="seperate-emotions">Seperate Emotions</label>
 
-                <input type="checkbox" id="fear" value="Fear" v-model="checkedEmotions" @click="handleChecked(value)">
-                <label for="fear">😡 Anger</label>
-
-                <input type="checkbox" id="disgust" value="Disgust" v-model="checkedEmotions" @click="handleChecked(value)">
-                <label for="disgust">😷 Disgust</label>
-
-                <input type="checkbox" id="joy" value="Joy" v-model="checkedEmotions" @click="handleChecked(value)">
-                <label for="joy">🙂 Joy</label>
-
-                <input type="checkbox" id="sadness" value="Sadness" v-model="checkedEmotions" @click="handleChecked(value)">
-                <label for="sadness">😭 Sadness</label>
+                <input type="checkbox" id="aggregate-emotions" value="aggregate" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="aggregate-emotions">Aggregate Emotions</label>
           
-                <span>Selected Emotions: {{ checkedEmotions }}</span>
             </div>
             <div class="col s12 m2 hide-on-small-only"></div>
             <div v-if="!streamActive" class="col s12 center-align">
