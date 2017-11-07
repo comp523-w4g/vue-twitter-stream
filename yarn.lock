@@ -5566,6 +5566,10 @@ vue-card@^1.1.0:
   dependencies:
     vue-mixins "^0.3.0"
 
+vue-checkbox-radio@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/vue-checkbox-radio/-/vue-checkbox-radio-0.5.3.tgz#3ef9b77157786b34b8633f26b880af5d9f5d2a7b"
+
 vue-collapsible@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vue-collapsible/-/vue-collapsible-1.1.0.tgz#a5e11f2d556e0b76220c54150d2b0e2d1c41d1ad"
@@ -5733,6 +5737,12 @@ vue-style-loader@^2.0.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-switches@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vue-switches/-/vue-switches-2.0.1.tgz#f23436259c7fe4ffca9c4a6df49ac78941e20a20"
+  dependencies:
+    vue "^2.2.6"
+
 vue-template-compiler@^2.1.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.3.4.tgz#5a88ac2c5e4d5d6218e6aa80e7e221fb7e67894c"
@@ -5782,6 +5792,10 @@ vue@^2.1.10:
 vue@^2.1.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.4.tgz#5ec3b87a191da8090bbef56b7cfabd4158038171"
+
+vue@^2.2.6:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.3.tgz#e1a3b1f49b6e93e574ce040b95cbc873912fecc1"
 
 vueify-insert-css@^1.0.0:
   version "1.0.0"

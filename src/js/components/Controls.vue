@@ -1,11 +1,19 @@
 <script>
 import { Bus, StreamService } from '../services'
+<<<<<<< HEAD
 import Stopwatch from './Stopwatch.vue'
+=======
+import { Checkbox as checkbox} from 'vue-checkbox-radio';
+>>>>>>> checkbox
 
 export default {
   name: 'Controls',
   components: {
+<<<<<<< HEAD
     Stopwatch: Stopwatch
+=======
+    checkbox
+>>>>>>> checkbox
   },
   data: () => ({
     chips: [],
@@ -17,7 +25,8 @@ export default {
     streamOccupied: false,
     numTweets: 0,
     chipsLimit: 3,
-    chipsLimitText: 'three'
+    chipsLimitText: 'three',
+    checkedEmotions: []
   }),
   created() {
     Bus.$on('tweet', this.onTweet)
@@ -77,7 +86,6 @@ export default {
         if (lower.indexOf(tag.toLowerCase()) !== -1) continue
         this.chips.push(tag)
       }
-
     },
     removeChip(index) {
       this.chips.splice(index, 1)
@@ -89,6 +97,11 @@ export default {
     },
     focus() {
       this.$refs.tagsInput.focus()
+    },
+    handleChecked(value) {
+      console.log('checkbox clicked! with value: ', value);
+      console.log('this.checkboxValue: ', this.checkedEmotions);
+      Bus.$emit('filterSentiment', this.checkedEmotions);
     }
   },
   computed: {
@@ -128,7 +141,15 @@ export default {
                 </div>
                 <input class="input" ref="tagsInput" :readonly="limitReached" :placeholder="placeholderText" :style="{ width: !chips.length ? '250px !important' : limitReached || streamActive ? '0 !important' : '120px !important' }" @keydown.enter.prevent="addChip" @keydown.tab.prevent="addChip"
                     @keydown.delete="removePrevChip" v-model="value" maxlength="50">
+
               </div>
+
+                <input type="checkbox" id="seperate-emotions" value="seperate" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="seperate-emotions">Seperate Emotions</label>
+
+                <input type="checkbox" id="aggregate-emotions" value="aggregate" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="aggregate-emotions">Aggregate Emotions</label>
+          
             </div>
             <div class="col s12 m2 hide-on-small-only"></div>
             <div v-if="!streamActive" class="col s12 center-align">

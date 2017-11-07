@@ -13,7 +13,11 @@ function init(tags) {
     text: {},
     user: {},
     currSentiment: [],
+<<<<<<< HEAD
     totalAggregatedSentiment : {}
+=======
+    checkedEmotions: []
+>>>>>>> checkbox
   }
   userInputTags = tags;
 
@@ -40,14 +44,25 @@ function reset() {
   }
 }
 
+function filterSentiment(checkedEmotions) {
+  data.checkedEmotions = checkedEmotions;
+  console.log("stream worker got checkedEmotions: ", data.checkedEmotions);
+}
+
 function processTweet(tweet) {
   data.count++;
   let parsedSentiment = JSON.parse(tweet.sentiment);
+<<<<<<< HEAD
   let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;
   let socialArr = parsedSentiment.document_tone.tone_categories[2].tones;  
   let hashtagsInTweet=tweet.entities.hashtags;  
   let toneArr = socialArr.concat(emotionArr);
 
+=======
+  let emotionArr = parsedSentiment.document_tone.tone_categories[0].tones;  
+  let hashtagsInTweet = tweet.entities.hashtags;
+  
+>>>>>>> checkbox
   hashtagsInTweet = hashtagsInTweet.map(tagObj => tagObj.text.toLowerCase());
   // match the user inputted tags with the hashtags found in tweet
   let filteredTags = _.intersection(userInputTags, hashtagsInTweet);
@@ -55,6 +70,7 @@ function processTweet(tweet) {
   data.text = tweet.text;
   // grab username who tweeted
   data.user.username = tweet.user.name;
+<<<<<<< HEAD
   data.currSentiment = toneArr;
 
     filteredTags.forEach(tag =>{
@@ -88,10 +104,38 @@ function processTweet(tweet) {
         data.countries[code] = {
           count: 0
         }
-      }
+=======
+  data.currSentiment = emotionArr;
+  filteredTags.forEach(tag =>{
+  	if (data.sentimentByTags.hasOwnProperty(tag.toLowerCase())) {
+        let existingSentimentObjectForKey = data.sentimentByTags[tag.toLowerCase()];
 
-      data.countries[code].count++
+        for (let i = 0; i < emotionArr.length; i++) {
+          let currEmotion = emotionArr[i];
+          existingSentimentObjectForKey[currEmotion.tone_name] += currEmotion.score;
+        }
+ 		} else {
+ 			let sentimentsForTag = {};
+
+   			for (let i = 0; i < emotionArr.length; i++) {
+	          let currEmotion = emotionArr[i];
+	          sentimentsForTag[currEmotion.tone_name] = currEmotion.score;
+	        }
+   
+        data.sentimentByTags[tag.toLowerCase()] = sentimentsForTag;
+ 		}
+	});
+
+  if (tweet.place && tweet.place.country_code) {
+    let code = tweet.place.country_code
+    if (!data.countries[code]) {
+      data.countries[code] = {
+        count: 0
+>>>>>>> checkbox
+      }
     }
+    data.countries[code].count++
+  }
 
   let tags = tweet.entities.hashtags.map(obj => {
     return obj.text.toLowerCase()
@@ -126,6 +170,8 @@ self.addEventListener('message', (e) => {
         cmd: 'data',
         data
       })
+    case 'filterSentiment':
+      filterSentiment(d.checkedEmotions)
       break
   };
 }, false)

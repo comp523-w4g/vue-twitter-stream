@@ -39,6 +39,8 @@
     "socket.io": "^1.5.1",
     "twit": "^2.2.5",
     "v-infinite-scroll": "^1.0.4",
+    "vue-checkbox-radio": "^0.5.3",
+    "vue-switches": "^2.0.1",
     "vue-timeline": "^0.1.0",
     "watson-developer-cloud": "^2.39.0",
     "webpack": "^1.13.3",
