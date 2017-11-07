@@ -1,10 +1,13 @@
 <script>
 import { Bus, StreamService } from '../services'
+import { Checkbox as checkbox} from 'vue-checkbox-radio';
 import Stopwatch from './Stopwatch.vue'
+
 
 export default {
   name: 'Controls',
   components: {
+    checkbox,
     Stopwatch: Stopwatch
   },
   data: () => ({
@@ -17,7 +20,8 @@ export default {
     streamOccupied: false,
     numTweets: 0,
     chipsLimit: 3,
-    chipsLimitText: 'three'
+    chipsLimitText: 'three',
+    checkedEmotions: []
   }),
   created() {
     Bus.$on('tweet', this.onTweet)
@@ -77,7 +81,6 @@ export default {
         if (lower.indexOf(tag.toLowerCase()) !== -1) continue
         this.chips.push(tag)
       }
-
     },
     removeChip(index) {
       this.chips.splice(index, 1)
@@ -89,6 +92,11 @@ export default {
     },
     focus() {
       this.$refs.tagsInput.focus()
+    },
+    handleChecked(value) {
+      console.log('checkbox clicked! with value: ', value);
+      console.log('this.checkboxValue: ', this.checkedEmotions);
+      Bus.$emit('filterSentiment', this.checkedEmotions);
     }
   },
   computed: {
@@ -128,7 +136,25 @@ export default {
                 </div>
                 <input class="input" ref="tagsInput" :readonly="limitReached" :placeholder="placeholderText" :style="{ width: !chips.length ? '250px !important' : limitReached || streamActive ? '0 !important' : '120px !important' }" @keydown.enter.prevent="addChip" @keydown.tab.prevent="addChip"
                     @keydown.delete="removePrevChip" v-model="value" maxlength="50">
+
               </div>
+
+                <input type="checkbox" id="anger" value="Anger" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="anger">😨 Fear</label>
+
+                <input type="checkbox" id="fear" value="Fear" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="fear">😡 Anger</label>
+
+                <input type="checkbox" id="disgust" value="Disgust" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="disgust">😷 Disgust</label>
+
+                <input type="checkbox" id="joy" value="Joy" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="joy">🙂 Joy</label>
+
+                <input type="checkbox" id="sadness" value="Sadness" v-model="checkedEmotions" @click="handleChecked(value)">
+                <label for="sadness">😭 Sadness</label>
+          
+                <span>Selected Emotions: {{ checkedEmotions }}</span>
             </div>
             <div class="col s12 m2 hide-on-small-only"></div>
             <div v-if="!streamActive" class="col s12 center-align">
