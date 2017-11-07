@@ -3,7 +3,7 @@
   import { Bus, StreamService } from '../../services'
 
   export default {
-    name: 'SentimentComparisonBarGraph',
+    name: 'AggregatedSentimentBarGraph',
     data: () => ({
       chart: null,
       tagToIndex: null,
@@ -38,6 +38,8 @@
         }
       },
       onUpdate(data) {
+      	console.log("totalAggregatedSentiment: ", data.totalAggregatedSentiment);
+      	console.log("total count: ", data.count);
         let anger = [];
         let fear = [];
         let disgust = [];
@@ -48,12 +50,12 @@
         let extraversion = [];
         let agreeableness = [];
         let emotionalRange = [];
+        let index = 0;
 
         let placeHolder = [];
 
-        for(let i = 0; i < data.tags; i++){
-          placeHolder[i] = 0.0;
-        }
+     
+        placeHolder[0] = 0.0;
 
         //console.log("data on onUpdate() in sentiment graph", data);
 
@@ -71,56 +73,21 @@
           agreeableness=placeHolder;
           emotionalRange=placeHolder;
         }
+        else{
 
-        for (let tagIndex in this.userInputTags) {
-            let currTag = this.userInputTags[tagIndex];
-            let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
-            let accumulatedSentiment = data.sentimentByTags[currTag];
-
-            let index = this.tagToIndex.get(currTag);
-            if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
-              anger[index] = 0.0;
-              fear[index] = 0.0;
-              disgust[index] = 0.0;
-              joy[index] = 0.0;
-              sadness[index] = 0.0;
+        	  anger[index] = +((data.totalAggregatedSentiment["Anger"]/data.count)).toFixed(3);
+              fear[index] = +((data.totalAggregatedSentiment["Fear"]/data.count)).toFixed(3);
+              disgust[index] = +((data.totalAggregatedSentiment["Disgust"]/data.count)).toFixed(3);
+              joy[index] = +((data.totalAggregatedSentiment["Joy"]/data.count)).toFixed(3);
+              sadness[index] = +((data.totalAggregatedSentiment["Sadness"]/data.count)).toFixed(3);
               
-              openness[index]=0.0;
-              conscience[index]=0.0;
-              extraversion[index]=0.0;
-              agreeableness[index]=0.0;
-              emotionalRange[index]=0.0;
-            }
-            else {
-              //console.log("Index for tag: ", currTag, " with index: ", index);
-
-              anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-
-              openness[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-            }
+              openness[index]= +((data.totalAggregatedSentiment["Openness"]/data.count)).toFixed(3);
+              conscience[index]= +((data.totalAggregatedSentiment["Conscientiousness"]/data.count)).toFixed(3);
+              extraversion[index]= +((data.totalAggregatedSentiment["Extraversion"]/data.count)).toFixed(3);
+              agreeableness[index]= +((data.totalAggregatedSentiment["Agreeableness"]/data.count)).toFixed(3);
+              emotionalRange[index]= +((data.totalAggregatedSentiment["Emotional Range"]/data.count)).toFixed(3);
         }
 
-        // emit sentiment back to server to produce rss feed
-        const dataToCast = {
-          anger,
-          fear,
-          disgust,
-          joy,
-          sadness,
-          openness,
-          conscience,
-          extraversion,
-          emotionalRange
-        };
-        StreamService.sendSentimentToServer(dataToCast);
 
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);
@@ -158,31 +125,26 @@
           }
         })        
         let categories = [];
-        this.tagToIndex = new Map();
+        categories[0] = " ";
         for(let i = 0; i < data.length;i++){
-          categories[i] = data[i].name;
-          this.tagToIndex.set(data[i].name.substr(1), i);
+          categories[0] += data[i].name + " " ;
         }
 
         let startingPoints = [];
-
-        for(let i = 0; i < data.length;i++){
-          startingPoints[i] = 0.0;
-        }
-
-        let heightBasedOnHashtags = 500*data.length;
+        startingPoints[0] = 0.0;
+        
 
         const chart = Highcharts.chart(this.$el, {
           chart: {
-            height: heightBasedOnHashtags,
+            height: 300,
             width: 880,
             type: 'bar'
           },
           title: {
-            text: 'Sentiment Index Breakdown'
+            text: 'Total Sentiment'
           },
           subtitle: {
-            text: 'By Hashtag'
+            text: 'for all tags'
           },
           credits: {
             enabled: false

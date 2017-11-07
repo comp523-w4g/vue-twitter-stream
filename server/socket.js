@@ -5,6 +5,7 @@ const socket = require('socket.io');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
+const redis = require('./redis');
 
 let connections = 0;
 let streamActive = false;
@@ -41,6 +42,11 @@ module.exports = app => {
       }
     });
 
+    socket.on('sentiment', sentimentArray => {
+      console.log('received sentiment array from client: ', sentimentArray);
+      redis.set('sentimentArray', JSON.stringify(sentimentArray));
+    });
+
     socket.on('filter', msg => {
         if (streamActive) {
           return;
@@ -65,8 +71,6 @@ module.exports = app => {
 
                 tweet.sentiment = toneResult;
                 tweet.inputTags = msg.track;
-                // Store relevant fields in DB
-            
         	      socket.emit('tweet', tweet);
         	    });
             });

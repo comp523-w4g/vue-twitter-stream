@@ -52,6 +52,11 @@ class StreamService {
     })
   }
 
+  sendSentimentToServer(sentimentArray) {
+    console.log('stream.js sendSentimentToServer: ', sentimentArray);
+    Socket.emit('sentiment', sentimentArray);
+  }
+
   end() {
     this.updateInterval.stop()
 
@@ -66,7 +71,6 @@ class StreamService {
     setTimeout(() => {
       Socket.connect()
     }, 1000)
-
     Bus.$emit('end')
   }
 

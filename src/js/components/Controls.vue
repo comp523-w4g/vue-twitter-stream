@@ -1,11 +1,14 @@
 <script>
 import { Bus, StreamService } from '../services'
 import { Checkbox as checkbox} from 'vue-checkbox-radio';
+import Stopwatch from './Stopwatch.vue'
+
 
 export default {
   name: 'Controls',
   components: {
-    checkbox
+    checkbox,
+    Stopwatch: Stopwatch
   },
   data: () => ({
     chips: [],
@@ -64,6 +67,7 @@ export default {
       this.streamActive = true;
       StreamService.start(this.chips);
       Bus.$emit('refresh', this.streamActive);
+      Bus.$emit('startTimer');
     },
     addChip() {
       let split = this.value.trim().split(' ')
@@ -107,7 +111,6 @@ export default {
       if (this.chips.length) {
         return this.chipsShortPlaceholder
       }
-
       return this.chipsPlaceholder
     }
   }
@@ -120,13 +123,10 @@ export default {
     <div class="col s12">
       <div class="card white">
         <div class="card-content center-align black-text">
-          <span class="card-title cyan-text">Watson For Good</span>
-
+          <span class="card-title cyan-text">Twitter + Watson = Sentiment Visualization</span>
           <blockquote>
-            Enter up to {{ chipsLimitText }} tags below and we'll stream live data from the
-            <a class="btn-flat" href="https://dev.twitter.com/streaming/overview" target="_blank">Twitter API</a> to visualize it with the power of <a class="btn-flat" href="https://www.ibm.com/watson/services/tone-analyzer/" target="_blank">IBM Watson</a>
+            Enter up to {{ chipsLimitText }} hashtags below to stream live Tweets and visualize their sentiment. 
           </blockquote>
-
           <div class="row answers left-align">
             <div class="col s12 m2 hide-on-small-only"></div>
             <div class="col s12 m8" @click="focus">
@@ -176,6 +176,11 @@ export default {
               <div class="center-align grey-text text-lighten-1">
                 <a class="btn-flat disabled">Stream is active, counting {{ numTweets }} tweets <i><div class="loader running"></i></a>
               </div>
+             
+            </div>
+            <div id="stopwatch" class="col s12 center-align">
+              <stopwatch> </stopwatch>
+      
             </div>
           </div>
         </div>
@@ -186,6 +191,9 @@ export default {
 </template>
 
 <style scoped>
+#stopwatch {
+  padding-top: 20px;
+}
 .loader {
   margin-left: 20px;
   margin-bottom: -5px;
@@ -248,4 +256,6 @@ export default {
 .fade-button-enter-active {
   animation: fadeInDown 0.3s;
 }
+
+
 </style>

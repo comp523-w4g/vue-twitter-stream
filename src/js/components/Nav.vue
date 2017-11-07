@@ -28,7 +28,6 @@ export default {
     },
     onEnd() {
       this.streamActive = false
-
       setTimeout(() => {
         this.ending = false
       }, 500)

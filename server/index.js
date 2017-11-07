@@ -24,6 +24,10 @@ const methodOverride = require('method-override');
 const middleware = require('./middleware');
 const path = require('path');
 const socket = require('./socket');
+// RSS feed
+const Feed = require('feed')
+const redis = require('./redis');
+const _ = require('lodash');
 
 const app = express();
 const http = socket(app);
@@ -47,7 +51,7 @@ app.use(middleware.isFile);
 app.use(express.static(path.join(__dirname, config.publicDir)));
 
 // Serve index if file does not exist
-app.get('*', (req, res, next) => {
+app.get('/', (req, res, next) => {
   if (!req.isFile) {
     return res.sendFile('index.html', {
       root: path.join(__dirname, config.publicDir)
@@ -56,6 +60,36 @@ app.get('*', (req, res, next) => {
 
   return next();
 });
+
+app.get('/rss', (req, res) => {
+  let feed = new Feed({
+    title: 'W4G RSS Feed',
+    description: 'Feed for Twitter+Watson Based on Tweet',
+    link: 'http://vue-twitter-stream-watson.mybluemix.net',
+  })
+
+  redis.get('sentimentArray', function(err, cachedSentiment) {
+    if(!err) {
+      const sentimentArray = JSON.parse(cachedSentiment);
+      console.log('sentimentArray: ', sentimentArray);
+
+      // rssData = sentimentArray.map()
+
+      _.forOwn(sentimentArray, (value, key) => {
+        console.log('value: ', value);
+        console.log('key: ', key);
+
+        feed.addItem({
+          title: key,
+          content: value
+        });
+      });
+    }
+    const feedRes = feed.rss2('rss-2.0');
+    res.set('Content-Type', 'text/xml');
+    res.send(feedRes);
+  });
+})
 
 // Response middleware
 app.use(methodOverride());
