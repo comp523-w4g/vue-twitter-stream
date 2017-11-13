@@ -79,6 +79,14 @@ export default {
       </transition>
 
       <transition name="card3" appear>
+        <app-card size="s12">
+          <div slot="content">
+            <chart-live-spline></chart-live-spline>
+          </div>
+        </app-card>
+      </transition>
+
+      <transition name="card4" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-solid-gauge></chart-solid-gauge>
@@ -102,7 +110,7 @@ export default {
         <!--</app-card>-->
       <!--</transition>-->
 
-      <transition name="card4" appear>
+      <transition name="card5" appear>
         <app-card size="s12 m6">
           <div slot="content">
             <chart-bar></chart-bar>
@@ -110,7 +118,7 @@ export default {
         </app-card>
       </transition>
 
-      <transition name="card5" appear>
+      <transition name="card6" appear>
         <app-card size="s12">
           <div slot="content">
             <tweets-timeline></tweets-timeline>
