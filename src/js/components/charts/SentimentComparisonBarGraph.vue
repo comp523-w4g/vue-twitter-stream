@@ -120,7 +120,20 @@
           extraversion,
           emotionalRange
         };
+
+        const emotionArraysDict = {
+          "Anger": anger,
+          "Fear": fear,
+          "Disgust": disgust,
+          "Joy": joy,
+          "Sadness": sadness,
+          "Openness": openness,
+          "Conscientiousness": conscience,
+          "Extraversion": extraversion,
+          "EmotionalRange": emotionalRange
+        }
         StreamService.sendSentimentToServer(dataToCast);
+        StreamService.sendEmotionArraysDict(emotionArraysDict);
 
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);

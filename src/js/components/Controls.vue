@@ -89,6 +89,10 @@ export default {
     },
     focus() {
       this.$refs.tagsInput.focus()
+    },
+    createCSV() {
+      // grab data from SentimentComparison GSraph 
+      StreamService.createCSV()
     }
   },
   computed: {
@@ -154,7 +158,11 @@ export default {
             </div>
             <div id="stopwatch" class="col s12 center-align">
               <stopwatch> </stopwatch>
-      
+            </div>
+            <div class="col s12 center-align">
+              <button class="btn btn-default" @click="createCSV">
+                Export to CSV
+              </button>
             </div>
           </div>
         </div>

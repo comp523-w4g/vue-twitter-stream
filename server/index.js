@@ -91,6 +91,33 @@ app.get('/rss', (req, res) => {
   });
 })
 
+app.get('/csv', (req, res) => {
+  let json2csv = require('json2csv');
+  let http = require('http');
+  let fs = require('fs');
+  var fields = ['car', 'price', 'color'];
+  var myCars = [
+    {
+      "car": "Audi",
+      "price": 40000,
+      "color": "blue"
+    }, {
+      "car": "BMW",
+      "price": 35000,
+      "color": "black"
+    }, {
+      "car": "Porsche",
+      "price": 60000,
+      "color": "green"
+    }
+  ];
+  var csv = json2csv({ data: myCars, fields: fields });
+  fs.writeFile('file.csv', csv, function(err) {
+    if (err) throw err;
+    console.log('file saved yay');  
+  });
+})
+
 // Response middleware
 app.use(methodOverride());
 app.use(bodyParser.json());

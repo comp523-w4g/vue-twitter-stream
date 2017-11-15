@@ -57,6 +57,11 @@ class StreamService {
     Socket.emit('sentiment', sentimentArray);
   }
 
+  sendEmotionArraysDict(emotionArraysDict) {
+    console.log('stream.js sendEmotionArraysDict: ', emotionArraysDict);
+    Socket.emit('emotionArrays', emotionArraysDict);
+  }
+
   end() {
     this.updateInterval.stop()
 

@@ -47,6 +47,15 @@ module.exports = app => {
       redis.set('sentimentArray', JSON.stringify(sentimentArray));
     });
 
+    socket.on('emotionArrays', emotionArrays =>  {
+      console.log('Received emotion arrays dict from client: ', emotionArrays);
+      redis.set('emotionArraysDict', JSON.stringify(emotionArrays))l;
+    }
+
+    socket.on('download', data => {
+      fs.write(data)
+    })
+
     socket.on('filter', msg => {
         if (streamActive) {
           return;
