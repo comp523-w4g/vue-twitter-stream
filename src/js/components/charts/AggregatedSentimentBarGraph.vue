@@ -32,10 +32,7 @@
         this.userInputTags = StreamService.tags;
       },
       onReset() {
-        let points = this.chart.series[0].points
-        for (let i = 0; i < points.length; i++) {
-          points[i].update(0);
-        }
+        //empty
       },
       onUpdate(data) {
       	console.log("totalAggregatedSentiment: ", data.totalAggregatedSentiment);
