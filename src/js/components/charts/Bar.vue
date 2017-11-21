@@ -53,8 +53,8 @@ export default {
         return {
           name: `#${tag}`,
           y: 0,
-          drilldown: `#${tag}`,
-          color: '#FFF'
+          drilldown: `#${tag}`
+          // color: '#FFF'
         }
       })
 
@@ -102,7 +102,7 @@ export default {
 
         series: [{
           name: 'Tweets',
-          colorByPoint: false,
+          colorByPoint: true,
           data: data
         }]
       })
