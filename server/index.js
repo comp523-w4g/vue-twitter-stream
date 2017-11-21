@@ -101,6 +101,21 @@ app.get('/rss', (req, res) => {
   });
 });
 
+app.get('/csv', (req, res) => {
+  let json2csv = require('json2csv');
+  let http = require('http');
+  let fs = require('fs');
+  var fields = ['car', 'price', 'color'];
+  var myCars = [
+    {"Anger":0.07,"Fear":0.08,"Disgust":0.47,"Joy":0.282,"Sadness":0.222,"Openness":0.609,"Conscientiousness":0.6,"Extraversion":0.268,"EmotionalRange":0.562}
+  ];
+  var csv = json2csv({ data: myCars, fields: fields });
+  fs.writeFile('file.csv', csv, function(err) {
+    if (err) throw err;
+    console.log('file saved yay');  
+  });
+})
+
 // Response middleware
 app.use(methodOverride());
 app.use(bodyParser.json());

@@ -30,11 +30,14 @@
         //console.log("Stream service tags: ", StreamService.tags);
         this.chart = this.initChart(StreamService.tags);
         this.userInputTags = StreamService.tags;
+        console.log("User input tags: ", this.userInputTags);
       },
       onReset() {
         //empty
       },
       onUpdate(data) {
+        console.log('SentimentComparisonBarGraph: Inside Update method');
+        console.log('User input tags: ', this.userInputTags);
         let anger = [];
         let fear = [];
         let disgust = [];
@@ -55,13 +58,13 @@
         //console.log("data on onUpdate() in sentiment graph", data);
 
         if (!this.userInputTags || this.userInputTags.length == 0){
-          //emotion
+          //core emotions
           anger=placeHolder;
           fear=placeHolder;
           disgust=placeHolder;
           sadness=placeHolder;
           joy=placeHolder;
-          //social
+          //social emotions
           openness=placeHolder;
           conscience=placeHolder;
           extraversion=placeHolder;
@@ -69,8 +72,8 @@
           emotionalRange=placeHolder;
         }
 
-        for (let tagIndex in this.userInputTags) {
-            let currTag = this.userInputTags[tagIndex];
+        for (let i in this.userInputTags) {
+            let currTag = this.userInputTags[i];
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
 
@@ -118,6 +121,18 @@
           emotionalRange
         };
         StreamService.updateRSS(dataToCast);
+        const emotionValues = {
+          "Anger": anger[0],
+          "Fear": fear[0],
+          "Disgust": disgust[0],
+          "Joy": joy[0],
+          "Sadness": sadness[0],
+          "Openness": openness[0],
+          "Conscientiousness": conscience[0],
+          "Extraversion": extraversion[0],
+          "EmotionalRange": emotionalRange[0]
+        }
+        StreamService.sendEmotionArraysDictToServer(emotionValues);
 
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);

@@ -28,6 +28,9 @@ module.exports = {
     presets: ['es2015'],
     plugins: ['transform-runtime']
   },
+  node: {
+    fs: 'empty'
+  },
   resolve: {
     modulesDirectories: ['node_modules']
   }
