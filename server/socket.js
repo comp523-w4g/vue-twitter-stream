@@ -42,9 +42,14 @@ module.exports = app => {
       }
     });
 
-    socket.on('sentiment', sentimentArray => {
-      console.log('received sentiment array from client: ', sentimentArray);
-      redis.set('sentimentArray', JSON.stringify(sentimentArray));
+    socket.on('updateRSS', data => {
+      console.log('received data array from client: ', data);
+
+      if(data.tweetRate) {
+        redis.set('tweetRate', JSON.stringify(data));
+      } else {
+        redis.set('sentimentArray', JSON.stringify(data));
+      }
     });
 
     socket.on('filter', msg => {

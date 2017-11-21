@@ -117,7 +117,7 @@
           extraversion,
           emotionalRange
         };
-        StreamService.sendSentimentToServer(dataToCast);
+        StreamService.updateRSS(dataToCast);
 
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);
