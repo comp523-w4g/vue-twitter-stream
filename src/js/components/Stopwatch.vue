@@ -73,12 +73,10 @@
                 }
             },
             startTimer() {
-                console.log("In start timer method!");
                 this.reset();
                 this.interval = setInterval(this.updateCurrentTime, 10);
             },
             stopTimer() {
-                console.log("in stop timer method");
                 clearInterval(this.interval);
                 this.pause();
             } 

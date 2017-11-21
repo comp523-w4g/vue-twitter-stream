@@ -55,7 +55,16 @@ class StreamService {
   updateRSS(data) {
     Socket.emit('updateRSS', data);
   }
-  
+
+  sendEmotionArraysDictToServer(emotionArraysDict) {
+    console.log('stream.js sendEmotionArraysDict: ', emotionArraysDict);
+    Socket.emit('cacheEmotionArrays', emotionArraysDict);
+  }
+
+  grabSentimentFromServer() {
+    Socket.emit('grabSentimentFromServer', null);
+  }
+ 
   end() {
     this.updateInterval.stop()
 

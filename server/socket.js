@@ -1,11 +1,14 @@
 "use strict";
-
+// Node modules
 const http = require('http');
 const socket = require('socket.io');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
 const redis = require('./redis');
+// Modules for JSON -> CSV conversion
+const json2csv = require('json2csv');
+const fs = require('fs');
 
 let connections = 0;
 let streamActive = false;
@@ -51,6 +54,51 @@ module.exports = app => {
         redis.set('sentimentArray', JSON.stringify(data));
       }
     });
+
+    socket.on('cacheEmotionArrays', emotionArrays =>  {
+      console.log('Received emotion arrays dict from client: ', emotionArrays);
+      redis.set('emotionArraysDict', JSON.stringify(emotionArrays));
+    });
+
+    socket.on('grabSentimentFromServer', msg => {
+      console.log('Socket: grabSentimentFromServer');
+      let sentimentArray = [];
+      redis.get('emotionArraysDict', function(err, cachedSentiment) {
+        if (!err) {
+          // indexOfFirstSingleQuotationMark = cachedSentiment.find(''')
+          // Remove first ' and last ' from string to make cachedSentiment valid JSON
+          JSON.parse(cachedSentiment, (key, value) => {
+            key = String(key);
+          });
+          console.log(typeof cachedSentiment);
+          console.log('cachedSentiment: ', cachedSentiment);
+          sentimentArray.push(cachedSentiment);
+          console.log('sentimentArray: ', sentimentArray);
+          
+        }
+      });
+      let mockData = [
+            {
+               "car": "Audi",
+               "price": 40000,
+               "color": "blue"
+             }
+          ];
+          let options = {
+            data: mockData,
+            fields: ['trump']
+          };
+          let csv = json2csv(options);
+          fs.writeFile('file.csv', csv, function(err) {
+            if (err) throw err;
+            console.log(csv);
+            console.log('file saved');  
+          }); 
+    });
+
+    socket.on('download', data => {
+      fs.write(data)
+    })
 
     socket.on('filter', msg => {
         if (streamActive) {
