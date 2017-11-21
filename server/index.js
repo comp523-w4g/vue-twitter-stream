@@ -84,11 +84,11 @@ app.get('/rss', (req, res) => {
 
       redis.get('tweetRate', function(err, cachedRate) {
         if(!err) {
-          const rate = JSON.parse(cachedRate).tweetRate;
+          const rate = JSON.parse(cachedRate);
 
           feed.addItem({
             title: 'tweetRatePerSecond',
-            content: rate
+            content: rate.tweetRate
           });
 
           const feedRes = feed.rss2('rss-2.0');

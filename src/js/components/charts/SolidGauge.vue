@@ -47,7 +47,6 @@ export default {
       const dataToCast = {
         tweetRate
       };
-      console.log('SolidGuage sending rate to server: ', dataToCast);
       StreamService.updateRSS(dataToCast);
     },
     initChart(max) {
