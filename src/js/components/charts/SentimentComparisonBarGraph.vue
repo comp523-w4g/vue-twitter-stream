@@ -167,7 +167,7 @@
           startingPoints[i] = 0.0;
         }
 
-        let heightBasedOnHashtags = 500*data.length;
+        let heightBasedOnHashtags = 300*data.length;
 
         const chart = Highcharts.chart(this.$el, {
           chart: {

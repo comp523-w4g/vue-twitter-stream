@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     onStart() {
-      this.visualsActive = true,
+      this.visualsActive = true
       this.showSentimentComparisonChart = true
     },
     onEnd() {

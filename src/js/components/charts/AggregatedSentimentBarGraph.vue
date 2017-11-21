@@ -27,7 +27,6 @@
     },
     methods: {
       init(tags) {
-        //console.log("Stream service tags: ", StreamService.tags);
         this.chart = this.initChart(StreamService.tags);
         this.userInputTags = StreamService.tags;
       },
