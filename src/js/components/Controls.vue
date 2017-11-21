@@ -13,6 +13,7 @@ export default {
     chipsShortPlaceholder: '+Tag',
     value: '',
     streamActive: false,
+    streamEnded: false,
     connectedClients: 0,
     streamOccupied: false,
     numTweets: 0,
@@ -50,11 +51,11 @@ export default {
       this.streamOccupied = status.streamActive;
     },
     onEnd() {
-      this.numTweets = 0;
+      this.streamEnded = true;
       this.streamActive = false;
     },
     onReset() {
-      this.numTweets = 0;
+      // this.numTweets = 0;
     },
     onTweet() {
       this.numTweets++
@@ -132,11 +133,20 @@ export default {
             </div>
             <div class="col s12 m2 hide-on-small-only"></div>
             <div v-if="!streamActive" class="col s12 center-align">
-              <div v-if="chips.length > 0 && !streamOccupied">
-                <transition name="fade-button" appear>
-                  <span class="btn start-button waves-effect waves-light" @click="startStream">Start Stream</span>
-                </transition>
+
+              <div v-if="chips.length > 0">
+                <div v-if="!streamOccupied && !streamEnded">
+                  <transition name="fade-button" appear>
+                    <span class="btn start-button waves-effect waves-light" @click="startStream">Start Stream</span>
+                  </transition>
+                </div>
+                <div v-else>
+                    <div v-if="streamEnded">
+                     Counted {{ numTweets }} tweets
+                    </div>
+                </div>
               </div>
+
               <div v-else class="button-placeholder center-align grey-text text-lighten-1">
                 <div v-if="streamOccupied">
                   Due to Twitter limitations, only one client can start a stream. Please wait until the stream is released. (Connections: {{ connectedClients }})
@@ -146,6 +156,7 @@ export default {
                 </div>
               </div>
             </div>
+            
             <div v-else class="col s12 center-align">
               <div class="center-align grey-text text-lighten-1">
                 <a class="btn-flat disabled">Stream is active, counting {{ numTweets }} tweets <i><div class="loader running"></i></a>
