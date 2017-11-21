@@ -49,7 +49,7 @@ export default {
         ],
         true,
         true
-      )
+      );
     },
     initChart() {
       Highcharts.setOptions({

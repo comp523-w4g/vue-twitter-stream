@@ -117,8 +117,9 @@
           extraversion,
           emotionalRange
         };
-
-      const emotionArraysDict = {
+         StreamService.sendSentimentToServer(dataToCast);
+         StreamService.updateRSS(dataToCast);
+        const emotionArraysDict = {
           "Anger": anger,
           "Fear": fear,
           "Disgust": disgust,
@@ -129,9 +130,8 @@
           "Extraversion": extraversion,
           "EmotionalRange": emotionalRange
         }
-        StreamService.sendSentimentToServer(dataToCast);
         StreamService.sendEmotionArraysDict(emotionArraysDict);
-
+        
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);
         this.chart.series[2].setData(extraversion);

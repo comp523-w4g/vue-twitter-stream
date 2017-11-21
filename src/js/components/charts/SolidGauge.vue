@@ -1,6 +1,6 @@
 <script>
 import Highcharts from 'highcharts'
-import Bus from '../../services/bus';
+import { Bus, StreamService } from '../../services'
 
 export default {
   name: 'SolidGauge',
@@ -40,7 +40,14 @@ export default {
       let point = this.chart.series[0].points[0]
       this.lastCount = data.count
       this.lastTime = Date.now()
-      point.update(Math.round(perSecond * 100) / 100)
+      let tweetRate = Math.round(perSecond * 100) / 100;
+      point.update(tweetRate);
+
+      // emit tweets/s value back to server to update RSS
+      const dataToCast = {
+        tweetRate
+      };
+      StreamService.updateRSS(dataToCast);
     },
     initChart(max) {
       let gaugeOptions = this.getChartOptions()

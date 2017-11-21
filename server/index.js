@@ -71,9 +71,6 @@ app.get('/rss', (req, res) => {
   redis.get('sentimentArray', function(err, cachedSentiment) {
     if(!err) {
       const sentimentArray = JSON.parse(cachedSentiment);
-      console.log('sentimentArray: ', sentimentArray);
-
-      // rssData = sentimentArray.map()
 
       _.forOwn(sentimentArray, (value, key) => {
         console.log('value: ', value);
@@ -84,12 +81,25 @@ app.get('/rss', (req, res) => {
           content: value
         });
       });
+
+      redis.get('tweetRate', function(err, cachedRate) {
+        if(!err) {
+          const rate = JSON.parse(cachedRate);
+          console.log('cachedRate: ', rate);
+          if (rate) {
+             feed.addItem({
+              title: 'tweetRatePerSecond',
+              content: rate.tweetRate
+            });
+          }
+          const feedRes = feed.rss2('rss-2.0');
+          res.set('Content-Type', 'text/xml');
+          res.send(feedRes);
+        }
+      });
     }
-    const feedRes = feed.rss2('rss-2.0');
-    res.set('Content-Type', 'text/xml');
-    res.send(feedRes);
   });
-})
+});
 
 app.get('/csv', (req, res) => {
   let json2csv = require('json2csv');
