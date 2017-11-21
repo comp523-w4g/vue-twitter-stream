@@ -31,12 +31,13 @@ export default {
       }, 1000)
     },
     onReset(tags) {
-      this.lastTime = Date.now()
-      this.lastCount = 0
+      this.lastTime = Date.now();
+      this.lastCount = data.count;
     },
     onUpdate(data) {
+      
       let seconds = (Date.now() - this.lastTime) / 1000;
-      let perSecond = (data.count - this.lastCount) / seconds;
+      let perSecond = Math.abs(data.count - this.lastCount) / seconds;
       let point = this.chart.series[0].points[0]
       this.lastCount = data.count
       this.lastTime = Date.now()
