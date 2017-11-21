@@ -58,9 +58,11 @@ export default {
         }
       })
 
+      var colors1 = ["#2a8482","#64DECF","#BCCDF8"];
+      Highcharts.getOptions().plotOptions.pie.colors = colors1;
       const chart = Highcharts.chart(this.$el, {
         chart: {
-          type: 'column'
+          type: 'pie'
         },
         credits: {
           enabled: false
@@ -100,7 +102,7 @@ export default {
 
         series: [{
           name: 'Tweets',
-          colorByPoint: true,
+          colorByPoint: false,
           data: data
         }]
       })

@@ -167,9 +167,13 @@
              title: {
                 text: 'Emotion<br/><span style="font-size: 9px; color: #FFF; font-weight: normal">(Click to hide)</span>',
                 style: {
+                  fontSize: '17',
                   fontStyle: 'italic',
                   color: 'white'
                 }
+            },
+            itemStyle: {
+              fontSize: '15'
             },
             layout: 'vertical',
             align: 'right',
