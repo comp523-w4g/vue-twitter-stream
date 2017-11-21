@@ -64,7 +64,7 @@ class StreamService {
   grabSentimentFromServer() {
     Socket.emit('grabSentimentFromServer', null);
   }
-  
+ 
   end() {
     this.updateInterval.stop()
 

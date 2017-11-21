@@ -62,27 +62,17 @@ module.exports = app => {
 
     socket.on('grabSentimentFromServer', msg => {
       console.log('Socket: grabSentimentFromServer');
-      var fields = ['car', 'price', 'color'];
-      var myCars = [
-        {
-          "car": "Audi",
-          "price": 40000,
-          "color": "blue"
-        }, {
-          "car": "BMW",
-          "price": 35000,
-          "color": "black"
-        }, {
-          "car": "Porsche",
-          "price": 60000,
-          "color": "green"
+      redis.get('emotionArraysDict', function(err, cachedSentiment) {
+        if (!err) {
+          const sentimentArray = JSON.parse(cachedSentiment);
+          console.log('sentimentArray: ', sentimentArray);
         }
-      ];
-      var csv = json2csv({ data: myCars, fields: fields });
+      });
+      /* var csv = json2csv({ data: myCars, fields: fields });
       fs.writeFile('file.csv', csv, function(err) {
         if (err) throw err;
         console.log('file saved yay');  
-      });
+      }); */
     });
 
     socket.on('download', data => {

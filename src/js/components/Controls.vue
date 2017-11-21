@@ -1,11 +1,12 @@
 <script>
 import { Bus, StreamService } from '../services'
 import Stopwatch from './Stopwatch.vue'
-
+import Modal from './ExampleModal.vue'
 export default {
   name: 'Controls',
   components: {
-    Stopwatch: Stopwatch
+    Stopwatch: Stopwatch,
+    Modal: Modal
   },
   data: () => ({
     chips: [],
@@ -17,7 +18,8 @@ export default {
     streamOccupied: false,
     numTweets: 0,
     chipsLimit: 3,
-    chipsLimitText: 'three'
+    chipsLimitText: 'three',
+    showModal: false
   }),
   created() {
     Bus.$on('tweet', this.onTweet)
@@ -90,8 +92,9 @@ export default {
     focus() {
       this.$refs.tagsInput.focus()
     },
-    createCSV() {
+    createCSVAndShowModal() {
       StreamService.grabSentimentFromServer();
+      this.showModal = true;
     }
   },
   computed: {
@@ -159,10 +162,15 @@ export default {
               <stopwatch> </stopwatch>
             </div>
             <div class="col s12 center-align">
-              <button class="btn btn-default" @click="createCSV">
+              <button class="btn btn-default" @click="createCSVAndShowModal">
                 Export to CSV
               </button>
             </div>
+            <modal id="modal" v-if="showModal" @close="showModal = false">
+              <h5 slot="header">File saved successfully!</h5>
+              <p slot="body">Look inside your directory!</p>
+            </modal>
+
           </div>
         </div>
       </div>

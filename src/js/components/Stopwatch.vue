@@ -78,7 +78,6 @@
                 this.interval = setInterval(this.updateCurrentTime, 10);
             },
             stopTimer() {
-                console.log("in stop timer method");
                 clearInterval(this.interval);
                 this.pause();
             } 

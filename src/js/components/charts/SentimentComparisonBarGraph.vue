@@ -55,13 +55,13 @@
         //console.log("data on onUpdate() in sentiment graph", data);
 
         if (!this.userInputTags || this.userInputTags.length == 0){
-          //emotion
+          //core emotions
           anger=placeHolder;
           fear=placeHolder;
           disgust=placeHolder;
           sadness=placeHolder;
           joy=placeHolder;
-          //social
+          //social emotions
           openness=placeHolder;
           conscience=placeHolder;
           extraversion=placeHolder;
@@ -117,8 +117,7 @@
           extraversion,
           emotionalRange
         };
-         StreamService.sendSentimentToServer(dataToCast);
-         StreamService.updateRSS(dataToCast);
+        StreamService.updateRSS(dataToCast);
         const emotionArraysDict = {
           "Anger": anger,
           "Fear": fear,
@@ -130,8 +129,8 @@
           "Extraversion": extraversion,
           "EmotionalRange": emotionalRange
         }
-        StreamService.sendEmotionArraysDict(emotionArraysDict);
-        
+        StreamService.sendEmotionArraysDictToServer(emotionArraysDict);
+
         this.chart.series[0].setData(openness);
         this.chart.series[1].setData(conscience);
         this.chart.series[2].setData(extraversion);
