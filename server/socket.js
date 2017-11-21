@@ -62,17 +62,38 @@ module.exports = app => {
 
     socket.on('grabSentimentFromServer', msg => {
       console.log('Socket: grabSentimentFromServer');
+      let sentimentArray = [];
       redis.get('emotionArraysDict', function(err, cachedSentiment) {
         if (!err) {
-          const sentimentArray = JSON.parse(cachedSentiment);
+          // indexOfFirstSingleQuotationMark = cachedSentiment.find(''')
+          // Remove first ' and last ' from string to make cachedSentiment valid JSON
+          JSON.parse(cachedSentiment, (key, value) => {
+            key = String(key);
+          });
+          console.log(typeof cachedSentiment);
+          console.log('cachedSentiment: ', cachedSentiment);
+          sentimentArray.push(cachedSentiment);
           console.log('sentimentArray: ', sentimentArray);
+          
         }
       });
-      /* var csv = json2csv({ data: myCars, fields: fields });
-      fs.writeFile('file.csv', csv, function(err) {
-        if (err) throw err;
-        console.log('file saved yay');  
-      }); */
+      let mockData = [
+            {
+               "car": "Audi",
+               "price": 40000,
+               "color": "blue"
+             }
+          ];
+          let options = {
+            data: mockData,
+            fields: ['trump']
+          };
+          let csv = json2csv(options);
+          fs.writeFile('file.csv', csv, function(err) {
+            if (err) throw err;
+            console.log(csv);
+            console.log('file saved');  
+          }); 
     });
 
     socket.on('download', data => {

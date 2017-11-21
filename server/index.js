@@ -107,19 +107,7 @@ app.get('/csv', (req, res) => {
   let fs = require('fs');
   var fields = ['car', 'price', 'color'];
   var myCars = [
-    {
-      "car": "Audi",
-      "price": 40000,
-      "color": "blue"
-    }, {
-      "car": "BMW",
-      "price": 35000,
-      "color": "black"
-    }, {
-      "car": "Porsche",
-      "price": 60000,
-      "color": "green"
-    }
+    {"Anger":0.07,"Fear":0.08,"Disgust":0.47,"Joy":0.282,"Sadness":0.222,"Openness":0.609,"Conscientiousness":0.6,"Extraversion":0.268,"EmotionalRange":0.562}
   ];
   var csv = json2csv({ data: myCars, fields: fields });
   fs.writeFile('file.csv', csv, function(err) {

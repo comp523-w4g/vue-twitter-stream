@@ -73,7 +73,6 @@
                 }
             },
             startTimer() {
-                console.log("In start timer method!");
                 this.reset();
                 this.interval = setInterval(this.updateCurrentTime, 10);
             },
