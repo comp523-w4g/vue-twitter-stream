@@ -118,7 +118,7 @@
           emotionalRange
         };
 
-        const emotionArraysDict = {
+      const emotionArraysDict = {
           "Anger": anger,
           "Fear": fear,
           "Disgust": disgust,

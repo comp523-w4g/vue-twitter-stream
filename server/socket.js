@@ -1,11 +1,14 @@
 "use strict";
-
+// Node modules
 const http = require('http');
 const socket = require('socket.io');
 const twitter = require('./twitter');
 const { tone_analyzer } = require('./watson-nlu');
 const _ = require('lodash');
 const redis = require('./redis');
+// Modules for JSON -> CSV conversion
+const json2csv = require('json2csv');
+const fs = require('fs');
 
 let connections = 0;
 let streamActive = false;
@@ -47,10 +50,35 @@ module.exports = app => {
       redis.set('sentimentArray', JSON.stringify(sentimentArray));
     });
 
-    socket.on('emotionArrays', emotionArrays =>  {
+    socket.on('cacheEmotionArrays', emotionArrays =>  {
       console.log('Received emotion arrays dict from client: ', emotionArrays);
-      redis.set('emotionArraysDict', JSON.stringify(emotionArrays))l;
-    }
+      redis.set('emotionArraysDict', JSON.stringify(emotionArrays));
+    });
+
+    socket.on('grabSentimentFromServer', msg => {
+      console.log('Socket: grabSentimentFromServer');
+      var fields = ['car', 'price', 'color'];
+      var myCars = [
+        {
+          "car": "Audi",
+          "price": 40000,
+          "color": "blue"
+        }, {
+          "car": "BMW",
+          "price": 35000,
+          "color": "black"
+        }, {
+          "car": "Porsche",
+          "price": 60000,
+          "color": "green"
+        }
+      ];
+      var csv = json2csv({ data: myCars, fields: fields });
+      fs.writeFile('file.csv', csv, function(err) {
+        if (err) throw err;
+        console.log('file saved yay');  
+      });
+    });
 
     socket.on('download', data => {
       fs.write(data)

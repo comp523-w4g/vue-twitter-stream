@@ -91,8 +91,7 @@ export default {
       this.$refs.tagsInput.focus()
     },
     createCSV() {
-      // grab data from SentimentComparison GSraph 
-      StreamService.createCSV()
+      StreamService.grabSentimentFromServer();
     }
   },
   computed: {
