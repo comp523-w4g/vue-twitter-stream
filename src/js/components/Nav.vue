@@ -42,10 +42,14 @@ export default {
       }, 200)
     },
     reset() {
+
       this.resetting = true
       setTimeout(() => {
         StreamService.reset()
       }, 200)
+      console.log("clicking reset");
+      location.reload();
+      console.log("page reloaded");
     },
     showInfo() {
       this.$refs.infoModal.show()
@@ -60,14 +64,23 @@ export default {
     <div class="col s12">
       <nav>
         <div class="nav-wrapper white black-text">
-          <a class="brand-logo cyan-text hide-on-small-only">
-            <img src="assets/icons/line_chart.svg" title="logo">
-          </a>
+          
           <ul class="right">
             <li><a class="menuitem"><i class="material-icons teal-text text-lighten-1" @click="showInfo">info_outline</i></a></li>
-            <li><a class="menuitem" :class="{ resetting: resetting, disabled: resetting || !streamActive }"><i class="material-icons" :class="{ 'blue-grey-text': !resetting && streamActive, 'grey-text': resetting || !streamActive }" @click="reset">refresh</i></a></li>
-            <li><a class="menuitem" :class="{ resetting: ending, disabled: ending || !streamActive }"><i class="material-icons" :class="{ 'red-text': !ending && streamActive, 'grey-text': ending || !streamActive }" @click="end">close</i></a></li>
+
+            <li>
+              <a class="tooltip menuitem" :class="{ resetting: resetting, disabled: resetting || !streamActive }"><i class="material-icons" :class="{ 'blue-grey-text': !resetting && streamActive, 'grey-text': resetting || !streamActive }" @click="reset">refresh</i>
+               <div class="tooltiptext">Click to Refresh</div>
+             </a>
+            </li>
+
+            <li><a class="tooltip menuitem" :class="{ resetting: ending, disabled: ending || !streamActive }"><i class="tooltip material-icons" :class="{ 'red-text': !ending && streamActive, 'grey-text': ending || !streamActive }" @click="end">close</i>
+             <div class="tooltiptext">Stop Stream</div>
+                </a>
+            </li>
+
             <li class="github-button"><a href="https://github.com/comp523-w4g/vue-twitter-stream" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">code</i>GitHub</a></li>
+
              <li class="github-button"><a href="https://comp523-w4g.github.io/watson-4-good-old/" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">link</i>W4G</a></li>
           </ul>
           <div class="progress">
@@ -94,6 +107,33 @@ export default {
   to {
     transform: rotate(1turn);
   }
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 
 .resetting {
