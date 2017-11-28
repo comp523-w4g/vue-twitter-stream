@@ -1,5 +1,8 @@
 // Configure Redis client connection
 const redis = require('redis');
+const bluebird = require('bluebird');
+bluebird.promisifyAll(redis.RedisClient.prototype);
+
 var redisClient;
 // Check if we are in Bluemix or localhost
 if(process.env.VCAP_SERVICES) {

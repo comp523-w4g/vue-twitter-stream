@@ -46,13 +46,14 @@ module.exports = app => {
     });
 
     socket.on('updateRSS', data => {
-     // console.log('received data array from client: ', data);
+      redis.get('RSSData', (err, rssCache) => {
+        const cachedData = JSON.parse(rssCache);
+        console.log('cachedData', cachedData);
+        let updatedRSSData = _.assignIn(cachedData, data);
+        console.log('updatedRSSData: ', updatedRSSData);
 
-      if(data.tweetRate) {
-        redis.set('tweetRate', JSON.stringify(data));
-      } else {
-        redis.set('sentimentArray', JSON.stringify(data));
-      }
+        redis.set('RSSData', JSON.stringify(updatedRSSData));
+      })
     });
 
     socket.on('cacheEmotionArrays', emotionArrays =>  {

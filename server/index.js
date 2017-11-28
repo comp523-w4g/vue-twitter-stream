@@ -68,37 +68,20 @@ app.get('/rss', (req, res) => {
     link: 'http://vue-twitter-stream-watson.mybluemix.net',
   })
 
-  redis.get('sentimentArray', function(err, cachedSentiment) {
-    if(!err) {
-      const sentimentArray = JSON.parse(cachedSentiment);
-
-      _.forOwn(sentimentArray, (value, key) => {
-        console.log('value: ', value);
-        console.log('key: ', key);
-
-        feed.addItem({
-          title: key,
-          content: value
-        });
-      });
-
-      redis.get('tweetRate', function(err, cachedRate) {
-        if(!err) {
-          const rate = JSON.parse(cachedRate);
-          console.log('cachedRate: ', rate);
-          if (rate) {
-             feed.addItem({
-              title: 'tweetRatePerSecond',
-              content: rate.tweetRate
-            });
-          }
-          const feedRes = feed.rss2('rss-2.0');
-          res.set('Content-Type', 'text/xml');
-          res.send(feedRes);
-        }
+  redis.getAsync('RSSData').then(cachedData => {
+    const dataForRSS = JSON.parse(cachedData);
+    console.log('dataForRSS: ', dataForRSS);
+    for (let key in dataForRSS) {
+      feed.addItem({
+        title: key,
+        content: dataForRSS[key]
       });
     }
-  });
+
+    const feedRes = feed.rss2('rss-2.0');
+    res.set('Content-Type', 'text/xml');
+    return res.send(feedRes);
+  })
 });
 
 app.get('/csv', (req, res) => {

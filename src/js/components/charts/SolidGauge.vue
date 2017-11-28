@@ -35,13 +35,9 @@ export default {
       this.lastCount = data.count;
     },
     onUpdate(data) {
-      
-      let seconds = (Date.now() - this.lastTime) / 1000;
-      let perSecond = Math.abs(data.count - this.lastCount) / seconds;
+      console.log('onUpdate logging data from onUpdate: ', data);
+      let tweetRate = this.calculateTweetRate(data);
       let point = this.chart.series[0].points[0]
-      this.lastCount = data.count
-      this.lastTime = Date.now()
-      let tweetRate = Math.round(perSecond * 100) / 100;
       point.update(tweetRate);
 
       // emit tweets/s value back to server to update RSS
@@ -49,6 +45,13 @@ export default {
         tweetRate
       };
       StreamService.updateRSS(dataToCast);
+    },
+    calculateTweetRate(data) {
+      let seconds = (Date.now() - this.lastTime) / 1000;
+      let perSecond = Math.abs(data.count - this.lastCount) / seconds;
+      this.lastCount = data.count
+      this.lastTime = Date.now()
+      return Math.round(perSecond * 100) / 100;
     },
     initChart(max) {
       let gaugeOptions = this.getChartOptions()
