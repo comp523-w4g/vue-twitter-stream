@@ -48,8 +48,8 @@
         let extraversion = [];
         let agreeableness = [];
         let emotionalRange = [];
-
         let placeHolder = [];
+        let hashtag = [];
 
         for(let i = 0; i < data.tags; i++){
           placeHolder[i] = 0.0;
@@ -76,7 +76,6 @@
             let currTag = this.userInputTags[i];
             let numberOfTweetsAssociatedWithTag = data.tags[currTag].count; // number of times tweet with tag has been tweeted
             let accumulatedSentiment = data.sentimentByTags[currTag];
-
             let index = this.tagToIndex.get(currTag);
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
               anger[index] = 0.0;
@@ -92,19 +91,18 @@
               emotionalRange[index]=0.0;
             }
             else {
-              //console.log("Index for tag: ", currTag, " with index: ", index);
-
+              console.log("Index for tag: ", currTag, " with index: ", index);
               anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-
               openness[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              hashtag.push(currTag);
             }
         }
 
@@ -122,15 +120,16 @@
         };
         StreamService.updateRSS(dataToCast);
         const emotionValues = {
-          "Anger": anger[0],
-          "Fear": fear[0],
-          "Disgust": disgust[0],
-          "Joy": joy[0],
-          "Sadness": sadness[0],
-          "Openness": openness[0],
-          "Conscientiousness": conscience[0],
-          "Extraversion": extraversion[0],
-          "EmotionalRange": emotionalRange[0]
+          anger,
+          fear,
+          disgust,
+          joy,
+          sadness,
+          openness,
+          conscience,
+          extraversion,
+          emotionalRange,
+          hashtag
         }
         StreamService.sendEmotionArraysDictToServer(emotionValues);
 

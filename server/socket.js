@@ -46,7 +46,7 @@ module.exports = app => {
     });
 
     socket.on('updateRSS', data => {
-      console.log('received data array from client: ', data);
+     // console.log('received data array from client: ', data);
 
       if(data.tweetRate) {
         redis.set('tweetRate', JSON.stringify(data));
@@ -56,44 +56,54 @@ module.exports = app => {
     });
 
     socket.on('cacheEmotionArrays', emotionArrays =>  {
-      console.log('Received emotion arrays dict from client: ', emotionArrays);
+      console.log('Received emotion arrays from client: ', emotionArrays);
       redis.set('emotionArraysDict', JSON.stringify(emotionArrays));
     });
-
+    
     socket.on('grabSentimentFromServer', msg => {
       console.log('Socket: grabSentimentFromServer');
       let sentimentArray = [];
       redis.get('emotionArraysDict', function(err, cachedSentiment) {
         if (!err) {
-          // indexOfFirstSingleQuotationMark = cachedSentiment.find(''')
-          // Remove first ' and last ' from string to make cachedSentiment valid JSON
-          JSON.parse(cachedSentiment, (key, value) => {
-            key = String(key);
-          });
-          console.log(typeof cachedSentiment);
-          console.log('cachedSentiment: ', cachedSentiment);
-          sentimentArray.push(cachedSentiment);
-          console.log('sentimentArray: ', sentimentArray);
-          
+          let sentiment = JSON.parse(cachedSentiment);
+          console.log("cached sentiment after calling JSON.parse");
+          console.log(sentiment);
+          let numHashtags = sentiment.anger.length;
+          let emotions = Object.keys(sentiment);
+          console.log("sentiment.fear", sentiment.fear);
+          let data = [];
+          for (let i = 0; i < numHashtags; i++) {
+            let emotionsAssociatedWithHashTag = {};
+            for (var prop in emotions) {
+              if (emotions.hasOwnProperty(prop)) {
+                emotionsAssociatedWithHashTag[prop] = emotions[prop];
+              }
+            }
+            emotionsAssociatedWithHashTag.anger = sentiment.anger[i];
+            emotionsAssociatedWithHashTag.fear = sentiment.fear[i];
+            emotionsAssociatedWithHashTag.disgust = sentiment.disgust[i];
+            emotionsAssociatedWithHashTag.joy = sentiment.joy[i];
+            emotionsAssociatedWithHashTag.sadness = sentiment.sadness[i];
+            emotionsAssociatedWithHashTag.openness = sentiment.openness[i];
+            emotionsAssociatedWithHashTag.conscience = sentiment.conscience[i];
+            emotionsAssociatedWithHashTag.extraversion = sentiment.extraversion[i];
+            emotionsAssociatedWithHashTag.emotionalRange = sentiment.emotionalRange[i];
+            emotionsAssociatedWithHashTag.hashtag = sentiment.hashtag[i];
+            data.push(emotionsAssociatedWithHashTag);
+          }
+           console.log('CSV fields: ', emotions);
+           let options = {
+             data: data,
+             fields: emotions
+           };
+           let csv = json2csv(options);
+           fs.writeFile('file.csv', csv, function(err) {
+             if (err) throw err;
+             console.log(csv);
+             console.log('file saved');  
+           }); 
         }
       });
-      let mockData = [
-            {
-               "car": "Audi",
-               "price": 40000,
-               "color": "blue"
-             }
-          ];
-          let options = {
-            data: mockData,
-            fields: ['trump']
-          };
-          let csv = json2csv(options);
-          fs.writeFile('file.csv', csv, function(err) {
-            if (err) throw err;
-            console.log(csv);
-            console.log('file saved');  
-          }); 
     });
 
     socket.on('download', data => {
