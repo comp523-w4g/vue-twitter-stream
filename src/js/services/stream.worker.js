@@ -98,7 +98,7 @@ function processTweet(tweet) {
   })
 
   tags.forEach(tag => {
-    if (!!tag && data.tags.hasOwnProperty(tag)) {
+    if (tag && data.tags.hasOwnProperty(tag)) {
       data.tags[tag].count++
     }
   })

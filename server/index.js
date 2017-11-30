@@ -66,7 +66,7 @@ app.get('/rss', (req, res) => {
     title: 'W4G RSS Feed',
     description: 'Feed for Twitter+Watson Based on Tweet',
     link: 'http://vue-twitter-stream-watson.mybluemix.net',
-  })
+  });
 
   redis.getAsync('RSSData').then(cachedData => {
     const dataForRSS = JSON.parse(cachedData);

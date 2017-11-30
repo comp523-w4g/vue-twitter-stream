@@ -46,6 +46,7 @@ module.exports = app => {
     });
 
     socket.on('updateRSS', data => {
+      console.log('socket updated: ', data);
       redis.get('RSSData', (err, rssCache) => {
         const cachedData = JSON.parse(rssCache);
         console.log('cachedData', cachedData);

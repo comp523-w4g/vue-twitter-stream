@@ -1,6 +1,7 @@
 <script>
   import Highcharts from 'highcharts'
   import { Bus, StreamService } from '../../services'
+  import _ from 'lodash';
 
   export default {
     name: 'SentimentComparisonBarGraph',
@@ -48,6 +49,7 @@
         let extraversion = [];
         let agreeableness = [];
         let emotionalRange = [];
+        let predominantSentiment = [];
         let placeHolder = [];
         let hashtag = [];
 
@@ -89,6 +91,7 @@
               extraversion[index]=0.0;
               agreeableness[index]=0.0;
               emotionalRange[index]=0.0;
+              predominantSentiment[index]='';
             }
             else {
               console.log("Index for tag: ", currTag, " with index: ", index);
@@ -102,6 +105,17 @@
               extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
               emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+
+
+              const mappedSentiments = {
+                'anger': anger[index], 
+                'fear': fear[index],
+                'disgust': disgust[index],
+                'joy': joy[index],
+                'sadness': sadness[index]
+              };
+
+              predominantSentiment[index] = _.maxBy(_.keys(mappedSentiments), function (o) { return mappedSentiments[o]; });
               hashtag.push(currTag);
             }
         }
@@ -113,11 +127,9 @@
           disgust,
           joy,
           sadness,
-          openness,
-          conscience,
-          extraversion,
-          emotionalRange
+          predominantSentiment
         };
+
         StreamService.updateRSS(dataToCast);
         const emotionValues = {
           anger,

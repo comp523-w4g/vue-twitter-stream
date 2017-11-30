@@ -5,8 +5,10 @@ import { Bus, StreamService } from '../../services'
 export default {
   name: 'SolidGauge',
   data: () => ({
-    lastTime: null,
-    lastCount: 0,
+    combinedLastTime: null,
+    combinedLastCount: 0,
+    lastTimes: {},
+    lastCounts: {},
     chart: null
   }),
   mounted() {
@@ -17,7 +19,7 @@ export default {
   },
   methods: {
     init() {
-      this.lastTime = Date.now()
+      this.combinedLastTime = Date.now()
       this.chart = this.initChart()
       Bus.$on('reset', this.onReset)
       Bus.$on('update', this.onUpdate)
@@ -31,26 +33,43 @@ export default {
       }, 1000)
     },
     onReset(tags) {
-      this.lastTime = Date.now();
-      this.lastCount = data.count;
+      this.combinedLastTime = Date.now();
+      this.combinedLastCount = data.count;
     },
     onUpdate(data) {
-      console.log('onUpdate logging data from onUpdate: ', data);
-      let tweetRate = this.calculateTweetRate(data);
+      let tweetRate = this.calculateCombinedTweetRate(data);
       let point = this.chart.series[0].points[0]
       point.update(tweetRate);
 
+      let tweetRateByTag = {};
+      for (let tag in data.tags) {
+        tweetRateByTag[tag] = this.calculateTweetRate(data.tags[tag], tag);
+      }
+
       // emit tweets/s value back to server to update RSS
       const dataToCast = {
-        tweetRate
+        combinedTweetRate: tweetRate,
+        tweetRateByTag: Object.values(tweetRateByTag)
       };
       StreamService.updateRSS(dataToCast);
     },
-    calculateTweetRate(data) {
-      let seconds = (Date.now() - this.lastTime) / 1000;
-      let perSecond = Math.abs(data.count - this.lastCount) / seconds;
-      this.lastCount = data.count
-      this.lastTime = Date.now()
+    calculateTweetRate(data, tag) {
+      if (this.lastTimes[tag] && this.lastCounts[tag]) {
+        let seconds = (Date.now() - this.lastTimes[tag]) / 1000;
+        let perSecond = Math.abs(data.count - this.lastCounts[tag]) / seconds;
+        this.lastCounts[tag] = data.count;
+        this.lastTimes[tag] = Date.now();
+        return Math.round(perSecond * 100) / 100;
+      }
+      this.lastCounts[tag] = data.count;
+      this.lastTimes[tag] = Date.now();
+      return 0;
+    },
+    calculateCombinedTweetRate(data) {
+      let seconds = (Date.now() - this.combinedLastTime) / 1000;
+      let perSecond = Math.abs(data.count - this.combinedLastCount) / seconds;
+      this.combinedLastCount = data.count;
+      this.combinedLastTime = Date.now();
       return Math.round(perSecond * 100) / 100;
     },
     initChart(max) {
