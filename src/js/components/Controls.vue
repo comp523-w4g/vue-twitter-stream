@@ -2,6 +2,8 @@
 import { Bus, StreamService } from '../services'
 import Stopwatch from './Stopwatch.vue'
 import Modal from './ExampleModal.vue'
+import AppRootDir from 'app-root-dir'
+import Path from 'path'
 export default {
   name: 'Controls',
   components: {
@@ -98,6 +100,9 @@ export default {
       // Bus.$emit('exportSentimentDataToCSV');
       StreamService.grabSentimentFromServer();
       this.showModal = true;
+      console.log('Change the route!');
+      let appDir = Path.dirname(require.main.filename);
+      window.location.href = appDir + '/download';
     }
   },
   computed: {

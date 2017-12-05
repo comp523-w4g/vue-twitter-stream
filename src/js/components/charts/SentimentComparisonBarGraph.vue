@@ -3,7 +3,6 @@
   import { Bus, StreamService } from '../../services'
   import FileSaver from 'file-saver'
   import Json2csv from 'json2csv'
-  import Fs from 'fs'
   import _ from 'lodash';
 
 
@@ -31,7 +30,6 @@
       Bus.$on('end', this.onReset);
       Bus.$on('start', this.onStart);
       Bus.$on('update', this.onUpdate);
-      Bus.$on('exportSentimentDataToCSV', this.exportToCSV);
     },
     destroyed() {
       Bus.$off('reset', this.onReset)
@@ -55,19 +53,8 @@
       onUpdate(data) {
         console.log('SentimentComparisonBarGraph: Inside Update method');
         console.log('User input tags: ', this.userInputTags);
-        // let anger = [];
-        // let fear = [];
-        // let disgust = [];
-        // let joy = [];
-        // let sadness = [];
-        // let openness = [];
-        // let conscience = [];
-        // let extraversion = [];
-        // let agreeableness = [];
-        // let emotionalRange = [];
         let predominantSentiment = [];
         let placeHolder = [];
-        // let hashtag = [];
 
         for(let i = 0; i < data.tags; i++){
           placeHolder[i] = 0.0;
@@ -179,45 +166,6 @@
         this.chart.series[7].setData(this.disgust);
         this.chart.series[8].setData(this.joy);
         this.chart.series[9].setData(this.sadness);
-      },
-      exportToCSV() {
-        console.log('Export to CSV in sentiment bar graph!');
-        try {
-          let anger = this.anger;
-          let fear = this.fear;
-          let disgust = this.disgust;
-          let joy = this.joy;
-          let sadness = this.sadness;
-          let openness = this.openness;
-          let conscience = this.conscience;
-          let extraversion = this.extraversion;
-          let emotionalRange = this.emotionalRange;
-          let hashtags = this.hashtags;
-          const emotionValues = {
-              anger,
-              fear,
-              disgust,
-              joy,
-              sadness,
-              openness,
-              conscience,
-              extraversion,
-              emotionalRange,
-              hashtags
-          }
-          let options = {
-            data: emotionValues, 
-            fields: this.hashtags
-          }
-          let result = Json2csv(options);
-          console.log('Result', options);
-
-          let blob = new Blob([JSON.stringify(options)], {type: "text/csv;charset=utf-8"});
-          FileSaver.saveAs(blob, "results.csv");
-          
-        } catch (err) {
-          console.error(err);
-        }
       },
       initChart(tags) {
         let colors = [
