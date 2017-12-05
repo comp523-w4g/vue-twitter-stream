@@ -1,8 +1,6 @@
 <script>
   import Highcharts from 'highcharts'
   import { Bus, StreamService } from '../../services'
-  import FileSaver from 'file-saver'
-  import Json2csv from 'json2csv'
   import _ from 'lodash';
 
   export default {

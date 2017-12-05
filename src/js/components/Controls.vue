@@ -96,10 +96,8 @@ export default {
       this.$refs.tagsInput.focus()
     },
     createCSVAndShowModal() {
-      console.log('Create CSV and show modal');
       StreamService.grabSentimentFromServer();
       this.showModal = true;
-      console.log('Change the route!');
       let appDir = Path.dirname(require.main.filename);
       window.location.href = appDir + '/download';
     }
@@ -185,7 +183,7 @@ export default {
             </div>
             <modal id="modal" v-if="showModal" @close="showModal = false">
               <h5 slot="header">File saved successfully!</h5>
-              <p slot="body">Look inside your directory!</p>
+              <p slot="body">Look inside your downloads folder!</p>
             </modal>
 
           </div>
