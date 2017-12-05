@@ -5,7 +5,6 @@
   import Json2csv from 'json2csv'
   import _ from 'lodash';
 
-
   export default {
     name: 'SentimentComparisonBarGraph',
     data: () => ({
@@ -153,7 +152,6 @@
           emotionalRange,
           hashtags
         }
-        console.log('Bar graph emotion values', emotionValues);
         StreamService.sendEmotionArraysDictToServer(emotionValues);
 
         this.chart.series[0].setData(this.openness);

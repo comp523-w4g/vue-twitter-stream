@@ -93,7 +93,6 @@ app.get('/rss', (req, res) => {
 app.get('/download', function(req, res){
   // get the application's root directory 
   let appRootDir = require('app-root-dir').get();
-  console.log(appRootDir)
   let file = appRootDir + '/file.csv';
   res.download(file); // Set disposition and send it.
 });

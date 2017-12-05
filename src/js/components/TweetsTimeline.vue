@@ -24,7 +24,6 @@
     },
     methods: {
       onUpdate(data) {
-        console.log("Full data from tweet: ", data);
         let numCumulativeTweets = data.count;
         //set color
         let currSentiment = data.currSentiment;
@@ -39,7 +38,6 @@
             maxKey = sentiment;
           }
         }
-        console.log("maxKey", maxKey);
         switch(maxKey) {
             case "anger":
                 color = 'red';

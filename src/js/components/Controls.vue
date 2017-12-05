@@ -97,7 +97,6 @@ export default {
     },
     createCSVAndShowModal() {
       console.log('Create CSV and show modal');
-      // Bus.$emit('exportSentimentDataToCSV');
       StreamService.grabSentimentFromServer();
       this.showModal = true;
       console.log('Change the route!');

@@ -68,11 +68,8 @@ module.exports = app => {
       redis.get('emotionArraysDict', function(err, cachedSentiment) {
         if (!err) {
           let sentiment = JSON.parse(cachedSentiment);
-          console.log("cached sentiment after calling JSON.parse");
-          console.log(sentiment);
           let numHashtags = sentiment.anger.length;
           let emotions = Object.keys(sentiment);
-          console.log("sentiment.fear", sentiment.fear);
           let data = [];
           for (let i = 0; i < numHashtags; i++) {
             let emotionsAssociatedWithHashTag = {};
@@ -90,19 +87,18 @@ module.exports = app => {
             emotionsAssociatedWithHashTag.conscience = sentiment.conscience[i];
             emotionsAssociatedWithHashTag.extraversion = sentiment.extraversion[i];
             emotionsAssociatedWithHashTag.emotionalRange = sentiment.emotionalRange[i];
-            emotionsAssociatedWithHashTag.hashtag = sentiment.hashtags[i];
+            emotionsAssociatedWithHashTag.hashtags = sentiment.hashtags[i];
             data.push(emotionsAssociatedWithHashTag);
           }
-           console.log('CSV fields: ', emotions);
            let options = {
              data: data,
              fields: emotions
            };
            let csv = json2csv(options);
+           // writing in server directory because index.js is located in that directory
            fs.writeFile('server/file.csv', csv, function(err) {
              if (err) throw err;
              console.log(csv);
-             console.log('file saved');  
            }); 
         }
       });
