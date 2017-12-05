@@ -90,7 +90,7 @@ module.exports = app => {
             emotionsAssociatedWithHashTag.conscience = sentiment.conscience[i];
             emotionsAssociatedWithHashTag.extraversion = sentiment.extraversion[i];
             emotionsAssociatedWithHashTag.emotionalRange = sentiment.emotionalRange[i];
-            emotionsAssociatedWithHashTag.hashtag = sentiment.hashtag[i];
+            emotionsAssociatedWithHashTag.hashtag = sentiment.hashtags[i];
             data.push(emotionsAssociatedWithHashTag);
           }
            console.log('CSV fields: ', emotions);
@@ -99,7 +99,7 @@ module.exports = app => {
              fields: emotions
            };
            let csv = json2csv(options);
-           fs.writeFile('file.csv', csv, function(err) {
+           fs.writeFile('server/file.csv', csv, function(err) {
              if (err) throw err;
              console.log(csv);
              console.log('file saved');  

@@ -1,14 +1,29 @@
 <script>
   import Highcharts from 'highcharts'
   import { Bus, StreamService } from '../../services'
+  import FileSaver from 'file-saver'
+  import Json2csv from 'json2csv'
+  import Fs from 'fs'
   import _ from 'lodash';
+
 
   export default {
     name: 'SentimentComparisonBarGraph',
     data: () => ({
       chart: null,
       tagToIndex: null,
-      userInputTags: []
+      userInputTags: [],
+      anger: [],
+      fear: [],
+      disgust: [],
+      joy: [],
+      sadness: [],
+      openness: [],
+      conscience: [],
+      extraversion: [],
+      agreeableness: [],
+      emotionalRange: [],
+      hashtags: []
     }),
     mounted() {
       this.init()
@@ -16,6 +31,7 @@
       Bus.$on('end', this.onReset);
       Bus.$on('start', this.onStart);
       Bus.$on('update', this.onUpdate);
+      Bus.$on('exportSentimentDataToCSV', this.exportToCSV);
     },
     destroyed() {
       Bus.$off('reset', this.onReset)
@@ -39,39 +55,37 @@
       onUpdate(data) {
         console.log('SentimentComparisonBarGraph: Inside Update method');
         console.log('User input tags: ', this.userInputTags);
-        let anger = [];
-        let fear = [];
-        let disgust = [];
-        let joy = [];
-        let sadness = [];
-        let openness = [];
-        let conscience = [];
-        let extraversion = [];
-        let agreeableness = [];
-        let emotionalRange = [];
+        // let anger = [];
+        // let fear = [];
+        // let disgust = [];
+        // let joy = [];
+        // let sadness = [];
+        // let openness = [];
+        // let conscience = [];
+        // let extraversion = [];
+        // let agreeableness = [];
+        // let emotionalRange = [];
         let predominantSentiment = [];
         let placeHolder = [];
-        let hashtag = [];
+        // let hashtag = [];
 
         for(let i = 0; i < data.tags; i++){
           placeHolder[i] = 0.0;
         }
 
-        //console.log("data on onUpdate() in sentiment graph", data);
-
         if (!this.userInputTags || this.userInputTags.length == 0){
           //core emotions
-          anger=placeHolder;
-          fear=placeHolder;
-          disgust=placeHolder;
-          sadness=placeHolder;
-          joy=placeHolder;
+          this.anger=placeHolder;
+          this.fear=placeHolder;
+          this.disgust=placeHolder;
+          this.sadness=placeHolder;
+          this.joy=placeHolder;
           //social emotions
-          openness=placeHolder;
-          conscience=placeHolder;
-          extraversion=placeHolder;
-          agreeableness=placeHolder;
-          emotionalRange=placeHolder;
+          this.openness=placeHolder;
+          this.conscience=placeHolder;
+          this.extraversion=placeHolder;
+          this.agreeableness=placeHolder;
+          this.emotionalRange=placeHolder;
         }
 
         for (let i in this.userInputTags) {
@@ -80,47 +94,51 @@
             let accumulatedSentiment = data.sentimentByTags[currTag];
             let index = this.tagToIndex.get(currTag);
             if (numberOfTweetsAssociatedWithTag == 0 || accumulatedSentiment === undefined) {
-              anger[index] = 0.0;
-              fear[index] = 0.0;
-              disgust[index] = 0.0;
-              joy[index] = 0.0;
-              sadness[index] = 0.0;
+              this.anger[index] = 0.0;
+              this.fear[index] = 0.0;
+              this.disgust[index] = 0.0;
+              this.joy[index] = 0.0;
+              this.sadness[index] = 0.0;
               
-              openness[index]=0.0;
-              conscience[index]=0.0;
-              extraversion[index]=0.0;
-              agreeableness[index]=0.0;
-              emotionalRange[index]=0.0;
+              this.openness[index]=0.0;
+              this.conscience[index]=0.0;
+              this.extraversion[index]=0.0;
+              this.agreeableness[index]=0.0;
+              this.emotionalRange[index]=0.0;
               predominantSentiment[index]='';
             }
             else {
               console.log("Index for tag: ", currTag, " with index: ", index);
-              anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              openness[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-              emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
-
+              this.anger[index] = +((accumulatedSentiment["Anger"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.fear[index] = +((accumulatedSentiment["Fear"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.disgust[index] = +((accumulatedSentiment["Disgust"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.joy[index] = +((accumulatedSentiment["Joy"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.sadness[index] = +((accumulatedSentiment["Sadness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.openness[index] = +((accumulatedSentiment["Openness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.conscience[index] = +((accumulatedSentiment["Conscientiousness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.extraversion[index] = +((accumulatedSentiment["Extraversion"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.agreeableness[index] = +((accumulatedSentiment["Agreeableness"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
+              this.emotionalRange[index] = +((accumulatedSentiment["Emotional Range"]/numberOfTweetsAssociatedWithTag)).toFixed(3);
 
               const mappedSentiments = {
-                'anger': anger[index], 
-                'fear': fear[index],
-                'disgust': disgust[index],
-                'joy': joy[index],
-                'sadness': sadness[index]
+                'anger': this.anger[index], 
+                'fear': this.fear[index],
+                'disgust': this.disgust[index],
+                'joy': this.joy[index],
+                'sadness': this.sadness[index]
               };
 
               predominantSentiment[index] = _.maxBy(_.keys(mappedSentiments), function (o) { return mappedSentiments[o]; });
-              hashtag.push(currTag);
+              this.hashtags.push(currTag);
             }
         }
 
         // emit sentiment back to server to produce rss feed
+        let anger = this.anger;
+        let fear = this.fear;
+        let disgust = this.disgust;
+        let joy = this.joy;
+        let sadness = this.sadness;
         const dataToCast = {
           anger,
           fear,
@@ -131,6 +149,11 @@
         };
 
         StreamService.updateRSS(dataToCast);
+        let openness = this.openness;
+        let conscience = this.conscience;
+        let extraversion = this.extraversion;
+        let emotionalRange = this.emotionalRange;
+        let hashtags = this.hashtags;
         const emotionValues = {
           anger,
           fear,
@@ -141,20 +164,60 @@
           conscience,
           extraversion,
           emotionalRange,
-          hashtag
+          hashtags
         }
+        console.log('Bar graph emotion values', emotionValues);
         StreamService.sendEmotionArraysDictToServer(emotionValues);
 
-        this.chart.series[0].setData(openness);
-        this.chart.series[1].setData(conscience);
-        this.chart.series[2].setData(extraversion);
-        this.chart.series[3].setData(agreeableness);
-        this.chart.series[4].setData(emotionalRange);
-        this.chart.series[5].setData(anger);
-        this.chart.series[6].setData(fear);
-        this.chart.series[7].setData(disgust);
-        this.chart.series[8].setData(joy);
-        this.chart.series[9].setData(sadness);
+        this.chart.series[0].setData(this.openness);
+        this.chart.series[1].setData(this.conscience);
+        this.chart.series[2].setData(this.extraversion);
+        this.chart.series[3].setData(this.agreeableness);
+        this.chart.series[4].setData(this.emotionalRange);
+        this.chart.series[5].setData(this.anger);
+        this.chart.series[6].setData(this.fear);
+        this.chart.series[7].setData(this.disgust);
+        this.chart.series[8].setData(this.joy);
+        this.chart.series[9].setData(this.sadness);
+      },
+      exportToCSV() {
+        console.log('Export to CSV in sentiment bar graph!');
+        try {
+          let anger = this.anger;
+          let fear = this.fear;
+          let disgust = this.disgust;
+          let joy = this.joy;
+          let sadness = this.sadness;
+          let openness = this.openness;
+          let conscience = this.conscience;
+          let extraversion = this.extraversion;
+          let emotionalRange = this.emotionalRange;
+          let hashtags = this.hashtags;
+          const emotionValues = {
+              anger,
+              fear,
+              disgust,
+              joy,
+              sadness,
+              openness,
+              conscience,
+              extraversion,
+              emotionalRange,
+              hashtags
+          }
+          let options = {
+            data: emotionValues, 
+            fields: this.hashtags
+          }
+          let result = Json2csv(options);
+          console.log('Result', options);
+
+          let blob = new Blob([JSON.stringify(options)], {type: "text/csv;charset=utf-8"});
+          FileSaver.saveAs(blob, "results.csv");
+          
+        } catch (err) {
+          console.error(err);
+        }
       },
       initChart(tags) {
         let colors = [

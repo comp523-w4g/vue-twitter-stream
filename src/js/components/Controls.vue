@@ -94,6 +94,8 @@ export default {
       this.$refs.tagsInput.focus()
     },
     createCSVAndShowModal() {
+      console.log('Create CSV and show modal');
+      // Bus.$emit('exportSentimentDataToCSV');
       StreamService.grabSentimentFromServer();
       this.showModal = true;
     }

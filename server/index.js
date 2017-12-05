@@ -1,6 +1,12 @@
 "use strict";
 
 require('./bootstrap');
+// set the application's root directory 
+// (this will set a global so that no matter 
+// how many instances of app-root-dir module are 
+// installed, they will all return the same 
+// directory) 
+require('app-root-dir').set(__dirname);
 
 if (!process.env.TWITTER_API_KEY) {
   console.log('Please set required environment variables.');
@@ -98,6 +104,14 @@ app.get('/csv', (req, res) => {
     console.log('file saved yay');  
   });
 })
+
+app.get('/download', function(req, res){
+  // get the application's root directory 
+  let appRootDir = require('app-root-dir').get();
+  console.log(appRootDir)
+  let file = appRootDir + '/file.csv';
+  res.download(file); // Set disposition and send it.
+});
 
 // Response middleware
 app.use(methodOverride());
