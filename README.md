@@ -13,7 +13,7 @@ This is an active collaboration between UNC Chapel Hill Computer Science, IBM Wa
 ![client-side architecture](https://image.ibb.co/cCCDyw/client_architecture.png)
 
 # Technologies used
-Uses Vue.js as client, Twitter API for streaming, Watson Tone Analyzer, socket.io to tie server and client.
+Uses Vue.js as client, Twitter API for streaming, Watson Tone Analyzer, redis chacheing for RSS feed, and socket.io to tie server and client.
 
 # Quickstart
 
@@ -36,6 +36,7 @@ Our app depends on:
 - [Vue](https://vuejs.org) as a front-end framework.
 - [Express](https://github.com/expressjs/express) with [twit](https://github.com/ttezel/twit) for the server.
 - [socket.io](http://socket.io) for realtime websockets.
+- [redis.io](http://redis.io) for cache storage to produce RSS feed (found at /rss route)
 - [Twitter API](https://dev.twitter.com/streaming/overview) for live data.
 - [Highcharts](http://www.highcharts.com/) for visualizations.
 - [Materialize](http://materializecss.com/) for styling.
