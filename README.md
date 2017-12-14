@@ -1,6 +1,10 @@
 # Twitter Realtime Visualization
 This is a demo powering the live [Twitter streaming dashboard](http://vue-twitter-stream-watson.mybluemix.net/). 
-This is an active collaboration between UNC Chapel Hill Computer Science and IBM Watson.
+This is an active collaboration between UNC Chapel Hill Computer Science, IBM Watson, and UNC Basketball's GoHeels Media team.
+
+# Integration With UNC Basketball
+[![Twitter Stream @ Dean Dome](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://drive.google.com/file/d/1n65L1zIoGyEv5Y2qN2DlxwDC_FByFHm_/view?usp=sharing)
+
 
 # Backend Architecture
 ![diagram](https://image.ibb.co/i4eidw/w4g_backend_architecture.png "architecture")
